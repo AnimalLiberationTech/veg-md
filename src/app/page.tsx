@@ -10,11 +10,21 @@ import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import Video from "@/components/Video";
 import { Metadata } from "next";
+import {getTranslations} from 'next-intl/server';
+
+const homePageT = await getTranslations('HomePage');
 
 export const metadata: Metadata = {
-  title: "Free Next.js Template for Startup and SaaS",
-  description: "This is Home for Startup Nextjs Template",
-  // other metadata
+  title: {
+    default: `${homePageT('title')} | Vegan Moldova`,
+    template: "%s | Vegan Moldova"
+  },
+  description: "Pentru o Moldovă Vegană",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: "/favicon-32x32.png",
+    apple: "/apple-touch-icon.png"
+  }
 };
 
 export default function Home() {
