@@ -159,18 +159,15 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                <Link
-                  href="/signin"
-                  className="text-dark hidden px-7 py-3 text-base font-medium hover:opacity-70 md:block dark:text-white"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover bg-primary hover:bg-primary/90 hidden rounded-xs px-8 py-3 text-base font-medium text-white transition duration-300 md:block md:px-9 lg:px-6 xl:px-9"
-                >
-                  Sign Up
-                </Link>
+                {[
+                  { code: "ro", label: "🇷🇴 Română" },
+                  { code: "ru", label: "🇷🇺 Русский" },
+                  { code: "en", label: "🇬🇧 English" },
+                ].map(({ code, label }) => (
+                  <Link key={code} href={`/${code}`} hrefLang={code} className="px-2">
+                    {label}
+                  </Link>
+                ))}
                 <div>
                   <ThemeToggler />
                 </div>

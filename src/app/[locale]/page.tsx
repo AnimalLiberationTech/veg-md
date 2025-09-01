@@ -39,15 +39,8 @@ export default async function Home({ params }: PageProps) {
   return (
     <>
       <ScrollUp />
-      <Hero />
       <Features />
       <Video />
-      <Brands />
-      <AboutSectionOne />
-      <AboutSectionTwo />
-      <Testimonials />
-      <Pricing />
-      <Blog />
       <Contact />
     </>
   );
