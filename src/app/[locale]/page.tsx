@@ -9,25 +9,33 @@ import Hero from "@/components/Hero";
 import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import Video from "@/components/Video";
-import { Metadata } from "next";
+import {Metadata} from "next";
 import {getTranslations} from 'next-intl/server';
+import {defaultMetadata} from "@/constants";
 
-const homePageT = await getTranslations('HomePage');
-
-export const metadata: Metadata = {
-  title: {
-    default: `${homePageT('title')} | Vegan Moldova`,
-    template: "%s | Vegan Moldova"
-  },
-  description: "Pentru o Moldovă Vegană",
-  manifest: "/site.webmanifest",
-  icons: {
-    icon: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png"
-  }
+type PageProps = {
+  params: Promise<{
+    locale: string;
+  }>;
 };
 
-export default function Home() {
+export async function generateMetadata({
+  params
+}: PageProps): Promise<Metadata> {
+  const locale = (await params).locale;
+  const t = await getTranslations({ locale, namespace: 'homePage' });
+
+  return {
+    ...defaultMetadata,
+    title: `${t('title')} | Vegan Moldova`,
+    description: t('description')
+  }
+}
+
+export default async function Home({ params }: PageProps) {
+  const locale = (await params).locale;
+  const t = await getTranslations({ locale: locale, namespace: 'homePage' });
+
   return (
     <>
       <ScrollUp />

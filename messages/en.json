@@ -1,5 +1,8 @@
 {
-  "HomePage": {
-    "title": "Home"
+  "general": {
+  },
+  "homePage": {
+    "title": "Home",
+    "description": "For a Vegan Moldova"
   }
 }
