@@ -1,6 +1,7 @@
 import SingleBlog from "@/components/Blog/SingleBlog";
 import blogData from "@/components/Blog/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import {supportedLocales} from "@/constants";
 
 import { Metadata } from "next";
 
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
   description: "This is Blog Page for Startup Nextjs Template",
   // other metadata
 };
+
+export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
 const Blog = () => {
   return (

@@ -3,6 +3,7 @@ import SharePost from "@/components/Blog/SharePost";
 import TagButton from "@/components/Blog/TagButton";
 import NewsLatterBox from "@/components/Contact/NewsLatterBox";
 import Image from "next/image";
+import {supportedLocales} from "@/constants";
 
 import { Metadata } from "next";
 
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
   description: "This is Blog Details Page for Startup Nextjs Template",
   // other metadata
 };
+
+export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
 const BlogSidebarPage = () => {
   return (

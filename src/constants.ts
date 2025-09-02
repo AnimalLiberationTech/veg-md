@@ -5,3 +5,5 @@ export const defaultMetadata = {
     apple: "/apple-touch-icon.png"
   }
 }
+
+export const supportedLocales = ['en', 'ro', 'ru'];

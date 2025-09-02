@@ -1,12 +1,15 @@
 import Link from "next/link";
 
 import { Metadata } from "next";
+import {supportedLocales} from "@/constants";
 
 export const metadata: Metadata = {
   title: "Error Page | Free Next.js Template for Startup and SaaS",
   description: "This is Error Page for Startup Nextjs Template",
   // other metadata
 };
+
+export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
 const ErrorPage = () => {
   return (
