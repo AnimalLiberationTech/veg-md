@@ -4,7 +4,8 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: 'veg-md',
+  basePath: '/veg-md',
+  assetPrefix: '/veg-md',
   output: 'export',
   images: {
     remotePatterns: [
