@@ -1,13 +1,17 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import {usePathname} from "next/navigation";
+import {useTranslations} from "next-intl";
+import {useEffect, useState} from "react";
 import ThemeToggler from "./ThemeToggler";
+
+import {locales} from "@/constants";
 import menuData from "./menuData";
 
 const Header = () => {
-  // Navbar toggle
+  const tMenu = useTranslations("menu");
+
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
@@ -24,7 +28,10 @@ const Header = () => {
   };
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-  });
+    return () => {
+      window.removeEventListener("scroll", handleStickyNavbar);
+    };
+  }, []);
 
   // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
@@ -52,23 +59,13 @@ const Header = () => {
             <div className="w-60 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-5 lg:py-2" : "py-8"
-                } `}
+                className={`header-logo block w-full py-2 pb-2`}
               >
                 <Image
-                  src="/images/logo/logo-2.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="w-full dark:hidden"
-                />
-                <Image
-                  src="/images/logo/logo.svg"
-                  alt="logo"
-                  width={140}
-                  height={30}
-                  className="hidden w-full dark:block"
+                  src="/images/logo.png"
+                  alt="Vegan Moldova logo"
+                  width={120}
+                  height={120}
                 />
               </Link>
             </div>
@@ -113,18 +110,18 @@ const Header = () => {
                             className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
                               usePathName === menuItem.path
                                 ? "text-primary dark:text-white"
-                                : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
+                                : "text-dark hover:text-primary dark:text-white dark:hover:text-white"
                             }`}
                           >
-                            {menuItem.title}
+                            {tMenu(menuItem.titleKey)}
                           </Link>
                         ) : (
                           <>
                             <p
-                              onClick={() => handleSubmenu(index)}
-                              className="text-dark group-hover:text-primary flex cursor-pointer items-center justify-between py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 dark:text-white/70 dark:group-hover:text-white"
-                            >
-                              {menuItem.title}
+                            onClick={() => handleSubmenu(index)}
+                            className="text-dark group-hover:text-primary flex cursor-pointer items-center justify-between py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 dark:text-white dark:group-hover:text-white"
+                          >
+                              {tMenu(menuItem.titleKey)}
                               <span className="pl-3">
                                 <svg width="25" height="24" viewBox="0 0 25 24">
                                   <path
@@ -145,9 +142,9 @@ const Header = () => {
                                 <Link
                                   href={submenuItem.path}
                                   key={index}
-                                  className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white/70 dark:hover:text-white"
+                                  className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
                                 >
-                                  {submenuItem.title}
+                                  {tMenu(submenuItem.titleKey)}
                                 </Link>
                               ))}
                             </div>
@@ -159,15 +156,17 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                {[
-                  { code: "ro", label: "🇷🇴 Română" },
-                  { code: "ru", label: "🇷🇺 Русский" },
-                  { code: "en", label: "🇬🇧 English" },
-                ].map(({ code, label }) => (
-                  <Link key={code} href={`/${code}`} hrefLang={code} className="px-2">
-                    {label}
-                  </Link>
-                ))}
+                {locales.map(({ code, label }) => {
+                  // Remove the current locale from the pathname to preserve the path
+                  const pathWithoutLocale = usePathName.replace(/^\/(en|ro|ru)/, '');
+                  const newPath = pathWithoutLocale === '' ? `/${code}` : `/${code}${pathWithoutLocale}`;
+
+                  return (
+                    <Link key={code} href={newPath} hrefLang={code} className="px-2">
+                      {label}
+                    </Link>
+                  );
+                })}
                 <div>
                   <ThemeToggler />
                 </div>

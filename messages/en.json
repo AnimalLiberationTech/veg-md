@@ -1,8 +1,63 @@
 {
   "general": {
+    "title": "Vegan Moldova",
+    "description": "Embrace a vegan lifestyle"
   },
   "homePage": {
     "title": "Home",
     "description": "For a Vegan Moldova"
+  },
+  "menu": {
+    "whyVegan": "Why vegan",
+    "animals": "Animals",
+    "health": "Health",
+    "planet": "Planet",
+    "community": "Community",
+    "resources": "Resources",
+    "recipes": "Recipes",
+    "blog": "Blog",
+    "socialMedia": "Social Media"
+  },
+  "hero": {
+    "mainTitle": "Embrace a",
+    "highlight": "Vegan",
+    "mainTitleEnd": "Lifestyle",
+    "description": "Discover the beauty of plant-based living. Every choice you make contributes to a healthier planet, stronger community, and compassionate future. Join thousands making the conscious switch to veganism.",
+    "exploreButton": "Explore Now",
+    "learnMoreButton": "Join in",
+    "whyVeganCard": "Why Vegan?",
+    "healthWellness": "Health & Wellness",
+    "environment": "Environment",
+    "animalCompassion": "Animal Compassion"
+  },
+  "contact": {
+    "managedBy": "Uniunea Vegetarienilor din Moldova",
+    "telegram": "Join Our Community",
+    "email": "Get in Touch"
+  },
+  "about": {
+    "pageTitle": "About Page | Vegan Moldova",
+    "pageDescription": "Learn more about the Vegetarian Union of Moldova and our mission to promote vegan lifestyle",
+    "breadcrumbTitle": "About Page",
+    "breadcrumbDescription": "This site is created and managed by the Vegetarian Union of Moldova"
+  },
+  "resources": {
+    "areYouReady": "Are you ready?",
+    "viewMore": "View More",
+    "viewLess": "View Less",
+    "types": {
+      "documentary": "Documentary",
+      "video": "Video",
+      "action": "Action",
+      "challenge": "Challenge",
+      "book": "Book",
+      "app": "App",
+      "website": "Website"
+    }
+  },
+  "notFound": {
+    "title": "Sorry, this page is in development",
+    "description": "Please come back later.",
+    "backHomeButton": "Back to home"
   }
 }

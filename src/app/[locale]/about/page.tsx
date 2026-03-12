@@ -1,27 +1,39 @@
-import AboutSectionOne from "@/components/About/AboutSectionOne";
-import AboutSectionTwo from "@/components/About/AboutSectionTwo";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import ContactCard from "@/components/Contact/ContactCard";
 
 import { Metadata } from "next";
 import {supportedLocales} from "@/constants";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "About Page | Free Next.js Template for Startup and SaaS",
-  description: "This is About Page for Startup Nextjs Template",
-  // other metadata
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "about" });
+
+  return {
+    title: t("pageTitle"),
+    description: t("pageDescription"),
+  };
+}
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const AboutPage = () => {
+const AboutPage = async ({ params }: { params: { locale: string } }) => {
+  const t = await getTranslations({ locale: params.locale, namespace: "about" });
+
   return (
     <>
       <Breadcrumb
-        pageName="About Page"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
+        pageName={t("breadcrumbTitle")}
+        description={t("breadcrumbDescription")}
       />
-      <AboutSectionOne />
-      <AboutSectionTwo />
+      <section className="py-16 md:py-20 lg:py-28">
+        <div className="container">
+          <ContactCard />
+        </div>
+      </section>
     </>
   );
 };

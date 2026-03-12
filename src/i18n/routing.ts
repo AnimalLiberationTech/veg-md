@@ -7,5 +7,6 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
   localeCookie: {
     maxAge: 60 * 60 * 24 * 365
-  }
+  },
+  timeZone: 'Europe/Bucharest'
 });

@@ -1,51 +1,66 @@
-"use client";
-
 import React from 'react';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import ScrollToTop from "@/components/ScrollToTop";
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {Inter} from "next/font/google";
+import {Metadata} from 'next';
+import {hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
-import "../../styles/index.css";
-import {Providers} from "./providers";
 import {routing} from '@/i18n/routing';
+import {supportedLocales} from "@/constants";
+import {ClientLayout} from "./client-layout";
+import enMessages from "../../../messages/en.json";
+import roMessages from "../../../messages/ro.json";
+import ruMessages from "../../../messages/ru.json";
 
-const inter = Inter({ subsets: ["latin"] });
+type Messages = typeof enMessages;
+
+const MESSAGES: Record<string, Messages> = {
+  en: enMessages,
+  ro: roMessages,
+  ru: ruMessages,
+};
+
+function getMessages(locale: string): Messages {
+  return MESSAGES[locale] ?? enMessages;
+}
+
+export function generateStaticParams() {
+  return supportedLocales.map(locale => ({locale}));
+}
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{locale: string}>;
 };
 
-export default function RootLayout({
-  children,
-  params
-}: Props) {
-  const resolvedParams = React.use(params);
-  const { locale } = resolvedParams;
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const {general} = getMessages(locale);
 
-  // Ensure that the incoming `locale` is valid
+  return {
+    title: general.title,
+    description: general.description,
+    icons: {
+      icon: [
+        {url: "/favicon.ico"},
+        {url: "/favicon-16x16.png", sizes: "16x16", type: "image/png"},
+        {url: "/favicon-32x32.png", sizes: "32x32", type: "image/png"},
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/site.webmanifest",
+  };
+}
+
+export default function RootLayout({children, params}: Props) {
+  const {locale} = React.use(params);
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  return (
-    <html suppressHydrationWarning lang={locale}>
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
+  const messages = getMessages(locale);
 
-      <body className={`bg-[#FCFCFC] dark:bg-black ${inter.className}`}>
-        <Providers>
-          <Header />
-          <NextIntlClientProvider locale={locale}>{children}</NextIntlClientProvider>
-          <Footer />
-          <ScrollToTop />
-        </Providers>
-      </body>
-    </html>
+  return (
+    <ClientLayout locale={locale} messages={messages}>
+      {children}
+    </ClientLayout>
   );
 }

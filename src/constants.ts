@@ -6,4 +6,13 @@ export const defaultMetadata = {
   }
 }
 
-export const supportedLocales = ['en', 'ro', 'ru'];
+export const locales = [
+  {code: "ro", label: "🇷🇴 Română"},
+  {code: "ru", label: "🇷🇺 Русский"},
+  {code: "en", label: "🇬🇧 English"},
+];
+
+export const supportedLocales = locales.map(locale => locale.code);
+
+export const veganMoldovaTgGroupUrl = "https://t.me/veganmoldova/882";
+export const veganMoldovaEmail = "moldovavegana@gmail.com";

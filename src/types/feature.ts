@@ -1,7 +1,15 @@
-import type { JSX } from "react";
+export type ResourceLink = {
+  type: string;
+  url: string;
+};
+
 export type Feature = {
   id: number;
-  icon: JSX.Element;
   title: string;
-  paragraph: string;
+  description: string;
+  image_url: string;
+  type?: string;
+  slug?: string;
+  average_rating?: number;
+  links?: ResourceLink[];
 };
