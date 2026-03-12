@@ -24,13 +24,15 @@ const nextConfig = {
   trailingSlash: true
 };
 
-// When running in GitHub Actions, configure basePath/assetPrefix automatically
-if (process.env.GITHUB_ACTIONS === 'true' && process.env.GITHUB_REPOSITORY) {
-  const repo = process.env.GITHUB_REPOSITORY.split('/')[1];
-  if (repo) {
-    nextConfig.basePath = `/${repo}`;
-    nextConfig.assetPrefix = `/${repo}/`;
-  }
+// Apply basePath/assetPrefix only when explicitly requested by deployment config.
+const rawBasePath = process.env.NEXT_BASE_PATH || process.env.NEXT_PUBLIC_BASE_PATH || '';
+const normalizedBasePath = rawBasePath
+  ? `/${rawBasePath.replace(/^\/+|\/+$/g, '')}`
+  : '';
+
+if (normalizedBasePath && normalizedBasePath !== '/') {
+  nextConfig.basePath = normalizedBasePath;
+  nextConfig.assetPrefix = `${normalizedBasePath}/`;
 }
 
 module.exports = withNextIntl(nextConfig);
