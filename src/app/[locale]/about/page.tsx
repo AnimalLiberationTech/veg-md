@@ -5,11 +5,12 @@ import { Metadata } from "next";
 import {supportedLocales} from "@/constants";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
 
   return {
@@ -20,8 +21,9 @@ export async function generateMetadata({
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const AboutPage = async ({ params }: { params: { locale: string } }) => {
-  const t = await getTranslations({ locale: params.locale, namespace: "about" });
+const AboutPage = async ({ params }: Props) => {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
 
   return (
     <>

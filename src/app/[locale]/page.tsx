@@ -26,12 +26,13 @@ export function generateStaticParams() {
   return supportedLocales.map(locale => ({locale}));
 }
 
-export default function Home() {
+export default async function Home({params}: PageProps) {
+  const {locale} = await params;
   return (
     <>
       <ScrollUp />
       <Hero />
-      <Resources />
+      <Resources locale={locale} />
       {/*<Video />*/}
       {/*<Contact />*/}
     </>

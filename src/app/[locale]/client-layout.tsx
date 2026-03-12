@@ -17,7 +17,7 @@ export function ClientLayout({
 }) {
   return (
     <ThemeProvider attribute="class" enableSystem storageKey="vegan-theme">
-      <NextIntlClientProvider locale={locale} messages={messages}>
+      <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Bucharest">
         <Header />
         {children}
         <Footer />
