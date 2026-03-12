@@ -8,5 +8,4 @@ export const routing = defineRouting({
   localeCookie: {
     maxAge: 60 * 60 * 24 * 365
   },
-  timeZone: 'Europe/Bucharest'
 });
