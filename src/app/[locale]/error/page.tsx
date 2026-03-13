@@ -11,7 +11,13 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const ErrorPage = () => {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+const ErrorPage = async ({params}: Props) => {
+  const {locale} = await params;
+
   return (
     <>
       <section className="relative z-10 pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
@@ -152,7 +158,7 @@ const ErrorPage = () => {
                   deleted or does not exist.
                 </p>
                 <Link
-                  href="/"
+                  href={`/${locale}`}
                   className="px-8 py-3 text-base font-bold text-white duration-300 rounded-md bg-primary shadow-signUp hover:bg-white hover:text-primary md:px-9 lg:px-8 xl:px-9"
                 >
                   Back to Homepage

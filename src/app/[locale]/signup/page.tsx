@@ -11,7 +11,13 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const SignupPage = () => {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+const SignupPage = async ({params}: Props) => {
+  const {locale} = await params;
+
   return (
     <>
       <section className="relative z-10 overflow-hidden pt-36 pb-16 md:pb-20 lg:pt-[180px] lg:pb-28">
@@ -181,7 +187,7 @@ const SignupPage = () => {
                 </form>
                 <p className="text-body-color text-center text-base font-medium">
                   Already using Startup?{" "}
-                  <Link href="/signin" className="text-primary hover:underline">
+                  <Link href={`/${locale}/signin`} className="text-primary hover:underline">
                     Sign in
                   </Link>
                 </p>

@@ -11,7 +11,13 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const SigninPage = () => {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+const SigninPage = async ({params}: Props) => {
+  const {locale} = await params;
+
   return (
     <>
       <section className="relative z-10 overflow-hidden pt-36 pb-16 md:pb-20 lg:pt-[180px] lg:pb-28">
@@ -163,7 +169,7 @@ const SigninPage = () => {
                 </form>
                 <p className="text-body-color text-center text-base font-medium">
                   Don’t you have an account?{" "}
-                  <Link href="/signup" className="text-primary hover:underline">
+                  <Link href={`/${locale}/signup`} className="text-primary hover:underline">
                     Sign up
                   </Link>
                 </p>

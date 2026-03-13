@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
-import {usePathname} from "next/navigation";
-import {useTranslations} from "next-intl";
+import {Link, usePathname} from "@/i18n/navigation";
+import {useLocale, useTranslations} from "next-intl";
 import {useEffect, useState} from "react";
 import ThemeToggler from "./ThemeToggler";
 
@@ -11,6 +10,7 @@ import menuData from "./menuData";
 
 const Header = () => {
   const tMenu = useTranslations("menu");
+  const currentLocale = useLocale();
 
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -157,12 +157,14 @@ const Header = () => {
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
                 {locales.map(({ code, label }) => {
-                  // Remove the current locale from the pathname to preserve the path
-                  const pathWithoutLocale = usePathName.replace(/^\/(en|ro|ru)/, '');
-                  const newPath = pathWithoutLocale === '' ? `/${code}` : `/${code}${pathWithoutLocale}`;
-
                   return (
-                    <Link key={code} href={newPath} hrefLang={code} className="px-2">
+                    <Link
+                      key={code}
+                      href={usePathName}
+                      locale={code}
+                      hrefLang={code}
+                      className={`px-2 ${currentLocale === code ? "font-semibold text-primary" : ""}`}
+                    >
                       {label}
                     </Link>
                   );

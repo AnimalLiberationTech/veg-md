@@ -13,12 +13,19 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const Blog = () => {
+type Props = {
+  params: Promise<{ locale: string }>;
+};
+
+const Blog = async ({params}: Props) => {
+  const {locale} = await params;
+
   return (
     <>
       <Breadcrumb
         pageName="Blog Grid"
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
+        homeHref={`/${locale}`}
       />
 
       <section className="pt-[120px] pb-[120px]">

@@ -1,6 +1,8 @@
+"use client";
+
 import { Blog } from "@/types/blog";
 import Image from "next/image";
-import Link from "next/link";
+import {Link} from "@/i18n/navigation";
 
 const SingleBlog = ({ blog }: { blog: Blog }) => {
   const { title, image, paragraph, author, tags, publishDate } = blog;
