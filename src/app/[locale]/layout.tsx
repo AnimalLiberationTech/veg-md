@@ -32,6 +32,11 @@ type Props = {
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
+
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   const {general} = getMessages(locale);
 
   return {
