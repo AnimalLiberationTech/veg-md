@@ -11,13 +11,13 @@ export default async function proxy(request: NextRequest) {
 
   const [{default: createMiddleware}, {routing}] = await Promise.all([
     import('next-intl/middleware'),
-    import('./i18n/routing')
+    import('./routing')
   ]);
 
-  return createMiddleware(routing)(request);
+  const intlMiddleware = createMiddleware(routing);
+  return intlMiddleware(request);
 }
 
 export const config = {
   matcher: ['/((?!api|trpc|_next|_vercel|.*\\..*).*)']
 };
-
