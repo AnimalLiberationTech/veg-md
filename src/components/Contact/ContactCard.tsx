@@ -4,13 +4,13 @@ import { useTranslations } from "next-intl";
 import {veganMoldovaEmail, veganMoldovaTgGroupUrl} from "@/constants";
 
 const ContactCard = () => {
-  const t = useTranslations("contact");
+  const t = useTranslations("contactCard");
 
   return (
     <div className="bg-white dark:bg-dark shadow-sm rounded-xl p-6 space-y-8">
       {/* Managed By */}
       <div className="flex items-start">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <div className="flex items-center justify-center h-12 w-12 rounded-md bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

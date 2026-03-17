@@ -5,9 +5,9 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import {supportedLocales} from "@/constants";
 import {ClientLayout} from "./client-layout";
-import enMessages from "../../../messages/en.json";
-import roMessages from "../../../messages/ro.json";
-import ruMessages from "../../../messages/ru.json";
+import enMessages from "@/translations/en.json";
+import roMessages from "@/translations/ro.json";
+import ruMessages from "@/translations/ru.json";
 
 type Messages = typeof enMessages;
 

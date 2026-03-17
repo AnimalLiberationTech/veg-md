@@ -11,10 +11,10 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" });
+  const t = await getTranslations({ locale, namespace: "aboutPage" });
 
   return {
-    title: t("pageTitle"),
+    title: `${t('title')} | Vegan Moldova`,
     description: t("pageDescription"),
   };
 }
@@ -23,7 +23,7 @@ export function generateStaticParams() { return supportedLocales.map(locale => (
 
 const AboutPage = async ({ params }: Props) => {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" });
+  const t = await getTranslations({ locale, namespace: "aboutPage" });
 
   return (
     <>

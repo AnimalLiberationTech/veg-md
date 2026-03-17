@@ -1,0 +1,63 @@
+{
+  "aboutPage": {
+    "title": "Despre noi",
+    "breadcrumbDescription": "Acest site este creat și administrat de Uniunea Vegetarienilor din Moldova",
+    "breadcrumbTitle": "Despre noi",
+    "pageDescription": "Aflați mai mult despre Uniunea Vegetarienilor din Moldova și misiunea noastră de promovare a stilului de viață vegan"
+  },
+  "homePage": {
+    "title": "Acasă",
+    "description": "Pentru o Moldovă Vegană"
+  },
+  "contactCard": {
+    "email": "Scrie-ne",
+    "managedBy": "Uniunea Vegetarienilor din Moldova",
+    "telegram": "Alătură-te comunității noastre"
+  },
+  "general": {
+    "description": "Descoperă un stil de viață vegan",
+    "title": "Moldovă Vegană"
+  },
+  "hero": {
+    "animalCompassion": "Compasiune pentru Animale",
+    "description": "Veganismul este un mod de viață aflat în deplină concordanță cu valorile fundamentale umane, bazându-se pe integritate și pe puterea alegerilor conștiente. Bucură-te de viață respecând în același timp și dreptul la viață al celorlalți!",
+    "environment": "Mediu",
+    "exploreButton": "Explorează Acum",
+    "healthWellness": "Sănătate",
+    "highlight": "Vegan",
+    "learnMoreButton": "Alătură-te",
+    "mainTitle": "Adoptă un stil",
+    "mainTitleEnd": "de viață",
+    "whyVeganCard": "De ce Vegan?"
+  },
+  "menu": {
+    "animals": "Animale",
+    "blog": "Blog",
+    "community": "Comunitate",
+    "health": "Sănătate",
+    "planet": "Planetă",
+    "recipes": "Rețete",
+    "resources": "Resurse",
+    "socialMedia": "Pagini sociale",
+    "whyVegan": "De ce vegan"
+  },
+  "notFound": {
+    "backHomeButton": "Inapoi acasa",
+    "description": "Te rugam sa revii mai tarziu.",
+    "title": "Ne pare rau, aceasta pagina este in dezvoltare"
+  },
+  "resources": {
+    "areYouReady": "Ești gata?",
+    "types": {
+      "action": "Acțiune",
+      "app": "Aplicație",
+      "book": "Carte",
+      "challenge": "Provocare",
+      "documentary": "Documentar",
+      "video": "Video",
+      "website": "Website"
+    },
+    "viewLess": "Vezi mai puțin",
+    "viewMore": "Vezi mai mult"
+  }
+}
