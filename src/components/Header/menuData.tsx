@@ -9,42 +9,42 @@ const menuData: Menu[] = [
       {
         id: 11,
         titleKey: "animals",
-        path: "/animals",
+        path: "/why-vegan/animals",
         newTab: false,
       },
       {
         id: 12,
         titleKey: "health",
-        path: "/health",
+        path: "/why-vegan/health",
         newTab: false,
       },
       {
         id: 13,
         titleKey: "planet",
-        path: "/planet",
+        path: "/why-vegan/planet",
         newTab: false,
       },
     ],
   },
-  {
-    id: 2,
-    titleKey: "resources",
-    newTab: false,
-    submenu: [
-      {
-        id: 21,
-        titleKey: "recipes",
-        path: "/recipes",
-        newTab: false,
-      },
-      {
-        id: 22,
-        titleKey: "socialMedia",
-        path: "/social-media",
-        newTab: false,
-      },
-    ]
-  },
+  // {
+  //   id: 2,
+  //   titleKey: "resources",
+  //   newTab: false,
+  //   submenu: [
+  //     {
+  //       id: 21,
+  //       titleKey: "recipes",
+  //       path: "/recipes",
+  //       newTab: false,
+  //     },
+  //     {
+  //       id: 22,
+  //       titleKey: "socialMedia",
+  //       path: "/social-media",
+  //       newTab: false,
+  //     },
+  //   ]
+  // },
   {
     id: 3,
     titleKey: "community",
