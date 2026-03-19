@@ -22,13 +22,7 @@ const Blog = async ({params}: Props) => {
 
   return (
     <>
-      <Breadcrumb
-        pageName="Blog Grid"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero."
-        homeHref={`/${locale}`}
-      />
-
-      <section className="pt-[120px] pb-[120px]">
+      <section className="pt-30 pb-30">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
             {blogData.map((blog) => (
