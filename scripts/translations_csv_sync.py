@@ -22,10 +22,10 @@ def _load_json(path: Path) -> Dict[str, object]:
 
 
 def _flatten_locale_dict(
-    data: Dict[str, object],
-    locale: str,
-    path_parts: Tuple[str, ...] = (),
-    out: Dict[Tuple[str, str, str], str] | None = None,
+        data: Dict[str, object],
+        locale: str,
+        path_parts: Tuple[str, ...] = (),
+        out: Dict[Tuple[str, str, str], str] | None = None,
 ) -> Dict[Tuple[str, str, str], str]:
     if out is None:
         out = {}
@@ -128,25 +128,20 @@ def _key_cells_to_tuple(key_1: str, key_2: str, key_3: str, row_number: int) -> 
         keys.append(key_3)
     return tuple(keys)
 
+
 def _normalize_header(header: List[str]) -> List[str]:
     if len(header) < 4:
         raise ValueError("CSV must have at least 4 columns")
 
-    header_variants = {
-        ("", "", ""),
-        ("L1", "L2", "L3"),
-    }
+    header_variants = {("", "", ""), ("L1", "L2", "L3")}
     key_header = tuple(cell.strip() for cell in header[:3])
     if key_header not in header_variants:
         raise ValueError(
             "CSV must start with blank columns, or L1/L2/L3"
         )
 
-    locales = [cell.strip() for cell in header[3:]]
-    if not locales or any(not locale for locale in locales):
-        raise ValueError("CSV must include non-empty locale columns after the first 3 columns")
+    return [cell.strip() for cell in header[3:] if cell.strip()]
 
-    return locales
 
 def csv_to_lang_files(csv_input: Path | str, translations_dir: Path | str) -> List[Path]:
     """Convert a spreadsheet CSV export back into per-locale JSON files."""
@@ -180,7 +175,7 @@ def csv_to_lang_files(csv_input: Path | str, translations_dir: Path | str) -> Li
         if len(row) < expected_columns:
             row = row + [""] * (expected_columns - len(row))
         elif len(row) > expected_columns:
-            raise ValueError(f"Row {idx}: expected {expected_columns} columns, found {len(row)}")
+            row = row[:expected_columns]
 
         key_1 = row[0].strip()
         key_2 = row[1].strip()
@@ -261,4 +256,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

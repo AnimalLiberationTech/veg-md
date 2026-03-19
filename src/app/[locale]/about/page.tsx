@@ -1,9 +1,10 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ContactCard from "@/components/Contact/ContactCard";
 
-import { Metadata } from "next";
 import {supportedLocales} from "@/constants";
 import { getTranslations } from "next-intl/server";
+import {getPageMetadata} from "@/utils/metadata";
+import {Metadata} from "next";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -11,12 +12,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "aboutPage" });
-
-  return {
-    title: `${t('title')} | Vegan Moldova`,
-    description: t("pageDescription"),
-  };
+  return getPageMetadata(locale, 'aboutPage');
 }
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
@@ -24,12 +20,14 @@ export function generateStaticParams() { return supportedLocales.map(locale => (
 const AboutPage = async ({ params }: Props) => {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "aboutPage" });
+  const homeT = await getTranslations({ locale, namespace: "homePage" });
 
   return (
     <>
       <Breadcrumb
-        pageName={t("breadcrumbTitle")}
-        description={t("breadcrumbDescription")}
+        homePageName={homeT("title")}
+        pageName={t("title")}
+        description={t("description")}
         homeHref={`/${locale}`}
       />
       <section className="py-16 md:py-20 lg:py-28">

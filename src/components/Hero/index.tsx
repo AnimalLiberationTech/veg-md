@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 const Hero = () => {
   const t = useTranslations("hero");
+  const tResources = useTranslations("resources");
 
   return (
     <>
@@ -43,7 +44,7 @@ const Hero = () => {
                     href="#resources"
                     className="inline-flex items-center justify-center rounded-lg bg-dark px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-dark/90 hover:shadow-lg"
                   >
-                    {t("exploreButton")}
+                    {tResources("learnMore")}
                     <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -52,7 +53,7 @@ const Hero = () => {
                     href="/about"
                     className="inline-flex items-center justify-center rounded-lg border-2 border-dark px-8 py-4 text-base font-semibold text-dark duration-300 ease-in-out hover:bg-dark hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-dark"
                   >
-                    {t("learnMoreButton")}
+                    {t("joinIn")}
                   </Link>
                 </div>
               </div>

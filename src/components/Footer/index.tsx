@@ -6,7 +6,7 @@ import menuData from "../Header/menuData";
 
 const Footer = () => {
   const tMenu = useTranslations("menu");
-  const tHero = useTranslations("hero");
+  const t = useTranslations("footer");
 
   return (
     <>
@@ -32,7 +32,7 @@ const Footer = () => {
                   />
                 </Link>
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
-                  {tHero("description")}
+                  {t("description")}
                 </p>
                 {/*<div className="flex items-center">*/}
                 {/*  <a*/}

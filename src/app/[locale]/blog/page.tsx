@@ -2,20 +2,20 @@ import SingleBlog from "@/components/Blog/SingleBlog";
 import blogData from "@/components/Blog/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import {supportedLocales} from "@/constants";
-
 import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Blog Page | Free Next.js Template for Startup and SaaS",
-  description: "This is Blog Page for Startup Nextjs Template",
-  // other metadata
-};
-
-export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
+import {getPageMetadata} from "@/utils/metadata";
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return getPageMetadata(locale, 'aboutPage');
+}
+
+export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
+
 
 const Blog = async ({params}: Props) => {
   const {locale} = await params;

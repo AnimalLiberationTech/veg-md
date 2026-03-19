@@ -22,7 +22,7 @@ const Resources = async ({locale}: {locale: string}) => {
       <section id="resources" className="py-8 md:py-10 lg:py-14">
         <div className="container">
           <SectionTitle
-            title={t("areYouReady")}
+            title={t("learnMore")}
             paragraph=""
             center
           />

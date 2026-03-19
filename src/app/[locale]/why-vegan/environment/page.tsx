@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export function generateStaticParams() { return supportedLocales.map(locale => ({ locale })); }
 
-const BlogDetailsPage = () => {
+const VeganForEnvironmentPage = () => {
   return (
     <>
       <section className="pt-[150px] pb-[120px]">
@@ -347,4 +347,4 @@ const BlogDetailsPage = () => {
   );
 };
 
-export default BlogDetailsPage;
+export default VeganForEnvironmentPage;

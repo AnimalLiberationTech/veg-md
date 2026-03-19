@@ -1,31 +1,29 @@
 {
+  "global": {
+    "uvm": "Uniunea Vegetarienilor din Moldova"
+  },
   "aboutPage": {
     "title": "Despre noi",
-    "breadcrumbDescription": "Acest site este creat și administrat de Uniunea Vegetarienilor din Moldova",
-    "breadcrumbTitle": "Despre noi",
-    "pageDescription": "Aflați mai mult despre Uniunea Vegetarienilor din Moldova și misiunea noastră de promovare a stilului de viață vegan"
+    "description": "Află mai mult despre Uniunea Vegetarienilor din Moldova și misiunea noastră de promovare a stilului de viață vegan"
   },
   "homePage": {
     "title": "Acasă",
-    "description": "Pentru o Moldovă Vegană"
+    "description": "Descoperă un stil de viață vegan"
   },
   "contactCard": {
-    "email": "Scrie-ne",
-    "managedBy": "Uniunea Vegetarienilor din Moldova",
-    "telegram": "Alătură-te comunității noastre"
+    "writeUs": "Scrie-ne",
+    "telegram": "Alătură-te comunității noastre în Telegram"
   },
-  "general": {
-    "description": "Descoperă un stil de viață vegan",
-    "title": "Moldovă Vegană"
+  "footer": {
+    "description": "Alege un stil de viață conștient. Trăiește în armonie cu valorile tale, respectând dreptul la viață al tuturor ființelor."
   },
   "hero": {
     "animalCompassion": "Compasiune pentru Animale",
     "description": "Veganismul este un mod de viață aflat în deplină concordanță cu valorile fundamentale umane, bazându-se pe integritate și pe puterea alegerilor conștiente. Bucură-te de viață respecând în același timp și dreptul la viață al celorlalți!",
     "environment": "Mediu",
-    "exploreButton": "Explorează Acum",
     "healthWellness": "Sănătate",
     "highlight": "Vegan",
-    "learnMoreButton": "Alătură-te",
+    "joinIn": "Alătură-ne",
     "mainTitle": "Adoptă un stil",
     "mainTitleEnd": "de viață",
     "whyVeganCard": "De ce Vegan?"
@@ -47,7 +45,7 @@
     "title": "Ne pare rau, aceasta pagina este in dezvoltare"
   },
   "resources": {
-    "areYouReady": "Ești gata?",
+    "learnMore": "Află mai mult",
     "types": {
       "action": "Acțiune",
       "app": "Aplicație",
@@ -59,5 +57,6 @@
     },
     "viewLess": "Vezi mai puțin",
     "viewMore": "Vezi mai mult"
-  }
+  },
+  "veganForEnvironmentPage": {}
 }

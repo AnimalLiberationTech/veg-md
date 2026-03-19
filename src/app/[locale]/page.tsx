@@ -1,11 +1,9 @@
 import ScrollUp from "@/components/Common/ScrollUp";
-import Contact from "@/components/Contact";
 import Resources from "@/components/Resources";
 import Hero from "@/components/Hero";
-import Video from "@/components/Video";
+import {getPageMetadata} from "@/utils/metadata";
+import {supportedLocales} from "@/constants";
 import {Metadata} from "next";
-import {getTranslations} from 'next-intl/server';
-import {defaultMetadata, supportedLocales} from "@/constants";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -13,13 +11,7 @@ type PageProps = {
 
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const {locale} = await params;
-  const t = await getTranslations({locale, namespace: 'homePage'});
-
-  return {
-    ...defaultMetadata,
-    title: `${t('title')} | Vegan Moldova`,
-    description: t('description'),
-  };
+  return getPageMetadata(locale, 'homePage');
 }
 
 export function generateStaticParams() {
@@ -33,8 +25,6 @@ export default async function Home({params}: PageProps) {
       <ScrollUp />
       <Hero />
       <Resources locale={locale} />
-      {/*<Video />*/}
-      {/*<Contact />*/}
     </>
   );
 }

@@ -1,31 +1,29 @@
 {
+  "global": {
+    "uvm": "Vegetarian Union of Moldova"
+  },
   "aboutPage": {
     "title": "About us",
-    "breadcrumbDescription": "This site is created and managed by the Vegetarian Union of Moldova",
-    "breadcrumbTitle": "About Page",
-    "pageDescription": "Learn more about the Vegetarian Union of Moldova and our mission to promote vegan lifestyle"
+    "description": "Learn more about the Vegetarian Union of Moldova and our mission to promote vegan lifestyle"
   },
   "homePage": {
     "title": "Home",
-    "description": "For a Vegan Moldova"
+    "description": "Embrace a vegan lifestyle"
   },
   "contactCard": {
-    "email": "Get in Touch",
-    "managedBy": "Vegetarian Union of Moldova",
-    "telegram": "Join Our Community"
+    "writeUs": "Get in Touch",
+    "telegram": "Join Our Telegram Community"
   },
-  "general": {
-    "description": "Embrace a vegan lifestyle",
-    "title": "Vegan Moldova"
+  "footer": {
+    "description": "Embrace plant-based living. Every conscious choice builds a healthier planet and a more compassionate future."
   },
   "hero": {
     "animalCompassion": "Animal Compassion",
     "description": "Discover the beauty of plant-based living. Every choice you make contributes to a healthier planet, stronger community, and compassionate future. Join thousands making the conscious switch to veganism.",
     "environment": "Environment",
-    "exploreButton": "Explore Now",
     "healthWellness": "Health & Wellness",
     "highlight": "Vegan",
-    "learnMoreButton": "Join in",
+    "joinIn": "Join in",
     "mainTitle": "Embrace a",
     "mainTitleEnd": "Lifestyle",
     "whyVeganCard": "Why Vegan?"
@@ -47,7 +45,7 @@
     "title": "Sorry, this page is in development"
   },
   "resources": {
-    "areYouReady": "Are you ready?",
+    "learnMore": "Learn More",
     "types": {
       "action": "Action",
       "app": "App",
@@ -57,7 +55,8 @@
       "video": "Video",
       "website": "Website"
     },
-    "viewLess": "View Less",
-    "viewMore": "View More"
-  }
+    "viewLess": "View less",
+    "viewMore": "View more"
+  },
+  "veganForEnvironmentPage": {}
 }

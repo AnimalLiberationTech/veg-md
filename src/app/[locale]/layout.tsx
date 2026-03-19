@@ -3,7 +3,7 @@ import {Metadata} from 'next';
 import {hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
-import {supportedLocales} from "@/constants";
+import {defaultMetadata, supportedLocales} from "@/constants";
 import {ClientLayout} from "./client-layout";
 import enMessages from "@/translations/en.json";
 import roMessages from "@/translations/ro.json";
@@ -37,20 +37,12 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     notFound();
   }
 
-  const {general} = getMessages(locale);
+  const {homePage} = getMessages(locale);
 
   return {
-    title: general.title,
-    description: general.description,
-    icons: {
-      icon: [
-        {url: "/favicon.ico"},
-        {url: "/favicon-16x16.png", sizes: "16x16", type: "image/png"},
-        {url: "/favicon-32x32.png", sizes: "32x32", type: "image/png"},
-      ],
-      apple: "/apple-touch-icon.png",
-    },
-    manifest: "/site.webmanifest",
+    ...defaultMetadata,
+    title: homePage.title,
+    description: homePage.description,
   };
 }
 
