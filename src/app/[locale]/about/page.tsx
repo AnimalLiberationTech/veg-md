@@ -30,9 +30,23 @@ const AboutPage = async ({ params }: Props) => {
         description={t("description")}
         homeHref={`/${locale}`}
       />
-      <section className="py-16 md:py-20 lg:py-28">
+      <section className="pb-16 md:pb-20 lg:pb-28">
         <div className="container">
-          <ContactCard />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div>
+              <ContactCard />
+            </div>
+            <div className="w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none">
+              <iframe
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FChisinau&showPrint=0&title=Moldova%20Vegan%C4%83&src=bW9sZG92YXZlZ2FuYUBnbWFpbC5jb20&color=%23039be5"
+                style={{ border: 0 }}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                scrolling="no"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </section>
     </>

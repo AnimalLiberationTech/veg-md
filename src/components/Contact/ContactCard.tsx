@@ -8,7 +8,7 @@ const ContactCard = () => {
   const tGlobal = useTranslations("global");
 
   return (
-    <div className="bg-white dark:bg-dark shadow-sm rounded-xl p-6 space-y-8">
+    <div className="bg-white dark:bg-black shadow-sm rounded-xl p-6 space-y-8 border border-dark">
       {/* Managed By */}
       <div className="flex items-start">
         <div className="shrink-0">
