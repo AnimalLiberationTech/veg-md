@@ -1,8 +1,7 @@
 import SingleBlog from "@/components/Blog/SingleBlog";
 import blogData from "@/components/Blog/blogData";
-import Breadcrumb from "@/components/Common/Breadcrumb";
 import {supportedLocales} from "@/constants";
-import { Metadata } from "next";
+import {Metadata} from "next";
 import {getPageMetadata} from "@/utils/metadata";
 
 type Props = {
