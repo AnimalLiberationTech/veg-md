@@ -61,7 +61,7 @@ export async function getResourcesData(locale: string): Promise<Feature[]> {
         AND rlr.row_rank = 1
       GROUP BY rlr.id, rlr.title, rlr.description, rlr.image_url, r.image_url, r.type, r.slug
       ORDER BY average_rating DESC, rlr.id DESC
-      LIMIT 6
+      LIMIT 12
       `,
       [locale],
     );
