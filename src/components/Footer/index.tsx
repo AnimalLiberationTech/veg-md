@@ -7,12 +7,13 @@ import menuData from "../Header/menuData";
 const Footer = () => {
   const tMenu = useTranslations("menu");
   const t = useTranslations("footer");
+  const tGlobal = useTranslations("global");
 
   return (
     <>
-      <footer className="relative z-10 bg-white pt-16 dark:bg-gray-dark md:pt-20 lg:pt-24">
+      <footer className="relative z-10 bg-white pt-10 dark:bg-gray-dark md:pt-20 lg:pt-24">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap">
+          <div className="-mx-4 hidden flex-wrap md:flex">
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
               <div className="mb-12 max-w-90 lg:mb-16">
                 <Link href="/" className="mb-8 inline-block">
@@ -147,9 +148,14 @@ const Footer = () => {
             ))}
           </div>
 
-          <div className="h-px w-full bg-linear-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
+          <div className="hidden h-px w-full bg-linear-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183] md:block"></div>
+          <div className="py-8">
+            <p className="text-center text-base text-body-color dark:text-body-color-dark">
+              &copy; {new Date().getFullYear()} {tGlobal("uvm")}
+            </p>
+          </div>
         </div>
-        <div className="absolute right-0 top-14 z-[-1]">
+        <div className="absolute right-0 top-14 z-[-1] hidden md:block">
           <svg
             width="55"
             height="99"
@@ -223,7 +229,7 @@ const Footer = () => {
             </defs>
           </svg>
         </div>
-        <div className="absolute bottom-24 left-0 z-[-1]">
+        <div className="absolute bottom-24 left-0 z-[-1] hidden md:block">
           <svg
             width="79"
             height="94"

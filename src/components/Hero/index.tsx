@@ -27,8 +27,8 @@ const Hero = () => {
         <div className="container relative z-10">
           <div className="-mx-4 flex flex-wrap items-center">
             {/* Text Content */}
-            <div className="w-full px-4 md:w-1/2">
-              <div className="max-w-125">
+            <div className="w-full px-4 pt-10 md:w-1/2 md:pt-0">
+              <div className="max-w-125 md:-mt-6 xl:-mt-7.5 2xl:-mt-9">
                 <h1 className="mb-6 text-4xl font-bold leading-tight text-dark dark:text-white sm:text-5xl md:text-5xl lg:text-6xl">
                   {t("mainTitle")} <span className="text-dark relative">{t("highlight")}
                     <span className="absolute -bottom-2 left-0 w-full h-1 bg-yellow-300/40 dark:bg-yellow-300/20"></span>
