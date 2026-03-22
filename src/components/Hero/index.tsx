@@ -60,7 +60,7 @@ const Hero = () => {
             </div>
 
             {/* Image Section */}
-            <div className="w-full px-4 md:w-1/2">
+            <div className="hidden w-full px-4 md:block md:w-1/2">
               <div className="relative">
                 {/* Decorative watercolor frame */}
                 <div className="absolute -inset-4 rounded-2xl bg-linear-to-br from-secondary-green/30 via-yellow-300/20 to-secondary-green/10 blur-xl opacity-60 dark:opacity-40"></div>

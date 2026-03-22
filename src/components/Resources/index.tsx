@@ -25,6 +25,7 @@ const Resources = async ({locale}: {locale: string}) => {
             title={t("learnMore")}
             paragraph=""
             center
+            className="hidden md:block"
           />
 
           <ExpandedResourceProvider>
