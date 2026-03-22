@@ -11,9 +11,9 @@ export const defaultMetadata = {
 }
 
 export const locales = [
-  {code: "ro", label: "🇷🇴 Română"},
-  {code: "ru", label: "🇷🇺 Русский"},
-  {code: "en", label: "🇬🇧 English"},
+  {code: "ro", name: "Română"},
+  {code: "ru", name: "Русский"},
+  {code: "en", name: "English"},
 ];
 
 export const supportedLocales = locales.map(locale => locale.code);
