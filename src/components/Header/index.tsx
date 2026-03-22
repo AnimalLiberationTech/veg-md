@@ -78,18 +78,18 @@ const Header = () => {
                   className="ring-primary absolute top-1/2 right-4 block translate-y-[-50%] rounded-lg px-3 py-[6px] focus:ring-2 lg:hidden"
                 >
                   <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? "top-[7px] rotate-45" : " "
+                    className={`relative my-1.5 block h-0.5 w-7.5 bg-black transition-all duration-300 dark:bg-white ${
+                      navbarOpen ? "top-1.75 rotate-45" : " "
                     }`}
                   />
                   <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
+                    className={`relative my-1.5 block h-0.5 w-7.5 bg-black transition-all duration-300 dark:bg-white ${
                       navbarOpen ? "opacity-0" : " "
                     }`}
                   />
                   <span
-                    className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
-                      navbarOpen ? "top-[-8px] -rotate-45" : " "
+                    className={`relative my-1.5 block h-0.5 w-7.5 bg-black transition-all duration-300 dark:bg-white ${
+                      navbarOpen ? "-top-2 -rotate-45" : " "
                     }`}
                   />
                 </button>
@@ -155,17 +155,32 @@ const Header = () => {
                   </ul>
                 </nav>
               </div>
-              <div className="flex items-center justify-end pr-16 lg:pr-0">
-                {locales.map(({ code, label }) => {
+              <div className="flex items-center justify-end pr-16 lg:pr-0 gap-1.5">
+                {locales.map(({ code, name }) => {
                   return (
                     <Link
                       key={code}
                       href={usePathName}
                       locale={code}
                       hrefLang={code}
-                      className={`px-2 ${currentLocale === code ? "font-semibold text-primary" : ""}`}
+                      className={`
+                        flex items-center justify-center rounded-lg border px-1.5 py-1 text-[10px] font-bold uppercase transition-all duration-300 md:px-3 md:py-1.5 md:text-xs
+                        ${currentLocale === code 
+                          ? "border-primary bg-primary/10 text-primary shadow-sm" 
+                          : "border-gray-200 bg-white text-dark hover:border-primary/50 hover:bg-gray-50 dark:border-white/10 dark:bg-dark dark:text-white dark:hover:border-primary/50 dark:hover:bg-white/5"}
+                      `}
                     >
-                      {label}
+                      <span className="flex items-center gap-1.5">
+                        <span className="mr-1 inline-block">
+                          {code === 'ro' ? '🇷🇴' : code === 'ru' ? '🇷🇺' : '🇬🇧'}
+                        </span>
+                        <span className="md:hidden">
+                          {code === 'en' ? 'EN' : code === 'ro' ? 'RO' : 'RU'}
+                        </span>
+                        <span className="hidden md:inline">
+                          {name}
+                        </span>
+                      </span>
                     </Link>
                   );
                 })}
