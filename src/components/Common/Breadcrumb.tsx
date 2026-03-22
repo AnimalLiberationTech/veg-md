@@ -14,7 +14,7 @@ const Breadcrumb = ({
   return (
     <>
       <section className="relative z-10 overflow-hidden pt-28 lg:pt-37.5">
-        <div className="container">
+        <div className="container hidden md:block">
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 md:w-8/12 lg:w-7/12">
               <div className="mb-8 max-w-142.5 md:mb-0 lg:mb-12">
@@ -47,7 +47,7 @@ const Breadcrumb = ({
           </div>
         </div>
 
-        <div>
+        <div className="hidden md:block">
           <span className="absolute left-0 top-0 z-[-1]">
             <svg
               width="287"
