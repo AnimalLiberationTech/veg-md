@@ -23,7 +23,7 @@
     "environment": "Mediu",
     "healthWellness": "Sănătate",
     "highlight": "Vegan",
-    "joinIn": "Explorează mișcarea",
+    "joinIn": "Alătură-te mișcării",
     "mainTitle": "Adoptă un stil de viață",
     "mainTitleEnd": "",
     "whyVeganCard": "De ce Vegan?"
@@ -56,7 +56,8 @@
       "website": "Website"
     },
     "viewLess": "Vezi mai puțin",
-    "viewMore": "Vezi mai mult"
+    "viewMore": "Vezi mai mult",
+    "exploreMore": "Explorează mai multe resurse"
   },
   "veganForAnimalsPage": {
     "title": "Drepturile animalelor",

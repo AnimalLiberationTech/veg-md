@@ -23,7 +23,7 @@
     "environment": "Environment",
     "healthWellness": "Health & Wellness",
     "highlight": "Vegan",
-    "joinIn": "Explore the Movement",
+    "joinIn": "Join the Movement",
     "mainTitle": "Embrace a",
     "mainTitleEnd": "Lifestyle",
     "whyVeganCard": "Why Vegan?"
@@ -56,7 +56,8 @@
       "website": "Website"
     },
     "viewLess": "View less",
-    "viewMore": "View more"
+    "viewMore": "View more",
+    "exploreMore": "Explore more resources"
   },
   "veganForAnimalsPage": {
     "title": "Animal Rights",
