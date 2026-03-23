@@ -37,7 +37,9 @@
     "recipes": "Recipes",
     "resources": "Resources",
     "socialMedia": "Social Media",
-    "whyVegan": "Why vegan"
+    "whyVegan": "Why Vegan",
+    "goingVegan": "Going Vegan",
+    "products": "Vegan Products"
   },
   "notFound": {
     "backHomeButton": "Back to home",

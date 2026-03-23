@@ -37,7 +37,9 @@
     "recipes": "Рецепты",
     "resources": "Ресурсы",
     "socialMedia": "Социальные страницы",
-    "whyVegan": "Почему веганство"
+    "whyVegan": "Почему веганство",
+    "goingVegan": "Основы веганства",
+    "products": "Веганские продукты"
   },
   "notFound": {
     "backHomeButton": "На главную",

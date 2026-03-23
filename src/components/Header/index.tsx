@@ -105,16 +105,27 @@ const Header = () => {
                     {menuData.map((menuItem, index) => (
                       <li key={index} className="group relative">
                         {menuItem.path ? (
-                          <Link
-                            href={menuItem.path}
-                            className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
-                              usePathName === menuItem.path
-                                ? "text-primary dark:text-white"
-                                : "text-dark hover:text-primary dark:text-white dark:hover:text-white"
-                            }`}
-                          >
-                            {tMenu(menuItem.titleKey)}
-                          </Link>
+                          menuItem.newTabUrl ? (
+                            <a
+                              href={menuItem.newTabUrl}
+                              target={menuItem.newTab ? "_blank" : "_self"}
+                              rel={menuItem.newTab ? "noopener noreferrer" : ""}
+                              className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 text-dark hover:text-primary dark:text-white dark:hover:text-white`}
+                            >
+                              {tMenu(menuItem.titleKey)}
+                            </a>
+                          ) : (
+                            <Link
+                              href={menuItem.path}
+                              className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
+                                usePathName === menuItem.path
+                                  ? "text-primary dark:text-white"
+                                  : "text-dark hover:text-primary dark:text-white dark:hover:text-white"
+                              }`}
+                            >
+                              {tMenu(menuItem.titleKey)}
+                            </Link>
+                          )
                         ) : (
                           <>
                             <p
@@ -139,13 +150,25 @@ const Header = () => {
                               }`}
                             >
                               {menuItem.submenu.map((submenuItem, index) => (
-                                <Link
-                                  href={submenuItem.path}
-                                  key={index}
-                                  className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
-                                >
-                                  {tMenu(submenuItem.titleKey)}
-                                </Link>
+                                submenuItem.newTabUrl ? (
+                                  <a
+                                    href={submenuItem.newTabUrl}
+                                    key={index}
+                                    target={submenuItem.newTab ? "_blank" : "_self"}
+                                    rel={submenuItem.newTab ? "noopener noreferrer" : ""}
+                                    className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
+                                  >
+                                    {tMenu(submenuItem.titleKey)}
+                                  </a>
+                                ) : (
+                                  <Link
+                                    href={submenuItem.path}
+                                    key={index}
+                                    className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
+                                  >
+                                    {tMenu(submenuItem.titleKey)}
+                                  </Link>
+                                )
                               ))}
                             </div>
                           </>

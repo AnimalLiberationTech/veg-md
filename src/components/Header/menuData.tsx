@@ -26,25 +26,32 @@ const menuData: Menu[] = [
       },
     ],
   },
-  // {
-  //   id: 2,
-  //   titleKey: "resources",
-  //   newTab: false,
-  //   submenu: [
-  //     {
-  //       id: 21,
-  //       titleKey: "recipes",
-  //       path: "/recipes",
-  //       newTab: false,
-  //     },
-  //     {
-  //       id: 22,
-  //       titleKey: "socialMedia",
-  //       path: "/social-media",
-  //       newTab: false,
-  //     },
-  //   ]
-  // },
+  {
+    id: 2,
+    titleKey: "goingVegan",
+    newTab: false,
+    submenu: [
+      {
+        id: 21,
+        titleKey: "products",
+        path: "/products",
+        newTab: true,
+        newTabUrl: "https://postul.vegan.md",
+      },
+      // {
+      //   id: 22,
+      //   titleKey: "recipes",
+      //   path: "/recipes",
+      //   newTab: false,
+      // },
+      // {
+      //   id: 23,
+      //   titleKey: "socialMedia",
+      //   path: "/social-media",
+      //   newTab: false,
+      // },
+    ]
+  },
   {
     id: 3,
     titleKey: "community",
