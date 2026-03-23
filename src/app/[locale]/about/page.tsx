@@ -22,6 +22,24 @@ const AboutPage = async ({ params }: Props) => {
   const t = await getTranslations({ locale, namespace: "aboutPage" });
   const homeT = await getTranslations({ locale, namespace: "homePage" });
 
+  const calendarParams = {
+    height: 600,
+    wkst: 2,
+    ctz: "Europe/Chisinau",
+    showPrint: 0,
+    mode: "AGENDA",
+    showCalendars: 0,
+    showTz: 0,
+    title: "Moldova Vegană",
+    src: "moldovavegana@gmail.com",
+    color: "#039be5",
+  };
+
+  const calendarUrl = new URL("https://calendar.google.com/calendar/embed");
+  Object.entries(calendarParams).forEach(([key, value]) => {
+    calendarUrl.searchParams.append(key, value.toString());
+  });
+
   return (
     <>
       <Breadcrumb
@@ -38,12 +56,10 @@ const AboutPage = async ({ params }: Props) => {
             </div>
             <div className="w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none">
               <iframe
-                src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FChisinau&showPrint=0&title=Moldova%20Vegan%C4%83&src=bW9sZG92YXZlZ2FuYUBnbWFpbC5jb20&color=%23039be5"
+                src={calendarUrl.toString()}
                 style={{ border: 0 }}
                 width="100%"
                 height="100%"
-                frameBorder="0"
-                scrolling="no"
               ></iframe>
             </div>
           </div>
