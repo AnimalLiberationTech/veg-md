@@ -37,7 +37,9 @@
     "recipes": "Rețete",
     "resources": "Resurse",
     "socialMedia": "Pagini sociale",
-    "whyVegan": "De ce vegan"
+    "whyVegan": "De ce vegan",
+    "goingVegan": "Ghid vegan",
+    "products": "Produse vegane"
   },
   "notFound": {
     "backHomeButton": "Inapoi acasa",
