@@ -34,7 +34,6 @@ const menuData: Menu[] = [
       {
         id: 21,
         titleKey: "products",
-        path: "/products",
         newTab: true,
         newTabUrl: "https://postul.vegan.md",
       },
