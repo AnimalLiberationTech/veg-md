@@ -1,6 +1,13 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+
+const subscribe = () => () => {};
+
+function useIsHydrated() {
+  return useSyncExternalStore(subscribe, () => true, () => false);
+}
 
 type ResourceModalProps = {
   isOpen: boolean;
@@ -10,10 +17,12 @@ type ResourceModalProps = {
 };
 
 export default function ResourceModal({ isOpen, onCloseAction, title, description }: ResourceModalProps) {
-  if (!isOpen || typeof document === "undefined") return null;
+  const isHydrated = useIsHydrated();
+
+  if (!isOpen || !isHydrated) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60">
       <div className="relative w-full max-w-2xl mx-4 max-h-[80vh] bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
         <button
           onClick={onCloseAction}
