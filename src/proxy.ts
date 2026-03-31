@@ -1,7 +1,7 @@
 import type {NextRequest} from 'next/server';
 import i18nProxy from './i18n/proxy';
 
-export async function proxy(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return i18nProxy(request);
 }
 
