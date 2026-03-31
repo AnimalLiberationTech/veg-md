@@ -27,21 +27,14 @@ const Header = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
-  };
-
   useEffect(() => {
     const onScroll = () => {
-      handleStickyNavbar();
+      setSticky(window.scrollY >= 80);
 
       // On mobile, collapse the menu as soon as user starts scrolling.
       if (navbarOpen && window.innerWidth < 1024) {
-        closeMobileMenu();
+        setNavbarOpen(false);
+        setOpenIndex(-1);
       }
     };
 
