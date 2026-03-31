@@ -12,13 +12,21 @@ const Header = () => {
   const tMenu = useTranslations("menu");
   const currentLocale = useLocale();
 
+  // submenu handler
+  const [openIndex, setOpenIndex] = useState(-1);
+
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+
+  const closeMobileMenu = () => {
+    setNavbarOpen(false);
+    setOpenIndex(-1);
+  };
+
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -26,16 +34,24 @@ const Header = () => {
       setSticky(false);
     }
   };
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyNavbar);
-    return () => {
-      window.removeEventListener("scroll", handleStickyNavbar);
-    };
-  }, []);
 
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
+  useEffect(() => {
+    const onScroll = () => {
+      handleStickyNavbar();
+
+      // On mobile, collapse the menu as soon as user starts scrolling.
+      if (navbarOpen && window.innerWidth < 1024) {
+        closeMobileMenu();
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [navbarOpen]);
+
+  const handleSubmenu = (index: number) => {
     if (openIndex === index) {
       setOpenIndex(-1);
     } else {
@@ -110,6 +126,7 @@ const Header = () => {
                               href={menuItem.newTabUrl}
                               target={menuItem.newTab ? "_blank" : "_self"}
                               rel={menuItem.newTab ? "noopener noreferrer" : ""}
+                              onClick={closeMobileMenu}
                               className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 text-dark hover:text-primary dark:text-white dark:hover:text-white`}
                             >
                               {tMenu(menuItem.titleKey)}
@@ -117,6 +134,7 @@ const Header = () => {
                           ) : (
                             <Link
                               href={menuItem.path}
+                              onClick={closeMobileMenu}
                               className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
                                 usePathName === menuItem.path
                                   ? "text-primary dark:text-white"
@@ -156,6 +174,7 @@ const Header = () => {
                                     key={index}
                                     target={submenuItem.newTab ? "_blank" : "_self"}
                                     rel={submenuItem.newTab ? "noopener noreferrer" : ""}
+                                    onClick={closeMobileMenu}
                                     className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
                                   >
                                     {tMenu(submenuItem.titleKey)}
@@ -164,6 +183,7 @@ const Header = () => {
                                   <Link
                                     href={submenuItem.path}
                                     key={index}
+                                    onClick={closeMobileMenu}
                                     className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
                                   >
                                     {tMenu(submenuItem.titleKey)}
