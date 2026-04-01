@@ -1,6 +1,6 @@
 {
   "name": "veg-md",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,7 +15,7 @@
     "@tailwindcss/postcss": "^4.2.1",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.1.6",
-    "next": "^16.1.6",
+    "next": "^16.1.7",
     "next-intl": "^4.8.3",
     "next-themes": "^0.4.6",
     "postcss": "^8.5.8",
