@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import {NextIntlClientProvider} from 'next-intl';
-import {ThemeProvider} from "next-themes";
+import {ThemeProvider} from "@/components/theme-provider";
 
 export function ClientLayout({
   children,
@@ -16,7 +16,7 @@ export function ClientLayout({
   messages: Record<string, any>;
 }) {
   return (
-    <ThemeProvider attribute="class" enableSystem storageKey="vegan-theme">
+    <ThemeProvider>
       <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Bucharest">
         <Header />
         {children}

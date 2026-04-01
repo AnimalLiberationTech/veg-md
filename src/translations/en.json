@@ -6,9 +6,30 @@
     "title": "About us",
     "description": "Learn more about us and join our events"
   },
+  "activitiesPage": {
+    "calendarClose": "Hide our activities calendar",
+    "calendarOpen": "See our activities calendar",
+    "description": "Join our outreach, picnics, tastings, discussions, trainings, and more.",
+    "foodTastingsDescription": "From food tastings to discussions and trainings, there’s always something happening.",
+    "foodTastingsImageAlt": "People gathered for a community discussion",
+    "foodTastingsTitle": "Food tastings, discussions, trainings, and more",
+    "picnicsDescription": "Relaxed community picnics where we connect, share food, and spend time together.",
+    "picnicsImageAlt": "Community picnic in Chisinau",
+    "picnicsTitle": "Picnics",
+    "readMore": "Read more",
+    "streetOutreachDescription": "Take the 3 Minute Movie Challenge street outreach — think you can handle the truth? Dive in and take the viral 3 minute movie challenge for an eye-opening journey.",
+    "streetOutreachImageAlt": "3 Minute Movie Challenge street outreach in Chisinau",
+    "streetOutreachTitle": "3 Minutes Movie Challenge street outreach",
+    "telegramLink": "Find more in our Telegram group",
+    "title": "Community activities"
+  },
   "homePage": {
     "title": "Home",
     "description": "Embrace a vegan lifestyle"
+  },
+  "partnersAndFriendsPage": {
+    "description": "Organizations and people supporting our community.",
+    "title": "Friends and Partners"
   },
   "contactCard": {
     "writeUs": "Get in Touch",
@@ -32,7 +53,10 @@
     "animals": "Animals",
     "blog": "Blog",
     "community": "Community",
+    "activities": "Activities",
     "health": "Health",
+    "partnersAndFriends": "Partners and Friends",
+    "weInTelegram": "We in Telegram",
     "planet": "Planet",
     "recipes": "Recipes",
     "resources": "Resources",

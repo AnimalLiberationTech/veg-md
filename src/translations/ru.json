@@ -6,9 +6,30 @@
     "title": "О нас",
     "description": "Узнай больше о нас и участвуй в наших мероприятиях"
   },
+  "activitiesPage": {
+    "calendarClose": "Скрыть календарь активностей",
+    "calendarOpen": "Посмотреть календарь активностей",
+    "description": "Присоединяйся к нашим акциям, пикникам, дегустациям, обсуждениям, тренингам и многому другому.",
+    "foodTastingsDescription": "От дегустаций до обсуждений и тренингов — у нас всегда что-то происходит.",
+    "foodTastingsImageAlt": "Люди на общественной встрече",
+    "foodTastingsTitle": "Дегустации, обсуждения, тренинги и многое другое",
+    "picnicsDescription": "Неформальные пикники сообщества, где мы знакомимся, делимся едой и проводим время вместе.",
+    "picnicsImageAlt": "Общественный пикник в Кишинёве",
+    "picnicsTitle": "Пикники",
+    "readMore": "Читать дальше",
+    "streetOutreachDescription": "Уличная акция 3 Minute Movie Challenge — думаешь, выдержишь правду? Погрузись в неё и посмотри вирусный 3-минутный челлендж, который заставляет задуматься.",
+    "streetOutreachImageAlt": "Уличная акция 3 Minute Movie Challenge в Кишинёве",
+    "streetOutreachTitle": "Уличная акция 3 Minutes Movie Challenge",
+    "telegramLink": "Больше можно найти в нашей Telegram-группе",
+    "title": "Активности сообщества"
+  },
   "homePage": {
     "title": "Домой",
     "description": "Открой для себя веганский образ жизни"
+  },
+  "partnersAndFriendsPage": {
+    "description": "Организации и люди, поддерживающие наше сообщество.",
+    "title": "Друзья и партнёры"
   },
   "contactCard": {
     "writeUs": "Напиши нам",
@@ -32,7 +53,10 @@
     "animals": "Животные",
     "blog": "Блог",
     "community": "Сообщество",
+    "activities": "Активности",
     "health": "Здоровье",
+    "partnersAndFriends": "Партнёры и друзья",
+    "weInTelegram": "Мы в Telegram",
     "planet": "Планета",
     "recipes": "Рецепты",
     "resources": "Ресурсы",

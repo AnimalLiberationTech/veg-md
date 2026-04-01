@@ -19,5 +19,6 @@ export const locales = [
 export const supportedLocales = locales.map(locale => locale.code);
 
 export const veganMoldovaTgGroupUrl = "https://t.me/veganmoldova/882";
+export const wtfChisinauInsta = "https://www.instagram.com/activism.wtf.chisinau"
 export const uvmEmail = "moldovavegana@gmail.com";
 export const uvmSite = "https://uvem.org";

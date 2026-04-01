@@ -6,9 +6,30 @@
     "title": "Despre noi",
     "description": "Află mai multe despre noi și participă la evenimentele noastre"
   },
+  "activitiesPage": {
+    "calendarClose": "Ascunde calendarul activităților",
+    "calendarOpen": "Vezi calendarul activităților",
+    "description": "Alătură-te acțiunilor noastre, picnicurilor, degustărilor, discuțiilor, instruirilor și mult mai mult.",
+    "foodTastingsDescription": "De la degustări de mâncare la discuții și instruiri, mereu se întâmplă ceva.",
+    "foodTastingsImageAlt": "Oameni adunați la o discuție comunitară",
+    "foodTastingsTitle": "Degustări de mâncare, discuții, instruiri și multe altele",
+    "picnicsDescription": "Picnicuri relaxate, unde ne conectăm, împărțim mâncare și petrecem timp împreună.",
+    "picnicsImageAlt": "Picnic comunitar în Chișinău",
+    "picnicsTitle": "Picnicuri",
+    "readMore": "Citește mai mult",
+    "streetOutreachDescription": "Acțiunea de stradă 3 Minute Movie Challenge — crezi că poți face față adevărului? Intră în poveste și urmărește provocarea virală de 3 minute pentru o experiență care te pune pe gânduri.",
+    "streetOutreachImageAlt": "Acțiune de stradă 3 Minute Movie Challenge în Chișinău",
+    "streetOutreachTitle": "Acțiune de stradă 3 Minutes Movie Challenge",
+    "telegramLink": "Găsește mai multe în grupul nostru de Telegram",
+    "title": "Activități comunitare"
+  },
   "homePage": {
     "title": "Acasă",
     "description": "Descoperă un stil de viață vegan"
+  },
+  "partnersAndFriendsPage": {
+    "description": "Organizații și persoane care susțin comunitatea noastră.",
+    "title": "Prieteni și parteneri"
   },
   "contactCard": {
     "writeUs": "Scrie-ne",
@@ -32,7 +53,10 @@
     "animals": "Animale",
     "blog": "Blog",
     "community": "Comunitate",
+    "activities": "Activități",
     "health": "Sănătate",
+    "partnersAndFriends": "Parteneri și prieteni",
+    "weInTelegram": "Noi în Telegram",
     "planet": "Planetă",
     "recipes": "Rețete",
     "resources": "Resurse",
