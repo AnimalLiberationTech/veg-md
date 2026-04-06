@@ -5,6 +5,13 @@ import { useTranslations } from "next-intl";
 import menuData from "../Header/menuData";
 import {uvmEmail, veganMoldovaTgGroupUrl, wtfChisinauInsta} from "@/constants";
 
+const footerMenuData = menuData
+  .map((item) => ({
+    ...item,
+    submenu: item.submenu?.filter((subitem) => Boolean(subitem.path)),
+  }))
+  .filter((item) => Boolean(item.path) || (item.submenu?.length ?? 0) > 0);
+
 const Footer = () => {
   const tMenu = useTranslations("menu");
   const t = useTranslations("footer");
@@ -77,7 +84,7 @@ const Footer = () => {
               </div>
             </div>
 
-            {menuData.map((item) => (
+            {footerMenuData.map((item) => (
               <div key={item.id} className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
                 <div className="mb-12 lg:mb-16">
                   <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
