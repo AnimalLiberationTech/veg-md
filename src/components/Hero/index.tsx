@@ -2,12 +2,65 @@
 
 import {Link} from "@/i18n/navigation";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import PhotoCredit from "@/components/Common/PhotoCredit";
+
+const carouselSlides = [
+  {
+    src: "/images/carousel/pexels-lukasfst-19571075.jpg",
+    creditLabel: "Photo by Lukas Faust",
+    creditHref: "https://www.pexels.com/@lukasfst",
+  },
+  {
+    src: "/images/carousel/brigitta-baranyi-IXj2NzgqMwI-unsplash.jpg",
+    creditLabel: "Photo by Brigitta Baranyi",
+    creditHref: "https://unsplash.com/@bribrnyi",
+  },
+  {
+    src: "/images/carousel/pexels-anntarazevich-8479698.jpg",
+    creditLabel: "Photo by Anna Tarazevich",
+    creditHref: "https://www.pexels.com/@anntarazevich",
+  },
+  {
+    src: "/images/carousel/woman-standing-and-holding-food-in-bowl-25539501.jpg",
+    creditLabel: "Photo by Don Marcus Café",
+    creditHref: "https://www.pexels.com/@don-marcus-cafe-1346066855",
+  },
+  {
+    src: "/images/carousel/pexels-she-eats-663643-13788771.jpg",
+    creditLabel: "Photo by She Eats",
+    creditHref: "https://www.pexels.com/@she-eats-663643/",
+  },
+  {
+    src: "/images/carousel/pexels-shvetsa-12673985.jpg",
+    creditLabel: "Photo by Anna Shvets",
+    creditHref: "https://www.pexels.com/@shvetsa/",
+  },
+];
 
 const Hero = () => {
   const t = useTranslations("hero");
   const tResources = useTranslations("resources");
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % carouselSlides.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev - 1 + carouselSlides.length) % carouselSlides.length);
+  };
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % carouselSlides.length);
+  };
+
+  const currentSlide = carouselSlides[activeSlide];
 
   return (
     <>
@@ -68,8 +121,8 @@ const Hero = () => {
 
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                   <Image
-                    src="/images/hero/welcome.jpg"
-                    alt="Fresh vegetables and fruits"
+                    src={currentSlide.src}
+                    alt={currentSlide.creditLabel}
                     width={320}
                     height={427}
                     className="h-auto w-full object-cover"
@@ -77,13 +130,44 @@ const Hero = () => {
                   />
 
                   <PhotoCredit
-                    creditLabel="Photo by Don Marcus Café"
-                    creditHref="https://www.pexels.com/@don-marcus-cafe-1346066855/"
-                    className="absolute bottom-2 right-2 rounded bg-black/60 px-2 py-1 text-[11px] italic text-white/90 hover:underline"
+                    creditLabel={currentSlide.creditLabel}
+                    creditHref={currentSlide.creditHref}
+                    className="absolute bottom-2 right-2 z-20 rounded bg-black/60 px-2 py-1 text-[11px] italic text-white/90 hover:underline"
                   />
 
+                  <button
+                    type="button"
+                    onClick={prevSlide}
+                    aria-label="Previous slide"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white transition hover:bg-black/65"
+                  >
+                    <span aria-hidden="true">&#8249;</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextSlide}
+                    aria-label="Next slide"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/45 p-2 text-white transition hover:bg-black/65"
+                  >
+                    <span aria-hidden="true">&#8250;</span>
+                  </button>
+
+                  <div className="absolute bottom-2 left-2 flex gap-1.5">
+                    {carouselSlides.map((slide, index) => (
+                      <button
+                        key={slide.src}
+                        type="button"
+                        onClick={() => setActiveSlide(index)}
+                        aria-label={`Go to slide ${index + 1}`}
+                        className={`h-2 w-2 rounded-full transition ${
+                          activeSlide === index ? "bg-white" : "bg-white/45"
+                        }`}
+                      />
+                    ))}
+                  </div>
+
                   {/* Watercolor overlay effect */}
-                  <div className="absolute inset-0 bg-linear-to-t from-dark/20 via-transparent to-transparent"></div>
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-dark/20 via-transparent to-transparent"></div>
                 </div>
               </div>
             </div>
