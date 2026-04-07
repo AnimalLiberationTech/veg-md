@@ -42,15 +42,11 @@
     "description": "Embrace plant-based living. Every conscious choice builds a healthier planet and a more compassionate future."
   },
   "hero": {
-    "animalCompassion": "Animal Compassion",
     "description": "Discover the beauty of plant-based living. Every choice you make contributes to a healthier planet, stronger community, and compassionate future. Join thousands making the conscious switch to veganism.",
-    "environment": "Environment",
-    "healthWellness": "Health & Wellness",
     "highlight": "Vegan",
     "joinIn": "Join the Movement",
     "mainTitle": "Embrace a",
-    "mainTitleEnd": "Lifestyle",
-    "whyVeganCard": "Why Vegan?"
+    "mainTitleEnd": "Lifestyle"
   },
   "menu": {
     "animals": "Animals",

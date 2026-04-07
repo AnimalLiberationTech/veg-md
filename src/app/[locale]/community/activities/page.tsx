@@ -6,6 +6,7 @@ import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import {JSX} from "react";
+import PhotoCredit from "@/components/Common/PhotoCredit";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -155,14 +156,10 @@ const ActivitiesPage = async ({params}: Props) => {
                         className="object-cover object-center"
                       />
                       {activity.creditLabel && activity.creditHref ? (
-                        <a
-                          href={activity.creditHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="absolute bottom-2 left-2 rounded bg-black/60 px-2 py-1 text-[11px] italic text-white/90 hover:underline"
-                        >
-                          {activity.creditLabel}
-                        </a>
+                        <PhotoCredit
+                          creditLabel={activity.creditLabel}
+                          creditHref={activity.creditHref}
+                        />
                       ) : null}
                     </div>
                     <div className="space-y-4 p-6 md:p-8">

@@ -3,6 +3,7 @@
 import {Link} from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import PhotoCredit from "@/components/Common/PhotoCredit";
 
 const Hero = () => {
   const t = useTranslations("hero");
@@ -27,8 +28,8 @@ const Hero = () => {
         <div className="container relative z-10">
           <div className="-mx-4 flex flex-wrap items-center">
             {/* Text Content */}
-            <div className="w-full px-4 pt-10 md:w-1/2 md:pt-0">
-              <div className="max-w-125 md:-mt-6 xl:-mt-7.5 2xl:-mt-9">
+            <div className="w-full px-4 pt-10 md:w-2/3 md:pt-0">
+              <div className="md:-mt-6 xl:-mt-7.5 2xl:-mt-9">
                 <h1 className="mb-6 text-4xl font-bold leading-tight text-dark dark:text-white sm:text-5xl md:text-5xl lg:text-6xl">
                   {t("mainTitle")} <span className="text-dark relative">{t("highlight")}
                     <span className="absolute -bottom-2 left-0 w-full h-1 bg-yellow-300/40 dark:bg-yellow-300/20"></span>
@@ -60,42 +61,29 @@ const Hero = () => {
             </div>
 
             {/* Image Section */}
-            <div className="hidden w-full px-4 md:block md:w-1/2">
+            <div className="hidden w-full px-4 md:block md:w-1/3">
               <div className="relative">
                 {/* Decorative watercolor frame */}
                 <div className="absolute -inset-4 rounded-2xl bg-linear-to-br from-secondary-green/30 via-yellow-300/20 to-secondary-green/10 blur-xl opacity-60 dark:opacity-40"></div>
 
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                   <Image
-                    src="/images/hero/salad.jpg"
+                    src="/images/hero/welcome.jpg"
                     alt="Fresh vegetables and fruits"
-                    width={600}
-                    height={500}
+                    width={320}
+                    height={427}
                     className="h-auto w-full object-cover"
                     priority
                   />
 
+                  <PhotoCredit
+                    creditLabel="Photo by Don Marcus Café"
+                    creditHref="https://www.pexels.com/@don-marcus-cafe-1346066855/"
+                    className="absolute bottom-2 right-2 rounded bg-black/60 px-2 py-1 text-[11px] italic text-white/90 hover:underline"
+                  />
+
                   {/* Watercolor overlay effect */}
                   <div className="absolute inset-0 bg-linear-to-t from-dark/20 via-transparent to-transparent"></div>
-
-                  {/* Floating card with stats */}
-                  <div className="absolute bottom-6 left-6 rounded-xl bg-white/95 dark:bg-gray-dark/95 backdrop-blur-sm p-4 shadow-lg">
-                    <p className="mb-2 text-sm font-semibold text-dark dark:text-white">{t("whyVeganCard")}</p>
-                    <ul className="space-y-1 text-xs text-gray-700 dark:text-gray-300">
-                      <li className="flex items-center gap-2">
-                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-dark"></span>
-                        {t("healthWellness")}
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-dark"></span>
-                        {t("environment")}
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-dark"></span>
-                        {t("animalCompassion")}
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>

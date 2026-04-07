@@ -42,15 +42,11 @@
     "description": "Alege un stil de viață conștient. Trăiește în armonie cu valorile tale, respectând dreptul la viață al tuturor ființelor."
   },
   "hero": {
-    "animalCompassion": "Compasiune pentru Animale",
     "description": "Veganismul este un mod de viață aflat în deplină concordanță cu valorile fundamentale umane, bazându-se pe integritate și pe puterea alegerilor conștiente. Bucură-te de viață respecând în același timp și dreptul la viață al celorlalți!",
-    "environment": "Mediu",
-    "healthWellness": "Sănătate",
     "highlight": "Vegan",
     "joinIn": "Alătură-te mișcării",
     "mainTitle": "Adoptă un stil de viață",
-    "mainTitleEnd": "",
-    "whyVeganCard": "De ce Vegan?"
+    "mainTitleEnd": ""
   },
   "menu": {
     "animals": "Animale",
