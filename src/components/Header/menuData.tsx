@@ -1,4 +1,5 @@
 import { Menu } from "@/types/menu";
+import {veganMoldovaTgGroupUrl} from "@/constants";
 
 const menuData: Menu[] = [
   {
@@ -54,8 +55,33 @@ const menuData: Menu[] = [
   {
     id: 3,
     titleKey: "community",
-    path: "/about",
     newTab: false,
+    submenu: [
+      {
+        id: 31,
+        titleKey: "values",
+        path: "/community/values",
+        newTab: false,
+      },
+      {
+        id: 32,
+        titleKey: "activities",
+        path: "/community/activities",
+        newTab: false,
+      },
+      {
+        id: 33,
+        titleKey: "partnersAndFriends",
+        path: "/community/friends",
+        newTab: false,
+      },
+      {
+        id: 34,
+        titleKey: "weInTelegram",
+        newTab: true,
+        newTabUrl: veganMoldovaTgGroupUrl,
+      },
+    ]
   },
 ];
 export default menuData;

@@ -6,9 +6,39 @@
     "title": "About us",
     "description": "Learn more about us and join our events"
   },
+  "activitiesPage": {
+    "calendarClose": "Hide our activities calendar",
+    "calendarOpen": "See our activities calendar",
+    "description": "Join our outreach, picnics, tastings, discussions, trainings, and other healthy and engaging activities.",
+    "otherActivitiesDescription": "We want our community to be as open as possible. If you have an idea and want to contribute, please reach out to us on Telegram or via email.",
+    "otherActivitiesImageAlt": "People gathered for a community discussion",
+    "otherActivitiesTitle": "Food tastings, discussions, trainings, and more",
+    "picnicsDescription": "Relaxed community picnics where we connect, share vegan food, and spend time together. Everyone is invited, including non-vegans!",
+    "picnicsImageAlt": "Community picnic in Chisinau",
+    "picnicsTitle": "Picnics",
+    "learnMore": "Learn More",
+    "streetOutreachDescription": "Think you can handle the truth? The Challenge invites the public to view a short clip of standard animal agriculture practices in exchange for a vegan treat. If you think it is important to talk with people about vegan ethics and lifestyle, please join us. Action details are in the calendar.",
+    "streetOutreachImageAlt": "3 Minute Movie Challenge street outreach in Chisinau",
+    "streetOutreachTitle": "3 Minutes Movie Challenge street outreach",
+    "telegramLink": "Telegram chat",
+    "digitalProjectsTitle": "Digital and media projects",
+    "digitalProjectsDescription": "We are working on digital projects designed to help people in Moldova discover the truth about animal agriculture and to promote a vegan lifestyle online. Our goal is also to bring vegans closer together, creating a more effective force for transformational change in our society.",
+    "digitalProjectsImageAlt": "Digital and media projects",
+    "title": "Community activities"
+  },
   "homePage": {
     "title": "Home",
     "description": "Embrace a vegan lifestyle"
+  },
+  "partnersAndFriendsPage": {
+    "description": "Organizations and people supporting our community.",
+    "collaborationInvite": "Let's be friends! If you want to add your vegan organization, initiative, group, company, or social media page, and you support our <valuesLink>values</valuesLink>, and you would like to help promoting vegan.md, please send us an <emailLink>email</emailLink> or Telegram <telegramLink>message</telegramLink>.",
+    "title": "Friends and Partners"
+  },
+  "valuesPage": {
+    "title": "Mission and values",
+    "description": "What our community stands for: compassion, transparency, continuous evolution, and inclusion.",
+    "imageAlt": "Colorful ceramic plate with vegan message"
   },
   "contactCard": {
     "writeUs": "Get in Touch",
@@ -18,21 +48,21 @@
     "description": "Embrace plant-based living. Every conscious choice builds a healthier planet and a more compassionate future."
   },
   "hero": {
-    "animalCompassion": "Animal Compassion",
     "description": "Discover the beauty of plant-based living. Every choice you make contributes to a healthier planet, stronger community, and compassionate future. Join thousands making the conscious switch to veganism.",
-    "environment": "Environment",
-    "healthWellness": "Health & Wellness",
     "highlight": "Vegan",
     "joinIn": "Join the Movement",
     "mainTitle": "Embrace a",
-    "mainTitleEnd": "Lifestyle",
-    "whyVeganCard": "Why Vegan?"
+    "mainTitleEnd": "Lifestyle"
   },
   "menu": {
     "animals": "Animals",
     "blog": "Blog",
     "community": "Community",
+    "activities": "Activities",
+    "values": "Values",
     "health": "Health",
+    "partnersAndFriends": "Partners and Friends",
+    "weInTelegram": "We in Telegram",
     "planet": "Planet",
     "recipes": "Recipes",
     "resources": "Resources",
@@ -63,38 +93,7 @@
   },
   "veganForAnimalsPage": {
     "title": "Animal Rights",
-    "animalSuffering": "It is known that animals feel pain and suffering and exhibit fear. We cannot fully understand their thought processes, but there is ample evidence that animals have their own societies and ways of life. Who has the right to declare that their rights should be any less than those that humans aspire to?",
-    "batteryCagesImg": "Chickens in battery cages",
-    "birdsDebeaking": "In the United States, almost all birds are raised on factory farms. In such stressful, crowded conditions, chickens peck each other severely. To stop this, workers cut off 2/3 of their beaks with hot knives, causing pain that lasts for weeks.",
-    "birdsImg": "Birds have their own societies",
-    "bisonSlaughterImg": "Bison killed to protect cattle",
-    "broilerGrowth": "Experts say broiler chickens grow so fast that their hearts and lungs can't support the rest of their bodies, resulting in many heart attacks and deaths.",
-    "brokenNeckImg": "A dairy cow with a broken neck left to die",
-    "chickDebeakedImg": "Chick with its beak cut",
-    "chickenFactoryImg": "Inside a poultry factory",
-    "chickensShackledImg": "Shackled birds in a slaughterhouse",
-    "cowAndCalfImg": "Cows and calves feel a strong bond",
-    "description": "Anyone who eats meat participates in animal slaughter through financial support. Animals feel pain, suffering, and fear.",
-    "dontSupportCruelty": "Don't support this cruelty!",
-    "economicEfficiency": "Many believe animals raised for food must be treated well because sick or dead ones wouldn't benefit agrobusiness. Dr. Bernard Rollin explains: 'Economically it's more efficient to put more birds in each cage, accepting lower productivity per bird for higher productivity per cage... Chickens are cheap, cages are expensive.'",
-    "factoryFarms": "Competition for cheap production of meat, eggs, and dairy has generated treatment of animals as objects or commodities in the agricultural business. The global trend is to replace family farms with factory farms: warehouses where animals are kept in overcrowded pens or narrow stalls.",
-    "financialSupport": "A person who eats meat might say they aren't killing anyone. But in reality, this is just an excuse to avoid recognizing the truth. When buying meat at the market or store, a person is actually paying their money for someone else to kill for them. Thus, they participate in animal slaughter through financial support.",
-    "futureGenerations": "We are on this planet for a limited time, and how we interact with it will affect future generations. It is in our interest to minimize the suffering and malpractice suffered by animals and humans, and to move toward a more humane world at peace with itself.",
-    "hangingTurkeyImg": "Turkey hanging in a factory",
-    "humaneWorld": "Assuming this is a goal most people desire, we need to improve our treatment of both humans and animals. People generally want to live healthy lives, and the vegetarian path leads in that direction while minimizing the suffering of other animal species.",
-    "hypocrisy": "The entire path of meat consumers is based on hypocrisy. People use some animals as mascots and treat them specially. Other animals are seen as pests or food, so they aren't provided the care and protection that 'mascots' receive.",
-    "industrialCruelty": "Industrial Cruelty: Turning Farms into Factories. The Federal Animal Welfare Act excludes farm animals, and most state laws make exemptions for agricultural practices. These include branding, castration, dehorning, and debeaking, performed without anesthesia.",
-    "intelligenceArgument": "Many animals are less intelligent than humans, but there are considerable variations in intelligence among humans as well. If it's claimed that the low intelligence of many animals gives us the right to treat them as we wish, without real care, then one could also argue that less intelligent people should be treated similarly.",
-    "pigInMudImg": "Pigs enjoy life when given the chance",
-    "pigletsInCagesImg": "Piglets in cages",
-    "pigsInCages": "The movie 'Babe' represents how Americans would like to think about pigs. But 'Babe' piglets don't see the sun during their short lives, nor hay or mud to roll in. Sows live in small cages, so tight they can't even turn around. They spend their lives behind metal bars, with waste falling through into huge pits below.",
-    "poultrySlaughter": "Farm Sanctuary filmed fully conscious chickens having their throats cut and then being stuffed into canisters to bleed. Each year, many chickens, turkeys, ducks, and geese are scalded alive in tanks until they die or drown.",
-    "sheepSlaughterImg": "Sheep slaughter",
-    "skinningPigsImg": "Skinning pigs in a slaughterhouse",
-    "slaughterhouseHorrors": "According to USDA inspectors, some slaughterhouses skin cattle alive, drown screaming pigs in hot water, and abuse conscious animals in other ways to make them move faster. Federal laws on humane slaughter are increasingly ignored as factory farms grow.",
-    "transformingAnimals": "Transforming Animals into Food",
-    "transportation": "During transport, all farm animals lose at least 3% of their weight due to stress. They are forced to stand in their own waste and are exposed to extreme weather in open trucks.",
-    "wildlifeProtection": "USDA APHIS' Wildlife Service and livestock producers kill wildlife to protect domestic animals. Government hunters kill around 100,000 wild dogs, pigs, bison, and mountain lions each year."
+    "description": "Anyone who eats meat participates in animal slaughter through financial support. Animals feel pain, suffering, and fear."
   },
   "veganForEnvironmentPage": {
     "title": "Saving the Planet – The Ecological Reason",

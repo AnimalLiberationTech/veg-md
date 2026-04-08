@@ -6,9 +6,39 @@
     "title": "Despre noi",
     "description": "Află mai multe despre noi și participă la evenimentele noastre"
   },
+  "activitiesPage": {
+    "calendarClose": "Ascunde calendarul activităților",
+    "calendarOpen": "Vezi calendarul activităților",
+    "description": "Alătură-te acțiunilor noastre, picnicurilor, degustărilor, discuțiilor, sesiunilor de training și altor activități sănătoase și captivante.",
+    "otherActivitiesDescription": "Ne dorim ca comunitatea noastră să fie cât mai deschisă. Dacă ai o idee și vrei să contribui, te rugăm să ne scrii pe Telegram sau prin e-mail.",
+    "otherActivitiesImageAlt": "Oameni adunați la o discuție comunitară",
+    "otherActivitiesTitle": "Discuții, instruiri, cercuri de lectură și multe altele",
+    "picnicsDescription": "Picnicuri relaxate, unde ne conectăm, împărțim mâncare vegană și petrecem timp împreună. Toată lumea este invitată, inclusiv persoanele care nu sunt vegane!",
+    "picnicsImageAlt": "Picnic comunitar în Chișinău",
+    "picnicsTitle": "Picnicuri, ateliere de gătit și degustări de mâncare",
+    "learnMore": "Află mai mult",
+    "streetOutreachDescription": "Crezi că poți face față adevărului? Provocarea invită publicul să privească un scurt clip despre practicile 'normale' ale agriculturii animale în schimbul unei gustări vegane. Dacă crezi că este important să discutăm cu oamenii despre etica și stilul de viață vegan, ești așteptat cu mare drag. Toate detaliile sunt în calendar.",
+    "streetOutreachImageAlt": "Acțiune de stradă Provocarea Filmului de 3 Minute în Chișinău",
+    "streetOutreachTitle": "Acțiune de stradă Provocarea Filmului de 3 Minute",
+    "telegramLink": "Telegram chat",
+    "digitalProjectsTitle": "Proiecte digitale și mediatice",
+    "digitalProjectsDescription": "Lucrăm la proiecte digitale menite să ajute oamenii Moldovei să descopere adevărul despre agricultura animală și să promoveze stilul de viață vegan pe internet. De asemenea, ne dorim să unim comunitatea vegană pentru a deveni o forță de transformare mai eficientă în societatea noastră.",
+    "digitalProjectsImageAlt": "Proiecte digitale și mediatice",
+    "title": "Activități comunitare"
+  },
   "homePage": {
     "title": "Acasă",
     "description": "Descoperă un stil de viață vegan"
+  },
+  "partnersAndFriendsPage": {
+    "description": "Organizații și persoane care susțin comunitatea noastră.",
+    "collaborationInvite": "Hai să fim prieteni! Dacă vrei să adăugăm organizația, inițiativa, grupul, compania sau pagina ta socială vegană, și susții <valuesLink>valorile noastre</valuesLink>, și vrei să ne implicăm împreună în promovarea vegan.md, te rugăm să ne trimiți un <emailLink>e-mail</emailLink> sau un mesaj pe <telegramLink>Telegram</telegramLink>.",
+    "title": "Prieteni și parteneri"
+  },
+  "valuesPage": {
+    "title": "Misiunea și valorile",
+    "description": "Pe ce se bazează comunitatea noastră: compasiune, transparență, evoluție continuă și incluziune.",
+    "imageAlt": "Colorful ceramic plate with vegan message"
   },
   "contactCard": {
     "writeUs": "Scrie-ne",
@@ -18,21 +48,21 @@
     "description": "Alege un stil de viață conștient. Trăiește în armonie cu valorile tale, respectând dreptul la viață al tuturor ființelor."
   },
   "hero": {
-    "animalCompassion": "Compasiune pentru Animale",
     "description": "Veganismul este un mod de viață aflat în deplină concordanță cu valorile fundamentale umane, bazându-se pe integritate și pe puterea alegerilor conștiente. Bucură-te de viață respecând în același timp și dreptul la viață al celorlalți!",
-    "environment": "Mediu",
-    "healthWellness": "Sănătate",
     "highlight": "Vegan",
     "joinIn": "Alătură-te mișcării",
     "mainTitle": "Adoptă un stil de viață",
-    "mainTitleEnd": "",
-    "whyVeganCard": "De ce Vegan?"
+    "mainTitleEnd": ""
   },
   "menu": {
     "animals": "Animale",
     "blog": "Blog",
     "community": "Comunitate",
+    "activities": "Activități",
+    "values": "Valori",
     "health": "Sănătate",
+    "partnersAndFriends": "Parteneri și prieteni",
+    "weInTelegram": "Noi în Telegram",
     "planet": "Planetă",
     "recipes": "Rețete",
     "resources": "Resurse",
@@ -63,38 +93,7 @@
   },
   "veganForAnimalsPage": {
     "title": "Drepturile animalelor",
-    "animalSuffering": "Se cunoaște faptul că animalele simt durerea și suferința și manifestă spaimă. Nu putem înțelege pe deplin procesele lor de gândire, dar există dovezi ample că animalele au propriile lor societăți și mod de viață. Cine are dreptul să declare în fața timpului că drepturile lor ar trebui să fie câtuși de puțin mai reduse decât cele presupuse normale și la care aspiră oamenii?",
-    "batteryCagesImg": "Găini în cuști baterie",
-    "birdsDebeaking": "În Statele Unite, aproape toate păsările sunt crescute la ferme de tip fabrică. În astfel de condiții stresante, unde sunt înghesuite, găinile se lovesc puternic cu ciocurile una pe alta. În scopul de a opri aceasta, lucrătorii taie 2/3 din ciocurile lor cu cuțite fierbinți, cauzându-le dureri mari ce durează săptămâni.",
-    "birdsImg": "Păsările au propriile lor societăți",
-    "bisonSlaughterImg": "Bizoni omorâți pentru a proteja vitele",
-    "broilerGrowth": "După părerea experților, găinile crescute pentru carne (broiler), se dezvoltă atât de repede, încât inima și plămânii lor nu sunt în stare să mențină restul corpului, rezultând în numeroase atacuri de cord și cazuri letale multiple.",
-    "brokenNeckImg": "O vacă mulgătoare cu gâtul rupt lăsată să moară",
-    "chickDebeakedImg": "Pui cu ciocul tăiat",
-    "chickenFactoryImg": "Într-o fabrică de păsări",
-    "chickensShackledImg": "Păsări legate în abator",
-    "cowAndCalfImg": "Vacile și vițeii simt o legătură puternică",
-    "description": "Omul care se hrănește cu carne participă la omorârea animalelor prin susținere financiară. Animalele simt durerea și suferința și manifestă spaimă.",
-    "dontSupportCruelty": "Nu susține aceste cruzimi!",
-    "economicEfficiency": "Mulți cred că animalele crescute pentru mâncare trebuie să fie tratate bine, deoarece cele bolnave sau moarte nu ar mai folosi agrobusinessului. Dr. Bernard Rollin explică: 'Din punct de vedere economic este mult mai eficient să pui un număr mai mare de păsări în fiecare cușcă, acceptând o productivitate mai scăzută la pasăre, în schimbul unei productivități mai mari la cușcă... Găinile sînt ieftine, dar cuștile sînt scumpe'.",
-    "factoryFarms": "Concurența instaurată pentru producerea ieftină a produselor de carne, ouă și de lactate a generat în businessul agricultural un tratament față de animale, ca cu niște obiecte sau comodități. Tendința mondială este de a înlocui fermele de familie în ferme-fabrici: niște depozite, în care animalele sînt ținute în țarcuri suprapline sau în grajduri înguste.",
-    "financialSupport": "Omul care se hrănește cu carne, ar putea spune că el nu omoară pe nimeni. Dar de fapt aceasta este doar o scuză și o încercare de a evita recunoașterea adevărului. Când cumpără carnea la piață sau la magazin, omul în realitate plătește cu banii săi pentru ca altcineva să omoare pentru el. Deci participă la omorârea animalelor prin susținere financiară.",
-    "futureGenerations": "Noi ne aflăm pe această planetă pentru un timp limitat și modul în care interacționăm cu planeta va afecta viitoarele generații, poate chiar până la sfârșitul lumii sub forma pe care o cunoaștem noi. Se poate afirma că este în interesul nostru să minimizăm suferințele și relele practici pe care le suferă animalele și oamenii, și să ne îndreptăm către o lume mai umană, împăcată cu sine.",
-    "hangingTurkeyImg": "Curcan atârnat în fabrică",
-    "humaneWorld": "Presupunând că acesta este un țel de atins pe care marea majoritate a oamenilor îl doresc, atunci e nevoie să îmbunătățim tratamentul oamenilor și animalelor. Oamenii în general doresc să trăiască o viață sănătoasă și calea vegetariană este una care duce în această direcție, minimizând în același timp suferințele altor specii de animale.",
-    "hypocrisy": "Întreaga cale a consumatorilor de carne este bazată pe ipocrizie. Oamenii utilizează unele animale ca mascote și le tratează într-un mod special. Alte animale sunt privite ca dăunătoare sau ca hrană așa că lor nu li se asigură grija și protecția de care beneficiază 'mascotele'.",
-    "industrialCruelty": "Cruzimea industrială: transformarea fermelor în fabrice. Actul federal pentru bunăstarea animalelor exclude animalele de fermă și majoritatea legilor ale statelor fac scutiri la capitolul practicilor din agricultură. Acestea includ înfierarea, castrarea, tăierea coarnelor, ciocurilor și cozilor, efectuate fără anestezie.",
-    "intelligenceArgument": "Multe animale sunt mai puțin inteligente decât oamenii dar există variații considerabile de inteligență și la oameni. Dacă se afirma că inteligența redusă a multor animale ne dă dreptul să le tratăm cum dorim, fără grijă reală, atunci s-ar putea de asemenea pune problema ca oamenii mai puțin inteligenți să fie tratați în mod similar.",
-    "pigInMudImg": "Porcii se bucură de viață când li se oferă ocazia",
-    "pigletsInCagesImg": "Purceluși în cuști",
-    "pigsInCages": "Filmul 'Babe' reprezintă felul în care americanii ar vrea să gândească despre porci. Dar purcelușii 'Babe' nu văd soare în timpul vieților lor scurte, și nici fân sau noroi în care să se tăvălească. Scroafele trăiesc în cuști mici, într-atât de strâmte, încât nici nu pot să se întoarcă. Isi petrec viața după gratii metalice, iar excrementele lor sunt expulzate sub ele și se scurg în gropi uriașe.",
-    "poultrySlaughter": "Farm Sanctuary a filmat cum găinilor pe deplin conștiente le era tăiat gâtul, iar apoi ele erau îmbâcsite în canistre să sângereze. În fiecare an, un mare număr de găini, curcani, rațe și gâște sînt opărite în rezervor, de vii, până ce mor sau se îneacă.",
-    "sheepSlaughterImg": "Tăierea oilor",
-    "skinningPigsImg": "Jupuirea porcilor în abator",
-    "slaughterhouseHorrors": "Potrivit lui Steve Cockerham, inspector USDA la casele de abator din Nebraska și Lester Friedlander, fost veterinar USDA, unele din casele de abator jupoaie vitele cornute de vii, înfundă porcii ce țipă în apa fierbinte și abuzează de animalele încă conștiente și în alte moduri pentru ai face să se miște repede. Ei au constatat că legile federale cu privire la omorârea omenoasă a animalelor sînt din ce în ce mai mult ignorate odată cu creșterea fabricilor.",
-    "transformingAnimals": "Transformarea animalelor în mâncare",
-    "transportation": "În timpul transportării, toate animalele crescute în ferme pierd cel puțin 3% din greutate drept urmare a stresului. Ele sunt obligate să stea în excrementele proprii și sunt expuse condițiilor climaterice extreme fiind în camioane deschise.",
-    "wildlifeProtection": "USDA APHIS' Wildlife Service și producătorii de șeptel ucid animalele sălbatice cu scopul de a proteja pe cele domestice. Vinători guvernamentali ucid astăzi în jur la 100.000 de ciini și porci sălbatici, bisoni și lei de munte în fiecare an."
+    "description": "Omul care se hrănește cu carne participă la omorârea animalelor prin susținere financiară. Animalele simt durerea și suferința și manifestă spaimă."
   },
   "veganForEnvironmentPage": {
     "title": "Salvarea Planetei – Motivul Ecologic",
