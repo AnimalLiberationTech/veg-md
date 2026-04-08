@@ -32,6 +32,7 @@
   },
   "partnersAndFriendsPage": {
     "description": "Организации и люди, поддерживающие наше сообщество.",
+    "collaborationInvite": "Давай дружить! Если ты хочешь добавить сюда свою веганскую организацию, инициативу, группу, компанию или страницу в соцсетях, и ты поддерживаешь наши <valuesLink>ценности</valuesLink>, и тебе интересно вместе с нами развивать vegan.md, пожалуйста, отправь нам <emailLink>email</emailLink> или сообщение в <telegramLink>Telegram</telegramLink>.",
     "title": "Друзья и партнёры"
   },
   "valuesPage": {

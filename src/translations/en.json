@@ -32,6 +32,7 @@
   },
   "partnersAndFriendsPage": {
     "description": "Organizations and people supporting our community.",
+    "collaborationInvite": "Let's be friends! If you want to add your vegan organization, initiative, group, company, or social media page, and you support our <valuesLink>values</valuesLink>, and you would like to help promoting vegan.md, please send us an <emailLink>email</emailLink> or Telegram <telegramLink>message</telegramLink>.",
     "title": "Friends and Partners"
   },
   "valuesPage": {
