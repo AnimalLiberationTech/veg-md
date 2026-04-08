@@ -19,6 +19,7 @@ const FriendCard = ({ friend }: { friend: Friend }) => {
           src={friend.image}
           alt={`${friend.name} logo`}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-contain p-2"
         />
       </div>
