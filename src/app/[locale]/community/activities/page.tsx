@@ -138,6 +138,7 @@ const ActivitiesPage = async ({params}: Props) => {
             calendarTitle="Moldova Vegană calendar"
             openLabel={t("calendarOpen")}
             closeLabel={t("calendarClose")}
+            mobileAlwaysVisible
           >
             <div className="space-y-8">
               {activities.map((activity) => (

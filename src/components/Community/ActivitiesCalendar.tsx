@@ -8,6 +8,7 @@ type Props = {
   calendarTitle: string;
   openLabel: string;
   closeLabel: string;
+  mobileAlwaysVisible?: boolean;
 };
 
 const ActivitiesCalendar = ({
@@ -16,12 +17,15 @@ const ActivitiesCalendar = ({
   calendarTitle,
   openLabel,
   closeLabel,
+  mobileAlwaysVisible = false,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
+  const isVisibleOnAnyViewport = isOpen || mobileAlwaysVisible;
+  const toggleWrapperClass = mobileAlwaysVisible ? "hidden justify-end md:flex" : "flex justify-end";
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-end">
+      <div className={toggleWrapperClass}>
         <button
           type="button"
           onClick={() => setIsOpen((value) => !value)}
@@ -42,8 +46,12 @@ const ActivitiesCalendar = ({
       >
         <div className="min-w-0">{children}</div>
 
-        {isOpen ? (
-          <aside className="w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black">
+        {isVisibleOnAnyViewport ? (
+          <aside
+            className={`w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
+              mobileAlwaysVisible && !isOpen ? "lg:hidden" : ""
+            }`}
+          >
             <iframe
               src={calendarUrl}
               style={{border: 0}}
