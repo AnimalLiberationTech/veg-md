@@ -8,24 +8,6 @@ import ThemeToggler from "./ThemeToggler";
 import {locales} from "@/constants";
 import menuData from "./menuData";
 
-const ExternalLinkIcon = () => (
-  <svg
-    aria-hidden="true"
-    className="h-3.5 w-3.5"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M7 13L13 7M9 7H13V11"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
 const Header = () => {
   const tMenu = useTranslations("menu");
   const currentLocale = useLocale();
@@ -138,10 +120,9 @@ const Header = () => {
                               target={menuItem.newTab ? "_blank" : "_self"}
                               rel={menuItem.newTab ? "noopener noreferrer" : ""}
                               onClick={closeMobileMenu}
-                              className={`flex items-center gap-1 py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 text-dark hover:text-primary dark:text-white dark:hover:text-white`}
+                              className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 text-dark hover:text-primary dark:text-white dark:hover:text-white`}
                             >
                               {tMenu(menuItem.titleKey)}
-                              <ExternalLinkIcon />
                             </a>
                           ) : (
                             <Link
@@ -175,7 +156,7 @@ const Header = () => {
                               </span>
                             </p>
                             <div
-                              className={`submenu dark:bg-dark relative top-full left-0 rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-2 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              className={`submenu dark:bg-dark relative top-full left-0 rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
@@ -187,10 +168,9 @@ const Header = () => {
                                     target={submenuItem.newTab ? "_blank" : "_self"}
                                     rel={submenuItem.newTab ? "noopener noreferrer" : ""}
                                     onClick={closeMobileMenu}
-                                    className="text-dark hover:text-primary flex items-center gap-1 rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
+                                    className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white dark:hover:text-white"
                                   >
                                     {tMenu(submenuItem.titleKey)}
-                                    <ExternalLinkIcon />
                                   </a>
                                 ) : (
                                   <Link
