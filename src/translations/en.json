@@ -34,6 +34,11 @@
     "description": "Organizations and people supporting our community.",
     "title": "Friends and Partners"
   },
+  "valuesPage": {
+    "title": "Mission and values",
+    "description": "What our community stands for: compassion, transparency, continuous evolution, and inclusion.",
+    "imageAlt": "Colorful ceramic plate with vegan message"
+  },
   "contactCard": {
     "writeUs": "Get in Touch",
     "telegram": "Join Our Telegram Community"
@@ -53,6 +58,7 @@
     "blog": "Blog",
     "community": "Community",
     "activities": "Activities",
+    "values": "Values",
     "health": "Health",
     "partnersAndFriends": "Partners and Friends",
     "weInTelegram": "We in Telegram",

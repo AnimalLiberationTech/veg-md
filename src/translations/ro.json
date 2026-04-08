@@ -34,6 +34,11 @@
     "description": "Organizații și persoane care susțin comunitatea noastră.",
     "title": "Prieteni și parteneri"
   },
+  "valuesPage": {
+    "title": "Misiunea și valorile",
+    "description": "Pe ce se bazează comunitatea noastră: compasiune, transparență, evoluție continuă și incluziune.",
+    "imageAlt": "Colorful ceramic plate with vegan message"
+  },
   "contactCard": {
     "writeUs": "Scrie-ne",
     "telegram": "Alătură-te comunității noastre în Telegram"
@@ -53,6 +58,7 @@
     "blog": "Blog",
     "community": "Comunitate",
     "activities": "Activități",
+    "values": "Valori",
     "health": "Sănătate",
     "partnersAndFriends": "Parteneri și prieteni",
     "weInTelegram": "Noi în Telegram",

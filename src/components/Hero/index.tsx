@@ -123,8 +123,8 @@ const Hero = () => {
                   <Image
                     src={currentSlide.src}
                     alt={currentSlide.creditLabel}
-                    width={320}
-                    height={427}
+                    width={720}
+                    height={960}
                     className="h-auto w-full object-cover"
                     priority
                   />

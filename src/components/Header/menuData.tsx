@@ -59,18 +59,24 @@ const menuData: Menu[] = [
     submenu: [
       {
         id: 31,
+        titleKey: "values",
+        path: "/community/values",
+        newTab: false,
+      },
+      {
+        id: 32,
         titleKey: "activities",
         path: "/community/activities",
         newTab: false,
       },
       {
-        id: 32,
+        id: 33,
         titleKey: "partnersAndFriends",
         path: "/community/friends",
         newTab: false,
       },
       {
-        id: 33,
+        id: 34,
         titleKey: "weInTelegram",
         newTab: true,
         newTabUrl: veganMoldovaTgGroupUrl,
