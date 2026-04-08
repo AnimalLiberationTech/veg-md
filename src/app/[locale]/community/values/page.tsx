@@ -39,15 +39,12 @@ async function readValuesMarkdown(locale: string): Promise<string> {
 const ValuesPage = async ({params}: Props) => {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "valuesPage"});
-  const homeT = await getTranslations({locale, namespace: "homePage"});
   const markdown = await readValuesMarkdown(locale);
 
   return (
     <>
       <Breadcrumb
-        homePageName={homeT("title")}
         pageName={t("title")}
-        description=""
         homeHref={`/${locale}`}
       />
       <section className="pb-16 md:pb-20 lg:pb-28">

@@ -60,7 +60,6 @@ const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
 const ActivitiesPage = async ({params}: Props) => {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "activitiesPage"});
-  const homeT = await getTranslations({locale, namespace: "homePage"});
 
   const calendarParams = {
     height: 600,
@@ -128,7 +127,6 @@ const ActivitiesPage = async ({params}: Props) => {
   return (
     <>
       <Breadcrumb
-        homePageName={homeT("title")}
         pageName={t("title")}
         description={t("description")}
         homeHref={`/${locale}`}

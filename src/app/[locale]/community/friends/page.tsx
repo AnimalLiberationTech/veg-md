@@ -21,7 +21,6 @@ export function generateStaticParams() {
 const FriendsPage = async ({ params }: Props) => {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "partnersAndFriendsPage" });
-  const homeT = await getTranslations({ locale, namespace: "homePage" });
   const globalT = await getTranslations({ locale, namespace: "global" });
 
    const friends = [
@@ -43,7 +42,6 @@ const FriendsPage = async ({ params }: Props) => {
   return (
     <>
       <Breadcrumb
-        homePageName={homeT("title")}
         pageName={t("title")}
         description={t("description")}
         homeHref={`/${locale}`}
