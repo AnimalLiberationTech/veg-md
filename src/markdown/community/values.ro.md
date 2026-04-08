@@ -2,7 +2,7 @@ Misiunea noastră este construită pe **compasiune și nonviolență**, principi
 
 ## Valorile noastre 
 
-* **Transparență:** dorim să faciltăm un dialog deschis și onest pentru a construi încredere în cadrul mișcării.  
+* **Transparență:** dorim să facilităm un dialog deschis și onest pentru a construi încredere în cadrul mișcării.  
 * **Evoluție continuă:** credem în învățare, cercetare și adaptare a strategiilor pentru a rămâne eficienți într-un context social în schimbare.  
 * **Incluziune:** prețuim diversitatea de perspective și experiențe, însă respingem dogmatismul și etichetarea rigidă, optând în schimb pentru un „cort mai mare”.
 
