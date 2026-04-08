@@ -49,7 +49,7 @@ const ActivitiesCalendar = ({
         {isVisibleOnAnyViewport ? (
           <aside
             className={`w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
-              mobileAlwaysVisible && !isOpen ? "lg:hidden" : ""
+              mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
             }`}
           >
             <iframe
