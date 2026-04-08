@@ -131,7 +131,7 @@ const ActivitiesPage = async ({params}: Props) => {
         description={t("description")}
         homeHref={`/${locale}`}
       />
-      <section className="pb-16 md:pb-20 lg:pb-28">
+      <section className="pt-12 pb-16">
         <div className="container">
           <ActivitiesCalendar
             calendarUrl={calendarUrl.toString()}

@@ -12,7 +12,7 @@ const Friends = ({ friends }: FriendsProps) => {
   const t = useTranslations("partnersAndFriendsPage");
 
   return (
-    <section id="partners-and-friends">
+    <section className="pt-12 pb-16">
       <div className="container">
         <p className="mb-10 max-w-4xl text-base leading-relaxed text-body-color md:text-lg">
           {t.rich("collaborationInvite", {

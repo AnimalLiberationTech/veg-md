@@ -47,7 +47,7 @@ const ValuesPage = async ({params}: Props) => {
         pageName={t("title")}
         homeHref={`/${locale}`}
       />
-      <section className="pb-16 md:pb-20 lg:pb-28">
+      <section className="pt-12 pb-16">
         <div className="container">
           <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
             <div className="min-w-0">
