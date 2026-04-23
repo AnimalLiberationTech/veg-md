@@ -3,6 +3,7 @@ import {supportedLocales} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
+import {getRoPlanetArticle} from "@/utils/wp-content";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -17,6 +18,31 @@ export function generateStaticParams() { return supportedLocales.map(locale => (
 
 const VeganForEnvironmentPage = async ({ params }: Props) => {
   const { locale } = await params;
+
+    const wpArticle = await getRoPlanetArticle();
+
+    if (wpArticle) {
+      return (
+        <section className="pt-37.5 pb-30">
+          <div className="container">
+            <div className="-mx-4 flex flex-wrap justify-center">
+              <div className="w-full px-4 lg:w-8/12">
+                <h2 className="mb-8 text-3xl leading-tight font-bold text-black sm:text-4xl sm:leading-tight dark:text-white">
+                  {wpArticle.title}
+                </h2>
+
+                <article
+                  className="text-body-color [&_a]:text-primary [&_a]:underline [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-black dark:[&_h2]:text-white [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-black dark:[&_h3]:text-white [&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_p]:mb-6 [&_ul]:mb-6 [&_ul]:list-disc [&_ul]:pl-6"
+                  dangerouslySetInnerHTML={{ __html: wpArticle.contentHtml }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+
   const t = await getTranslations({ locale, namespace: "veganForEnvironmentPage" });
 
   return (
