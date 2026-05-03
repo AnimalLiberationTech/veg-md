@@ -11,7 +11,9 @@ type Props = {
 export default function RootLayout({children}: Props) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`bg-cream dark:bg-black ${inter.className}`}>{children}</body>
+      <body className={`bg-cream dark:bg-black ${inter.className}`}>
+        {children}
+      </body>
     </html>
   );
 }
