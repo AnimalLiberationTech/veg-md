@@ -3,7 +3,7 @@ import {createWhyVeganPage} from "@/components/WhyVeganPageTemplate";
 const { Page, generateMetadata: generateMetadataImpl, generateStaticParams } = createWhyVeganPage({
   pageKey: 'veganForAnimals',
   metadataNamespace: 'veganForAnimalsPage',
-  bugReportPath: '/why-vegan/animals'
+  articleUri: '/why-vegan/animals'
 });
 
 export const generateMetadata: typeof generateMetadataImpl = generateMetadataImpl;

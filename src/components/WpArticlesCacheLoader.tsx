@@ -1,6 +1,8 @@
 "use client";
 import {useEffect} from "react";
+import {uvmSite} from "@/constants";
 import {wpArticleIdsMap} from "@/pages";
+import {buildWpApiPostsUrl} from "@/utils/wp-api-url";
 
 const CACHE_KEY = "wpArticlesCache";
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
@@ -67,7 +69,7 @@ export default function WpArticlesCacheLoader(): null {
     }
 
     const includeParam = ids.join(",");
-    const url = `https://uvem.org/wp-json/wp/v2/posts?include=${includeParam}&_fields=id,title,content,rendered`;
+    const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content", "rendered"]);
     console.log("[FetchWpArticles] Fetching from:", url);
 
     fetch(url)

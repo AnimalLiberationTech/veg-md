@@ -1,6 +1,9 @@
 "use client";
 
 import {decode} from "html-entities";
+import {uvmSite} from "@/constants";
+import {wpArticleIdsMap} from "@/pages";
+import {buildWpApiPostsUrl} from "@/utils/wp-api-url";
 import ClientBugMailer from "@/components/Common/ClientBugMailer";
 import useWpArticles from "@/hooks/use-wp-articles";
 import React from "react";
@@ -8,17 +11,24 @@ import React from "react";
 interface WpArticleContentProps {
   pageKey: string;
   locale: string;
-  bugReportPath?: string;
+  articleUri?: string;
 }
 
 export default function WpArticleContent({
   pageKey,
   locale,
-  bugReportPath,
+  articleUri,
 }: WpArticleContentProps) {
   const { loading, getArticle } = useWpArticles();
 
   const article = getArticle(pageKey, locale);
+
+  const getWpApiArticleUrl = () => {
+    const idOrStr = wpArticleIdsMap[pageKey]?.[locale];
+    if (!idOrStr) return undefined;
+    const id = typeof idOrStr === "number" ? idOrStr : Number(idOrStr);
+    return buildWpApiPostsUrl(uvmSite, id);
+  };
 
    if (loading && !article) {
      return (
@@ -68,8 +78,12 @@ export default function WpArticleContent({
          <div className="container">
            <div className="-mx-4 flex flex-wrap justify-center">
              <div className="w-full px-4 lg:w-8/12">
-               {bugReportPath ? (
-                 <ClientBugMailer locale={locale} pagePath={bugReportPath} />
+               {articleUri ? (
+                 <ClientBugMailer
+                   locale={locale}
+                   pagePath={articleUri}
+                   wpApiArticleUrl={getWpApiArticleUrl()}
+                 />
                ) : null}
 
                <div className="text-center py-8">

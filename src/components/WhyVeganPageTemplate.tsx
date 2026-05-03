@@ -10,10 +10,10 @@ type WhyVeganPageProps = {
 interface WhyVeganPageConfig {
   pageKey: string;
   metadataNamespace: string;
-  bugReportPath: string;
+  articleUri: string;
 }
 
-export function createWhyVeganPage({ pageKey, metadataNamespace, bugReportPath }: WhyVeganPageConfig) {
+export function createWhyVeganPage({ pageKey, metadataNamespace, articleUri }: WhyVeganPageConfig) {
   const Page = async ({ params }: WhyVeganPageProps) => {
     const { locale } = await params;
 
@@ -21,7 +21,7 @@ export function createWhyVeganPage({ pageKey, metadataNamespace, bugReportPath }
       <WpArticleContent
         pageKey={pageKey}
         locale={locale}
-        bugReportPath={bugReportPath}
+        articleUri={articleUri}
       />
     );
   };

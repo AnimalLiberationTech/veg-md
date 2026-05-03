@@ -6,6 +6,7 @@ import {bugReportEndpoint} from "@/constants";
 type ClientBugMailerProps = {
   locale: string;
   pagePath: string;
+  wpApiArticleUrl?: string;
 };
 
 type ReportStatus = "idle" | "sent" | "failed";
@@ -14,7 +15,8 @@ const LOG_PREFIX = "[ClientBugMailer]";
 const RECENT_REPORT_WINDOW_MS = 30_000;
 const recentReportAttempts = new Map<string, number>();
 
-const getReportKey = (locale: string, pagePath: string) => `${locale}:${pagePath}`;
+const getReportKey = (locale: string, pagePath: string, wpApiArticleUrl?: string) =>
+  `${locale}:${pagePath}:${wpApiArticleUrl || ''}`;
 
 const shouldSkipRecentReport = (reportKey: string, nowMs: number) => {
   const lastAttemptMs = recentReportAttempts.get(reportKey);
@@ -45,12 +47,12 @@ const parseResponseBody = async (response: Response) => {
   }
 };
 
-const ClientBugMailer = ({ locale, pagePath }: ClientBugMailerProps) => {
+const ClientBugMailer = ({ locale, pagePath, wpApiArticleUrl }: ClientBugMailerProps) => {
   const [status, setStatus] = useState<ReportStatus>("idle");
 
   useEffect(() => {
     const nowMs = Date.now();
-    const reportKey = getReportKey(locale, pagePath);
+    const reportKey = getReportKey(locale, pagePath, wpApiArticleUrl);
 
     // Prevent duplicate sends caused by client remounts (e.g. React Strict Mode in dev)
     if (shouldSkipRecentReport(reportKey, nowMs)) {
@@ -63,7 +65,7 @@ const ClientBugMailer = ({ locale, pagePath }: ClientBugMailerProps) => {
       type: "connection error",
       path: pagePath,
       locale,
-      url: window.location.href,
+      url: wpApiArticleUrl,
       details: "UVEM.org WordPress article could not be fetched",
       ts: new Date().toISOString(),
       user_agent: navigator.userAgent,
@@ -138,7 +140,7 @@ const ClientBugMailer = ({ locale, pagePath }: ClientBugMailerProps) => {
     };
 
     void sendReport();
-  }, [locale, pagePath]);
+  }, [locale, pagePath, wpApiArticleUrl]);
 
   return (
     <>
