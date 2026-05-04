@@ -3,8 +3,8 @@ import {useEffect} from "react";
 import {uvmSite} from "@/constants";
 import {wpArticleIdsMap} from "@/pages";
 import {buildWpApiPostsUrl} from "@/utils/wp-api-url";
+import {CACHE_KEY} from "@/utils/wp-article-cache";
 
-const CACHE_KEY = "wpArticlesCache";
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function collectIds(map: Record<string, Record<string, number | string>>): number[] {
@@ -68,7 +68,6 @@ export default function WpArticlesCacheLoader(): null {
       return;
     }
 
-    const includeParam = ids.join(",");
     const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content", "rendered"]);
     console.log("[FetchWpArticles] Fetching from:", url);
 
