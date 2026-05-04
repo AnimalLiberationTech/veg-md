@@ -10,13 +10,16 @@ export const buildWpApiPostsUrl = (
   includeIds: number | number[],
   fields?: string[]
 ): string => {
-  const ids = Array.isArray(includeIds) ? includeIds.join(',') : includeIds;
-  let url = `${baseUrl}/wp-json/wp/v2/posts?include=${ids}`;
+  const ids = Array.isArray(includeIds) ? includeIds.join(',') : String(includeIds);
+  const normalizedBaseUrl = baseUrl.replace(/\/+$/, '');
+  const url = new URL(`${normalizedBaseUrl}/wp-json/wp/v2/posts`);
+
+  url.searchParams.set('include', ids);
 
   if (fields && fields.length > 0) {
-    url += `&_fields=${fields.join(',')}`;
+    url.searchParams.set('_fields', fields.join(','));
   }
 
-  return url;
+  return url.toString();
 };
 
