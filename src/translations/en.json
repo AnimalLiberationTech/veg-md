@@ -1,6 +1,7 @@
 {
   "global": {
-    "uvm": "Vegetarian Union of Moldova"
+    "uvm": "Vegetarian Union of Moldova",
+    "noContentAvailable": "No content available"
   },
   "aboutPage": {
     "title": "About us",
@@ -97,36 +98,10 @@
   },
   "veganForEnvironmentPage": {
     "title": "Saving the Planet – The Ecological Reason",
-    "description": "Currently, eating less meat is the most important decision a consumer can make for preserving the environment.",
-    "destruction": "Raising animals for meat production destroys habitats, causes the extinction of various species, and generates massive water and air pollution.",
-    "documentaryHome": "All of this can be seen in the documentary 'Home'.",
-    "efficiencyComparison": "But we all have to eat, right? You will have a clear picture of the inefficiency of meat production if you compare it with fruits, vegetables, and grains. Compared to pasta, red meat consumes 20 times more land, causes 7 times more common pollution, and 5 times more toxic water pollution.",
-    "environmentalImpacts": "Environmental Impacts",
-    "faoReport": "The UN FAO reports 21 problems that have been created and substantially worsened due to animal excrement and the increasing need for animal feed:",
-    "fossilFuelEnergy": "The report also found that fossil fuel energy is a major addition to the industrial production of eggs, milk, and meat, and that factory farms prove inefficient at converting this energy into food for humans.",
-    "greenhouseGas": "Recent UN research has shown that the livestock industry alone creates more greenhouse gas than transport.",
-    "hormonesAndPoisons": "Due to hormones, pesticides, and poor-quality feed, animal waste is no longer a fertilizer, but poison. Livestock herds raised for human food produce 130 times more waste than the entire population of the planet!",
-    "manureLagoonImgDesc": "Waste from an animal farm being dumped into a lagoon (photo courtesy of US EPA)",
-    "proteinConversionDesc": "Producing one kilogram of meat requires 7 kilograms of grain and 7,000 kilograms of water for grain production. It is neither economic nor logical to feed animals most of the food, especially when half the global population suffers from hunger.",
-    "proteinConversionTitle": "It takes 16 kilograms of plant protein to produce 1 kilogram of animal protein!",
-    "soilErosionImgDesc": "Soil erosion along Rio Puerco, New Mexico as a result of overgrazing by animal farms (photo courtesy of US EPA)",
-    "airAndWaterPollution": "Intensive factory expansion has made the air so unbearable that in some rural communities, residents are forced to wear masks outdoors. Poultry and pig waste have contributed to the increase in pathogenic organisms in waters, poisoning people and killing millions of fish.",
-    "toxicBombs": "Just think of this comparison: a single farm in Utah produces more waste than the entire city of Los Angeles!!! Animal waste, stored in so-called basins or lagoons (toxic bombs), penetrates the soil, poisons groundwater, and alters the fragile aquatic ecosystem.",
-    "unauthorizedGrazing": "Unauthorized grazing has caused great environmental damage and land degradation in western North America.",
-    "wasteProduction": "According to the EPA's 'Animal Waste Management: What's the problem?': 'By definition, AFOs produce large amounts of waste in small spaces. For example, a dairy cow produces about 60 kg of wet manure per day. It is estimated that one cow produces the same amount of waste in one day as humans do in 20-40 days.'",
-    "waterPollution": "Meat production causes 20% of consumer-polluted water. This industry also uses vast areas of land. Currently, about 20% of the Earth's biomass is made up of animals raised for meat, which is more than the biomass of all humans."
+    "description": "Currently, eating less meat is the most important decision a consumer can make for preserving the environment."
   },
   "veganForHealthPage": {
     "title": "Health – The Nutritional Reason",
-    "anatomicalStructure": "Human anatomical structure – teeth, jaws, and digestive system – are all better adapted for plant-based food. In the 19th century, Carl Linnaeus demonstrated that the native food of humans consists of fruits and vegetables.",
-    "chemicalProcessing": "Meat is processed with nitrates and carcinogenic substances to prevent decomposition. Large amounts of chemicals are also added to animal feed to increase meat mass.",
-    "description": "A balanced vegetarian diet is healthier and appropriate for both children and adults.",
-    "digestiveSystem": "One reason meat harms the body is that the human digestive system is not adapted to process meat alone. Carnivores have short intestines to quickly eliminate toxins. Humans have long intestines, so meat forms toxins that disrupt the body.",
-    "diseasePrevention": "Frequent meat consumption increases the likelihood of cancer and heart disease. Switching to a vegetarian diet prevents the occurrence and development of heart disease in 90-97% of cases.",
-    "healthOpinion": "There is a deep-rooted opinion in society that you cannot survive without meat. This opinion is erroneous and not based on solid scientific arguments. On the contrary, recent research has shown that a balanced vegetarian diet is healthier and appropriate for both children and adults.",
-    "mortalityCause": "After alcoholism and smoking, meat and dairy consumption is the most common cause of mortality in European countries, the USA, and Australia.",
-    "plantProteins": "Most vegetables, fruits, seeds, nuts, and grains are sources of complete proteins that are more easily assimilated and contain no toxic mixtures. Vegetarians get proteins directly from the source, not 'second hand'.",
-    "proteinNorm": "For twenty years, the daily protein norm was thought to be 150g, but today it's officially recognized at around 45g. Excessive protein consumption is not only unjustified but harmful to the human body.",
-    "workCapacity": "Dr. Irving Fisher of Yale University conducted experiments showing that vegetarians have twice the endurance of meat-eaters. Vegetarians are able to work two to three times longer than those who feed on meat."
+    "description": "A balanced vegetarian diet is healthier and appropriate for both children and adults."
   }
 }

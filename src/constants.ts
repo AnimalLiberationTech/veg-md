@@ -22,3 +22,4 @@ export const veganMoldovaTgGroupUrl = "https://t.me/veganmoldova/882";
 export const wtfChisinauInsta = "https://www.instagram.com/activism.wtf.chisinau";
 export const uvmEmail = "moldovavegana@gmail.com";
 export const uvmSite = "https://uvem.org";
+export const bugReportEndpoint = "https://69ea1bdc00107334e5b6.fra.appwrite.run/send-bug-report";

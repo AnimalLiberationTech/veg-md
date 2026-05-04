@@ -88,12 +88,13 @@ const Header = () => {
                 href="/"
                 className={`header-logo block w-full py-2 pb-2`}
               >
-                <Image
-                  src="/images/logo.png"
-                  alt="Vegan Moldova logo"
-                  width={120}
-                  height={120}
-                />
+               <Image
+                   src="/images/logo.png"
+                   alt="Vegan Moldova logo"
+                   width={120}
+                   height={120}
+                   priority
+                 />
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
