@@ -37,7 +37,6 @@ export default function useWpArticles() {
 
     const handleUpdate = (e?: Event) => {
       if (e instanceof StorageEvent && e.key !== CACHE_KEY) return;
-      console.log("[useWpArticles] Cache update event received, refreshing...");
       refresh().catch(() => {
         // Ignore errors during refresh
       });
