@@ -68,14 +68,14 @@ const allowedAttributes: sanitizeHtml.IOptions["allowedAttributes"] = {
 const allowedStyles: sanitizeHtml.IOptions["allowedStyles"] = {
   "*": {
     "text-align": [/^(?:left|right|center|justify)$/],
-    "color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
-    "background-color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
+    "color": [/^#[0-9a-fA-F]{3,4}$/, /^#[0-9a-fA-F]{6}$/, /^#[0-9a-fA-F]{8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
+    "background-color": [/^#[0-9a-fA-F]{3,4}$/, /^#[0-9a-fA-F]{6}$/, /^#[0-9a-fA-F]{8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
     "font-weight": [/^(?:normal|bold|bolder|lighter|\d{3})$/],
     "font-style": [/^(?:normal|italic|oblique)$/],
     "text-decoration": [/^(?:none|underline|overline|line-through)$/],
-    "width": [/^\d+(?:px|%|em|rem)$/],
-    "height": [/^\d+(?:px|%|em|rem)$/],
-    "max-width": [/^\d+(?:px|%|em|rem)$/],
+    "width": [/^\d+(?:\.\d+)?(?:px|%|em|rem)$/],
+    "height": [/^\d+(?:\.\d+)?(?:px|%|em|rem)$/],
+    "max-width": [/^\d+(?:\.\d+)?(?:px|%|em|rem)$/],
     "float": [/^(?:left|right|none)$/],
   },
 };
