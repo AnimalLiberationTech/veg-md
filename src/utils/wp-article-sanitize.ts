@@ -51,7 +51,17 @@ const allowedAttributes: sanitizeHtml.IOptions["allowedAttributes"] = {
   caption: ["class", "id", "style"],
   colgroup: ["class", "id", "style"],
   col: ["class", "id", "style", "span"],
-  iframe: ["src", "width", "height", "allow", "allowfullscreen", "frameborder"],
+  iframe: [
+    "src",
+    "width",
+    "height",
+    "allow",
+    "allowfullscreen",
+    "frameborder",
+    "title",
+    "aria-label",
+    "aria-labelledby",
+  ],
   a: ["href", "name", "target", "rel"],
 };
 
