@@ -7,6 +7,12 @@ import {CACHE_KEY} from "@/utils/wp-article-cache";
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
+const debugLog = (...args: any[]) => {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(...args);
+  }
+};
+
 function collectIds(map: Record<string, Record<string, number | string>>): number[] {
   const ids = new Set<number>();
   Object.values(map).forEach((entry) => {
@@ -37,11 +43,11 @@ function collectCachedIds(posts: unknown): Set<number> {
 export default function WpArticlesCacheLoader(): null {
   useEffect(() => {
     if (typeof window === "undefined") {
-      console.log("[FetchWpArticles] window is undefined, skipping");
+      debugLog("[FetchWpArticles] window is undefined, skipping");
       return;
     }
 
-    console.log("[FetchWpArticles] Component mounted, checking cache...");
+    debugLog("[FetchWpArticles] Component mounted, checking cache...");
 
 
     try {
@@ -58,18 +64,18 @@ export default function WpArticlesCacheLoader(): null {
         }
       }
     } catch (e) {
-      console.log("[FetchWpArticles] Cache parse failed, will refetch:", e);
+      debugLog("[FetchWpArticles] Cache parse failed, will refetch:", e);
     }
 
     const ids = collectIds(wpArticleIdsMap);
-    console.log("[FetchWpArticles] Collected IDs:", ids);
+    debugLog("[FetchWpArticles] Collected IDs:", ids);
     if (ids.length === 0) {
-      console.log("[FetchWpArticles] No IDs found, skipping fetch");
+      debugLog("[FetchWpArticles] No IDs found, skipping fetch");
       return;
     }
 
     const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content", "rendered"]);
-    console.log("[FetchWpArticles] Fetching from:", url);
+    debugLog("[FetchWpArticles] Fetching from:", url);
 
     fetch(url)
       .then((res) => {
@@ -85,7 +91,7 @@ export default function WpArticlesCacheLoader(): null {
           localStorage.setItem(CACHE_KEY, serialized);
           window.dispatchEvent(new Event("wpArticlesCacheUpdated"));
         } catch (e) {
-          console.log("[FetchWpArticles] Failed to cache articles:", e);
+          debugLog("[FetchWpArticles] Failed to cache articles:", e);
         }
       })
       .catch((err) => {
@@ -95,4 +101,3 @@ export default function WpArticlesCacheLoader(): null {
 
   return null;
 }
-
