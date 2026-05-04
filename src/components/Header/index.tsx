@@ -93,7 +93,7 @@ const Header = () => {
                    alt="Vegan Moldova logo"
                    width={120}
                    height={120}
-                   loading="eager"
+                   priority
                  />
               </Link>
             </div>
