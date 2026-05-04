@@ -68,7 +68,6 @@ export default function WpArticlesCacheLoader(): null {
       return;
     }
 
-    const includeParam = ids.join(",");
     const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content", "rendered"]);
     console.log("[FetchWpArticles] Fetching from:", url);
 
