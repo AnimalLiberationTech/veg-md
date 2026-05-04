@@ -7,7 +7,7 @@ import {buildWpApiPostsUrl} from "@/utils/wp-api-url";
 import ClientBugMailer from "@/components/Common/ClientBugMailer";
 import useWpArticles from "@/hooks/use-wp-articles";
 import React from "react";
-import sanitizeHtml from "sanitize-html";
+import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
 
 interface WpArticleContentProps {
   pageKey: string;
@@ -64,17 +64,7 @@ export default function WpArticleContent({
 
               <article
                 className="text-body-color [&_a]:text-primary [&_a]:underline [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-black dark:[&_h2]:text-white [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-black dark:[&_h3]:text-white [&_img]:my-8 [&_img]:h-auto [&_img]:max-w-full [&_p]:mb-6 [&_ul]:mb-6 [&_ul]:list-disc [&_ul]:pl-6"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content?.rendered || "", {
-                  allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'iframe', 'figure', 'figcaption', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'ul', 'ol', 'li', 'br', 'a', 'strong', 'em', 'del', 'blockquote', 'code', 'pre' ]),
-                  allowedAttributes: {
-                    ...sanitizeHtml.defaults.allowedAttributes,
-                    '*': ['class', 'id', 'style'],
-                    'img': ['src', 'alt', 'width', 'height', 'loading'],
-                    'iframe': ['src', 'width', 'height', 'allow', 'allowfullscreen', 'frameborder'],
-                    'a': ['href', 'name', 'target', 'rel']
-                  },
-                  allowedIframeHostnames: ['www.youtube.com', 'player.vimeo.com']
-                }) }}
+                dangerouslySetInnerHTML={{ __html: sanitizeWpArticleHtml(article.content?.rendered || "") }}
               />
             </div>
           </div>

@@ -74,7 +74,7 @@ export default function WpArticlesCacheLoader(): null {
       return;
     }
 
-    const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content", "rendered"]);
+    const url = buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content"]);
     debugLog("[FetchWpArticles] Fetching from:", url);
 
     fetch(url)
