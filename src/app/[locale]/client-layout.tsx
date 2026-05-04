@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import {NextIntlClientProvider} from 'next-intl';
 import {ThemeProvider} from "@/components/theme-provider";
-import WpArticlesCacheLoader from "../../components/WpArticlesCacheLoader";
+import WpArticlesCacheLoader from "@/components/WpArticlesCacheLoader";
 export function ClientLayout({
   children,
   locale,
