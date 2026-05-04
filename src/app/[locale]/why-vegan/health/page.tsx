@@ -1,6 +1,6 @@
-import {createWhyVeganPage} from "@/components/WhyVeganPageTemplate";
+import {createArticle} from "@/components/ArticleTemplate";
 
-const { Page, generateMetadata: generateMetadataImpl, generateStaticParams } = createWhyVeganPage({
+const { Page, generateMetadata: generateMetadataImpl, generateStaticParams } = createArticle({
   pageKey: 'veganForHealth',
   metadataNamespace: 'veganForHealthPage',
   articleUri: '/why-vegan/health'

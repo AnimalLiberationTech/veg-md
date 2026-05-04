@@ -3,18 +3,18 @@ import {Metadata} from "next";
 import {getPageMetadata} from "@/utils/metadata";
 import WpArticleContent from "@/components/WpArticleContent";
 
-type WhyVeganPageProps = {
+type ArticleProps = {
   params: Promise<{ locale: string }>;
 };
 
-interface WhyVeganPageConfig {
+interface ArticleConfig {
   pageKey: string;
   metadataNamespace: string;
   articleUri: string;
 }
 
-export function createWhyVeganPage({ pageKey, metadataNamespace, articleUri }: WhyVeganPageConfig) {
-  const Page = async ({ params }: WhyVeganPageProps) => {
+export function createArticle({ pageKey, metadataNamespace, articleUri }: ArticleConfig) {
+  const Page = async ({ params }: ArticleProps) => {
     const { locale } = await params;
 
     return (
@@ -26,7 +26,7 @@ export function createWhyVeganPage({ pageKey, metadataNamespace, articleUri }: W
     );
   };
 
-  const generateMetadata = async ({ params }: WhyVeganPageProps): Promise<Metadata> => {
+  const generateMetadata = async ({ params }: ArticleProps): Promise<Metadata> => {
     const { locale } = await params;
     return getPageMetadata(locale, metadataNamespace);
   };
