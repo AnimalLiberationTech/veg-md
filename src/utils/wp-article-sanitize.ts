@@ -39,7 +39,7 @@ const allowedTags = sanitizeHtml.defaults.allowedTags.concat([
 
 const allowedAttributes: sanitizeHtml.IOptions["allowedAttributes"] = {
   ...sanitizeHtml.defaults.allowedAttributes,
-  "*": ["class", "id", "style"],
+  "*": ["class", "id"],
   img: ["src", "alt", "width", "height", "loading"],
   table: ["class", "id", "style"],
   thead: ["class", "id", "style"],
@@ -65,10 +65,37 @@ const allowedAttributes: sanitizeHtml.IOptions["allowedAttributes"] = {
   a: ["href", "name", "target", "rel"],
 };
 
+const allowedStyles: sanitizeHtml.IOptions["allowedStyles"] = {
+  "*": {
+    "text-align": [/^(?:left|right|center|justify)$/],
+    "color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
+    "background-color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/, /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*[\d.]+\s*\)$/],
+    "font-weight": [/^(?:normal|bold|bolder|lighter|\d{3})$/],
+    "font-style": [/^(?:normal|italic|oblique)$/],
+    "text-decoration": [/^(?:none|underline|overline|line-through)$/],
+    "width": [/^\d+(?:px|%|em|rem)$/],
+    "height": [/^\d+(?:px|%|em|rem)$/],
+    "max-width": [/^\d+(?:px|%|em|rem)$/],
+    "float": [/^(?:left|right|none)$/],
+  },
+};
+
 const wpArticleSanitizeOptions: sanitizeHtml.IOptions = {
   allowedTags,
   allowedAttributes,
+  allowedStyles,
   allowedIframeHostnames: ["www.youtube.com", "player.vimeo.com"],
+  transformTags: {
+    a: (tagName, attribs) => {
+      if (attribs.target === "_blank") {
+        const relParts = (attribs.rel || "").split(/\s+/).filter(Boolean);
+        if (!relParts.includes("noopener")) relParts.push("noopener");
+        if (!relParts.includes("noreferrer")) relParts.push("noreferrer");
+        return { tagName, attribs: { ...attribs, rel: relParts.join(" ") } };
+      }
+      return { tagName, attribs };
+    },
+  },
 };
 
 export function sanitizeWpArticleHtml(html: string): string {

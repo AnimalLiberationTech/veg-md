@@ -5,7 +5,7 @@ import {
   buildArticlesMapFromCache,
   resolveArticleFromCache,
   type ArticlesMap,
-  type Post,
+  type WpPost,
 } from "@/utils/wp-article-cache";
 
 export default function useWpArticles() {
@@ -23,7 +23,7 @@ export default function useWpArticles() {
     }
   }, []);
 
-  const getArticle = useCallback((pageKey: string, locale: string): Post | null => {
+  const getArticle = useCallback((pageKey: string, locale: string): WpPost | null => {
     if (!hasMounted) return null;
     return resolveArticleFromCache(pageKey, locale, articles);
   }, [articles, hasMounted]);

@@ -2,8 +2,12 @@ import {wpArticleIdsMap} from "@/pages";
 
 export const CACHE_KEY = "wpArticlesCache";
 
-export type Post = any;
-export type ArticlesMap = Record<string, Record<string, Post | null>>;
+export interface WpPost {
+  id: number;
+  title?: { rendered?: string };
+  content?: { rendered?: string };
+}
+export type ArticlesMap = Record<string, Record<string, WpPost | null>>;
 
 function mapEmpty(): ArticlesMap {
   const result: ArticlesMap = {};
@@ -32,8 +36,8 @@ export function buildArticlesMapFromCache(): ArticlesMap {
     }
 
     const parsed = JSON.parse(raw);
-    const posts: Post[] = Array.isArray(parsed?.posts) ? parsed.posts : [];
-    const postsById = new Map<number, Post>();
+    const posts: WpPost[] = Array.isArray(parsed?.posts) ? parsed.posts : [];
+    const postsById = new Map<number, WpPost>();
 
     posts.forEach((post) => {
       if (post && typeof post.id === "number") {
@@ -59,7 +63,7 @@ export function resolveArticleFromCache(
   pageKey: string,
   locale: string,
   articles: ArticlesMap = buildArticlesMapFromCache(),
-): Post | null {
+): WpPost | null {
   return articles[pageKey]?.[locale] ?? articles[pageKey]?.ro ?? null;
 }
 
