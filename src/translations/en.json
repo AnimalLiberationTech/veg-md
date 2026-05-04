@@ -1,6 +1,7 @@
 {
   "global": {
-    "uvm": "Vegetarian Union of Moldova"
+    "uvm": "Vegetarian Union of Moldova",
+    "noContentAvailable": "No content available"
   },
   "aboutPage": {
     "title": "About us",
@@ -104,4 +105,3 @@
     "description": "A balanced vegetarian diet is healthier and appropriate for both children and adults."
   }
 }
-

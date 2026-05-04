@@ -1,6 +1,7 @@
 {
   "global": {
-    "uvm": "Uniunea Vegetarienilor din Moldova"
+    "uvm": "Uniunea Vegetarienilor din Moldova",
+    "noContentAvailable": "Conținut indisponibil"
   },
   "aboutPage": {
     "title": "Despre noi",
@@ -104,4 +105,3 @@
     "description": "O dietă vegetariană balansată e mai sănătoasă și este adecvată atât pentru copii cât și pentru maturi."
   }
 }
-

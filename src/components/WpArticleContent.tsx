@@ -6,7 +6,7 @@ import {wpArticleIdsMap} from "@/pages";
 import {buildWpApiPostsUrl} from "@/utils/wp-api-url";
 import ClientBugMailer from "@/components/Common/ClientBugMailer";
 import useWpArticles from "@/hooks/use-wp-articles";
-import React from "react";
+import {useTranslations} from "next-intl";
 import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
 
 interface WpArticleContentProps {
@@ -21,6 +21,7 @@ export default function WpArticleContent({
   articleUri,
 }: WpArticleContentProps) {
   const { loading, getArticle } = useWpArticles();
+  const tGlobal = useTranslations("global");
 
   const article = getArticle(pageKey, locale);
 
@@ -88,7 +89,7 @@ export default function WpArticleContent({
                ) : null}
 
                <div className="text-center py-8">
-                 <p className="text-body-color">No content available</p>
+                 <p className="text-body-color">{tGlobal("noContentAvailable")}</p>
                </div>
              </div>
            </div>
