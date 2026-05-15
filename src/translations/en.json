@@ -8,8 +8,9 @@
     "description": "Learn more about us and join our events"
   },
   "activitiesPage": {
-    "calendarClose": "Hide our activities calendar",
-    "calendarOpen": "See our activities calendar",
+    "calendar": "Activities calendar",
+    "calendarClose": "Hide calendar",
+    "calendarOpen": "See calendar",
     "description": "Join our outreach, picnics, tastings, discussions, trainings, and other healthy and engaging activities.",
     "otherActivitiesDescription": "We want our community to be as open as possible. If you have an idea and want to contribute, please reach out to us on Telegram or via email.",
     "otherActivitiesImageAlt": "People gathered for a community discussion",
@@ -61,6 +62,7 @@
     "community": "Community",
     "activities": "Activities",
     "values": "Values",
+    "supportUs": "Support Us",
     "health": "Health",
     "partnersAndFriends": "Partners and Friends",
     "weInTelegram": "We in Telegram",
@@ -103,5 +105,18 @@
   "veganForHealthPage": {
     "title": "Health – The Nutritional Reason",
     "description": "A balanced vegetarian diet is healthier and appropriate for both children and adults."
+  },
+  "supportUsPage": {
+    "title": "Support Us",
+    "description": "Help us continue our grassroots work for animal liberation and veganism.",
+    "callToActionTitle": "Help Us Make a Difference",
+    "callToActionDescription": "We are a grassroots community that is not supported by any institutional donors or philanthropies. We rely almost solely on small donations from our community members, and very seldom receive support from partner organizations such as We The Free. Every bit of it counts.",
+    "callToActionContact": "If you want to support us, send us a message in the ",
+    "callToActionContactLink": "dedicated Telegram chat",
+    "transparencyTitle": "Transparency and Trust",
+    "transparencyDescription": "We are dedicated to achieving the most with the little resources that we have. We want to cultivate trust in the movement, that's why we're committing to publishing all received donations and our expenses. Individual donors can still remain anonymous if they wish so, we'll publish only the fact if they are from inside or outside of our community.",
+    "donationTableHeader": "Donations",
+    "expensesTableHeader": "Expenses",
+    "loading": "Loading data..."
   }
 }

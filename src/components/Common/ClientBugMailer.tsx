@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {bugReportEndpoint} from "@/constants";
+import {bugReportUrl} from "@/constants";
 
 type ClientBugMailerProps = {
   locale: string;
@@ -73,7 +73,7 @@ const ClientBugMailer = ({ locale, pagePath, wpApiArticleUrl }: ClientBugMailerP
 
     const sendReport = async () => {
       try {
-        const response = await fetch(bugReportEndpoint, {
+        const response = await fetch(bugReportUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const ClientBugMailer = ({ locale, pagePath, wpApiArticleUrl }: ClientBugMailerP
         // Retry in no-cors mode to still dispatch a JSON payload.
         if (normalizedError.name === "TypeError") {
           try {
-            await fetch(bugReportEndpoint, {
+            await fetch(bugReportUrl, {
               method: "POST",
               mode: "no-cors",
               headers: {

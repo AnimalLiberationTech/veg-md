@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ActivitiesCalendar from "@/components/Community/ActivitiesCalendar";
-import {supportedLocales, uvmEmail} from "@/constants";
+import {gCalUrl, supportedLocales, uvmEmail} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import {JSX} from "react";
 import PhotoCredit from "@/components/Common/PhotoCredit";
+import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -26,6 +27,147 @@ type ActivityLink = {
   href: string;
   label: string;
 };
+
+type CalendarEvent = {
+  start_iso: string;
+  end_iso: string;
+  description: string;
+  location: string;
+  summary: string;
+};
+
+type CalendarLocaleCode = "RO" | "RU" | "EN";
+
+const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
+const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
+const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+
+function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
+  const localeKey = locale.toLowerCase().split("-")[0];
+
+  if (localeKey === "ru") {
+    return "RU";
+  }
+
+  if (localeKey === "en") {
+    return "EN";
+  }
+
+  return "RO";
+}
+
+function normalizeCalendarText(value: string) {
+  return value.replace(/\\,/g, ",");
+}
+
+function stripCalendarSectionMarkers(value: string) {
+  return value.replace(sectionSeparatorPattern, "");
+}
+
+function localizeCalendarDescription(description: string, locale: string) {
+  const tagMatch = multilingualTagPattern.exec(description);
+
+  if (!tagMatch || tagMatch.index === undefined) {
+    return description;
+  }
+
+  const beforeTag = description.slice(0, tagMatch.index);
+  const contentAfterTag = description.slice(tagMatch.index + tagMatch[0].length);
+  const separators = Array.from(contentAfterTag.matchAll(sectionSeparatorPattern));
+
+  if (separators.length === 0) {
+    return description;
+  }
+
+  const localeFromTag = (tagMatch[0].toUpperCase().match(/RO|RU|EN/g) || []) as CalendarLocaleCode[];
+  const defaultLocale = localeFromTag[0] || "RO";
+  const sections: Partial<Record<CalendarLocaleCode, string>> = {};
+
+  const firstSeparatorIndex = separators[0].index || 0;
+  sections[defaultLocale] = contentAfterTag.slice(0, firstSeparatorIndex);
+
+  separators.forEach((match, index) => {
+    const sectionLocale = match[1].toUpperCase() as CalendarLocaleCode;
+    const sectionStart = (match.index || 0) + match[0].length;
+    const sectionEnd =
+      index + 1 < separators.length
+        ? separators[index + 1].index || contentAfterTag.length
+        : contentAfterTag.length;
+
+    sections[sectionLocale] = contentAfterTag.slice(sectionStart, sectionEnd);
+  });
+
+  const activeLocale = toCalendarLocaleCode(locale);
+  const localizedSection = sections[activeLocale] || sections[defaultLocale] || "";
+
+  return `${beforeTag}${stripCalendarSectionMarkers(localizedSection)}`;
+}
+
+function isCalendarEvent(value: unknown): value is CalendarEvent {
+  return Boolean(
+    value &&
+      typeof value === "object" &&
+      typeof (value as CalendarEvent).start_iso === "string" &&
+      typeof (value as CalendarEvent).end_iso === "string" &&
+      typeof (value as CalendarEvent).description === "string" &&
+      typeof (value as CalendarEvent).location === "string" &&
+      typeof (value as CalendarEvent).summary === "string",
+  );
+}
+
+function parseCalendarEvents(value: unknown): CalendarEvent[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(isCalendarEvent).sort((left, right) => {
+    return new Date(left.start_iso).getTime() - new Date(right.start_iso).getTime();
+  });
+}
+
+function formatCalendarDateRange(locale: string, startIso: string, endIso: string) {
+  const start = new Date(startIso);
+  const end = new Date(endIso);
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return normalizeCalendarText(startIso);
+  }
+
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const timeFormatter = new Intl.DateTimeFormat(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const sameDay = start.toDateString() === end.toDateString();
+
+  if (sameDay) {
+    return `${dateFormatter.format(start)} · ${timeFormatter.format(start)} – ${timeFormatter.format(end)}`;
+  }
+
+  return `${dateFormatter.format(start)} · ${timeFormatter.format(start)} – ${dateFormatter.format(end)} · ${timeFormatter.format(end)}`;
+}
+
+async function loadCalendarEvents() {
+  try {
+    const response = await fetch(calendarFeedUrl, {
+      next: {revalidate: 300},
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    return parseCalendarEvents(await response.json());
+  } catch {
+    return [];
+  }
+}
 
 const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
   website: (
@@ -65,24 +207,7 @@ const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
 const ActivitiesPage = async ({params}: Props) => {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "activitiesPage"});
-
-  const calendarParams = {
-    height: 600,
-    wkst: 2,
-    ctz: "Europe/Chisinau",
-    showPrint: 0,
-    mode: "AGENDA",
-    showCalendars: 0,
-    showTz: 0,
-    title: "Moldova Vegană",
-    src: "moldovavegana@gmail.com",
-    color: "#039be5",
-  };
-
-  const calendarUrl = new URL("https://calendar.google.com/calendar/embed");
-  Object.entries(calendarParams).forEach(([key, value]) => {
-    calendarUrl.searchParams.append(key, value.toString());
-  });
+  const calendarEvents = await loadCalendarEvents();
 
   const activities = [
     {
@@ -140,8 +265,63 @@ const ActivitiesPage = async ({params}: Props) => {
       <section className="pt-12 pb-16">
         <div className="container">
           <ActivitiesCalendar
-            calendarUrl={calendarUrl.toString()}
-            calendarTitle="Moldova Vegană calendar"
+            calendarContent={
+              <div className="space-y-4">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-black dark:text-white">
+                    {t("calendar")}
+                  </h2>
+                </div>
+
+                <div className="space-y-4">
+                  {calendarEvents.length > 0 ? (
+                    calendarEvents.map((event) => (
+                      <article
+                        key={`${event.start_iso}-${event.summary}`}
+                        className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
+                      >
+                        <p className="text-sm font-semibold text-primary">
+                          {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
+                        </p>
+                        <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
+                          {normalizeCalendarText(event.summary)}
+                        </h3>
+                        {event.location ? (
+                          <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
+                            <svg
+                              viewBox="0 0 24 24"
+                              className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              aria-hidden="true"
+                            >
+                              <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
+                              <circle cx="12" cy="10" r="2.5" />
+                            </svg>
+                            <span>{normalizeCalendarText(event.location)}</span>
+                          </p>
+                        ) : null}
+                        {event.description ? (
+                          <div
+                            className="text-body-color mt-3 space-y-3 text-sm leading-relaxed [&_a]:text-primary [&_a]:underline [&_p]:mb-3 [&_br]:block"
+                            dangerouslySetInnerHTML={{
+                              __html: sanitizeWpArticleHtml(
+                                localizeCalendarDescription(normalizeCalendarText(event.description), locale),
+                              ),
+                            }}
+                          />
+                        ) : null}
+                      </article>
+                    ))
+                  ) : (
+                    <div className="rounded-sm border border-dashed border-dark/20 p-4 text-sm text-body-color dark:border-white/10">
+                      No upcoming events were found for the next 30 days.
+                    </div>
+                  )}
+                </div>
+              </div>
+            }
             openLabel={t("calendarOpen")}
             closeLabel={t("calendarClose")}
             mobileAlwaysVisible
