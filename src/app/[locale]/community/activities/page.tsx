@@ -38,9 +38,24 @@ type CalendarEvent = {
 
 type CalendarLocaleCode = "RO" | "RU" | "EN";
 
+class ResettingGlobalRegExp extends RegExp {
+  override [Symbol.matchAll](str: string): RegExpStringIterator<RegExpExecArray> {
+    this.lastIndex = 0;
+    return super[Symbol.matchAll](str);
+  }
+
+  override [Symbol.replace](str: string, replacement: string | ((substring: string, ...args: any[]) => string)): string {
+    this.lastIndex = 0;
+    return super[Symbol.replace](str, replacement);
+  }
+}
+
 const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
 const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
-const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+const sectionSeparatorPattern = new ResettingGlobalRegExp(
+  "-{5}(?:\\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\\s*:",
+  "gi",
+);
 
 function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
   const localeKey = locale.toLowerCase().split("-")[0];
