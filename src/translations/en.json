@@ -113,7 +113,7 @@
     "callToActionContact": "If you want to support us, send us a message in this ",
     "callToActionContactLink": "Telegram chat",
     "transparencyTitle": "Transparency and Trust",
-    "transparencyDescription": "We are dedicated to achieving the most with the little resources that we have. We want to cultivate trust in the movement, that's why we're committing to publishing all received donations and our expenses. Individual donors can still remain anonymous if they wish so, we'll publish only the fact if they are from inside or outside of our community.",
+    "transparencyDescription": "We are dedicated to achieving the most with the limited resources we have. We want to cultivate trust in the movement, which is why we are committed to publishing all donations we receive and our expenses. Individual donors can still remain anonymous if they wish; we will publish only whether they are from within or outside our community.",
     "donationTableHeader": "Donations",
     "expensesTableHeader": "Expenses",
     "loading": "Loading data..."
