@@ -331,7 +331,7 @@ const ActivitiesPage = async ({params}: Props) => {
                     ))
                   ) : (
                     <div className="rounded-sm border border-dashed border-dark/20 p-4 text-sm text-body-color dark:border-white/10">
-                      No upcoming events were found for the next 30 days.
+                      {t("noUpcomingEvents")}
                     </div>
                   )}
                 </div>
