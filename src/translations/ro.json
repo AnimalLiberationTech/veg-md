@@ -19,6 +19,7 @@
     "picnicsImageAlt": "Picnic comunitar în Chișinău",
     "picnicsTitle": "Picnicuri, ateliere de gătit și degustări de mâncare",
     "learnMore": "Află mai mult",
+    "noUpcomingEvents": "Niciun eveniment planificat",
     "streetOutreachDescription": "Crezi că poți face față adevărului? Provocarea invită publicul să privească un scurt clip despre practicile 'normale' ale agriculturii animale în schimbul unei gustări vegane. Dacă crezi că este important să discutăm cu oamenii despre etica și stilul de viață vegan, ești așteptat cu mare drag. Toate detaliile sunt în calendar.",
     "streetOutreachImageAlt": "Acțiune de stradă Provocarea Filmului de 3 Minute în Chișinău",
     "streetOutreachTitle": "Acțiune de stradă Provocarea Filmului de 3 Minute",
@@ -116,6 +117,7 @@
     "transparencyDescription": "Suntem dedicați să realizăm cât mai mult cu resursele puține pe care le avem. Vrem să construim încredere în mișcare, de aceea ne angajăm să publicăm toate donațiile primite și cheltuielile noastre. Donatorii individuali pot rămâne anonimi dacă doresc, vom publica doar dacă sunt din interiorul sau din afara comunității noastre.",
     "donationTableHeader": "Donații",
     "expensesTableHeader": "Cheltuieli",
+    "errorLoadingTables": "Eroare la încărcarea tabelelor",
     "loading": "Se încarcă datele..."
   }
 }

@@ -73,6 +73,7 @@ const SupportUsPage = async ({params}: Props) => {
                   expensesTableHeader={t("expensesTableHeader")}
                   loading={t("loading")}
                   noDataLabel={tGlobal("noContentAvailable")}
+                  errorLoadingTables={t("errorLoadingTables")}
                 />
               </div>
             </div>

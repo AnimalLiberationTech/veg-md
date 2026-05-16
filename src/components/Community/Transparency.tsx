@@ -11,6 +11,7 @@ interface TransparencyProps {
   expensesTableHeader: string;
   loading: string;
   noDataLabel: string;
+  errorLoadingTables: string;
 }
 
 type CsvRow = Record<string, string | undefined>;
@@ -90,6 +91,7 @@ export default function Transparency({
   expensesTableHeader,
   loading,
   noDataLabel,
+  errorLoadingTables,
 }: TransparencyProps) {
   const [donations, setDonations] = useState<TableData>({headers: [], rows: []});
   const [expenses, setExpenses] = useState<TableData>({headers: [], rows: []});
@@ -111,13 +113,13 @@ export default function Transparency({
 
         setDonations(donationsTable);
         setExpenses(expensesTable);
-      } catch (err) {
-        console.error("Error loading transparency CSV data:", err);
+       } catch (err) {
+         console.error("Error loading transparency CSV data:", err);
 
-        if (!isCancelled) {
-          setError("Error loading transparency data");
-        }
-      } finally {
+         if (!isCancelled) {
+           setError(errorLoadingTables);
+         }
+       } finally {
         if (!isCancelled) {
           setIsLoading(false);
         }
@@ -129,7 +131,7 @@ export default function Transparency({
     return () => {
       isCancelled = true;
     };
-  }, [donationsUrl, expensesUrl]);
+  }, [donationsUrl, expensesUrl, errorLoadingTables]);
 
   if (isLoading) {
     return (

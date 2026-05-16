@@ -19,6 +19,7 @@
     "picnicsImageAlt": "Community picnic in Chisinau",
     "picnicsTitle": "Picnics",
     "learnMore": "Learn More",
+    "noUpcomingEvents": "No upcoming events",
     "streetOutreachDescription": "Think you can handle the truth? The Challenge invites the public to view a short clip of standard animal agriculture practices in exchange for a vegan treat. If you think it is important to talk with people about vegan ethics and lifestyle, please join us. Action details are in the calendar.",
     "streetOutreachImageAlt": "3 Minute Movie Challenge street outreach in Chisinau",
     "streetOutreachTitle": "3 Minutes Movie Challenge street outreach",
@@ -116,6 +117,7 @@
     "transparencyDescription": "We are dedicated to achieving the most with the limited resources we have. We want to cultivate trust in the movement, which is why we are committed to publishing all donations we receive and our expenses. Individual donors can still remain anonymous if they wish; we will publish only whether they are from within or outside our community.",
     "donationTableHeader": "Donations",
     "expensesTableHeader": "Expenses",
+    "errorLoadingTables": "Error loading tables",
     "loading": "Loading data..."
   }
 }
