@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
+import {getOrFetchLocalStorageCache} from "@/utils/local-storage-cache";
 
 interface TransparencyProps {
   donationsUrl: string;
@@ -18,6 +19,8 @@ type TableData = {
   headers: string[];
   rows: CsvRow[];
 };
+
+const CSV_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 function normalizeCsvPayload(payload: string) {
   const trimmed = payload.trim();
@@ -39,7 +42,7 @@ function normalizeCsvPayload(payload: string) {
   return trimmed;
 }
 
-function repairMojibake(value: string) {
+function fixDiacritics(value: string) {
   if (!/[ÃÂÄÅ]/.test(value)) {
     return value;
   }
@@ -53,27 +56,31 @@ function repairMojibake(value: string) {
 }
 
 async function loadCsvTable(url: string, hideColumns: Set<string> = new Set()): Promise<TableData> {
-  const response = await fetch(url);
+  const cacheKey = `transparency-csv:${url}:${Array.from(hideColumns).sort().join("|")}`;
 
-  if (!response.ok) {
-    throw new Error(`Failed to load CSV from ${url}`);
-  }
+  return getOrFetchLocalStorageCache(cacheKey, CSV_CACHE_TTL_MS, async () => {
+    const response = await fetch(url);
 
-  const csvText = repairMojibake(normalizeCsvPayload(await response.text()));
-  const results = Papa.parse<CsvRow>(csvText, {
-    header: true,
-    skipEmptyLines: "greedy",
-    transformHeader: (header) => header.trim(),
+    if (!response.ok) {
+      throw new Error(`Failed to load CSV from ${url}`);
+    }
+
+    const csvText = fixDiacritics(normalizeCsvPayload(await response.text()));
+    const results = Papa.parse<CsvRow>(csvText, {
+      header: true,
+      skipEmptyLines: "greedy",
+      transformHeader: (header) => header.trim(),
+    });
+
+    const headers = (results.meta.fields ?? []).filter(
+      (header) => header.trim().length > 0 && !hideColumns.has(header.trim())
+    );
+    const rows = (results.data ?? []).filter((row) =>
+      headers.some((header) => String(row[header] ?? "").trim().length > 0)
+    );
+
+    return {headers, rows};
   });
-
-  const headers = (results.meta.fields ?? []).filter(
-    (header) => header.trim().length > 0 && !hideColumns.has(header.trim())
-  );
-  const rows = (results.data ?? []).filter((row) =>
-    headers.some((header) => String(row[header] ?? "").trim().length > 0)
-  );
-
-  return {headers, rows};
 }
 
 export default function Transparency({
