@@ -27,6 +27,10 @@ export function readLocalStorageCache<T>(key: string, ttlMs: number): T | null {
       return null;
     }
 
+    if (!Object.prototype.hasOwnProperty.call(parsed, "value")) {
+      return null;
+    }
+
     return parsed.value as T;
   } catch {
     return null;
