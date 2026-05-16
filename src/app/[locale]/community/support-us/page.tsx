@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Transparency from "@/components/Community/Transparency";
-import {supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
+import {gSheetUrl, supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
@@ -67,8 +67,8 @@ const SupportUsPage = async ({params}: Props) => {
                   </p>
                 </div>
                 <Transparency
-                  donationsUrl="/api/google/get-sheet?sheet=community-donations"
-                  expensesUrl="/api/google/get-sheet?sheet=community-expenses"
+                  donationsUrl={`${gSheetUrl}?sheet=community-donations`}
+                  expensesUrl={`${gSheetUrl}?sheet=community-expenses`}
                   donationTableHeader={t("donationTableHeader")}
                   expensesTableHeader={t("expensesTableHeader")}
                   loading={t("loading")}
