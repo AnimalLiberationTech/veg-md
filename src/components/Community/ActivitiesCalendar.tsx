@@ -4,8 +4,9 @@ import {ReactNode, useState} from "react";
 
 type Props = {
   children: ReactNode;
-  calendarUrl: string;
-  calendarTitle: string;
+  calendarContent?: ReactNode;
+  calendarUrl?: string;
+  calendarTitle?: string;
   openLabel: string;
   closeLabel: string;
   mobileAlwaysVisible?: boolean;
@@ -13,6 +14,7 @@ type Props = {
 
 const ActivitiesCalendar = ({
   children,
+  calendarContent,
   calendarUrl,
   calendarTitle,
   openLabel,
@@ -47,19 +49,29 @@ const ActivitiesCalendar = ({
         <div className="min-w-0">{children}</div>
 
         {isVisibleOnAnyViewport ? (
-          <aside
-            className={`w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
-              mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
-            }`}
-          >
-            <iframe
-              src={calendarUrl}
-              style={{border: 0}}
-              width="100%"
-              height="100%"
-              title={calendarTitle}
-            />
-          </aside>
+          calendarContent ? (
+            <aside
+              className={`w-full rounded-sm border border-dark bg-white p-6 shadow-three dark:border-white/10 dark:bg-black dark:shadow-none md:p-8 ${
+                mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
+              }`}
+            >
+              {calendarContent}
+            </aside>
+          ) : (
+            <aside
+              className={`w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
+                mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
+              }`}
+            >
+              <iframe
+                src={calendarUrl}
+                style={{border: 0}}
+                width="100%"
+                height="100%"
+                title={calendarTitle || "Activities calendar"}
+              />
+            </aside>
+          )
         ) : null}
       </div>
     </div>
