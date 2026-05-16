@@ -52,15 +52,15 @@ const menuData: Menu[] = [
      newTab: false,
      submenu: [
        {
-         id: 31,
-         titleKey: "values",
-         path: "/community/values",
-         newTab: false,
-       },
-       {
          id: 32,
          titleKey: "activities",
          path: "/community/activities",
+         newTab: false,
+       },
+       {
+         id: 31,
+         titleKey: "values",
+         path: "/community/values",
          newTab: false,
        },
        {

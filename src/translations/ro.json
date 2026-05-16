@@ -33,13 +33,13 @@
     "description": "Descoperă un stil de viață vegan"
   },
   "partnersAndFriendsPage": {
-    "description": "Organizații și persoane care susțin comunitatea noastră.",
+    "description": "Organizații și persoane care susțin comunitatea noastră",
     "collaborationInvite": "Hai să fim prieteni! Dacă vrei să adăugăm organizația, inițiativa, grupul, compania sau pagina ta socială vegană, și susții <valuesLink>valorile noastre</valuesLink>, și vrei să ne implicăm împreună în promovarea vegan.md, te rugăm să ne trimiți un <emailLink>e-mail</emailLink> sau un mesaj pe <telegramLink>Telegram</telegramLink>.",
     "title": "Prieteni și parteneri"
   },
   "valuesPage": {
     "title": "Misiunea și valorile",
-    "description": "Pe ce se bazează comunitatea noastră: compasiune, transparență, evoluție continuă și incluziune.",
+    "description": "Pe ce se bazează comunitatea noastră",
     "imageAlt": "Colorful ceramic plate with vegan message"
   },
   "contactCard": {
@@ -64,7 +64,7 @@
     "values": "Valori",
     "supportUs": "Sprijină-ne",
     "health": "Sănătate",
-    "partnersAndFriends": "Parteneri și prieteni",
+    "partnersAndFriends": "Prieteni și parteneri",
     "weInTelegram": "Noi în Telegram",
     "planet": "Planetă",
     "recipes": "Rețete",
@@ -76,7 +76,7 @@
   },
   "notFound": {
     "backHomeButton": "Inapoi acasa",
-    "description": "Te rugam sa revii mai tarziu.",
+    "description": "Te rugam sa revii mai tarziu",
     "title": "Ne pare rau, aceasta pagina este in dezvoltare"
   },
   "resources": {
@@ -107,13 +107,12 @@
     "description": "O dietă vegetariană balansată e mai sănătoasă și este adecvată atât pentru copii cât și pentru maturi."
   },
   "supportUsPage": {
-    "title": "Sprijină-ne",
-    "description": "Ajută-ne să continuăm munca noastră de bază pentru eliberarea animalelor și veganismul",
-    "callToActionTitle": "Ajută-ne să Facem Diferența",
-    "callToActionDescription": "Suntem o comunitate de bază care nu este susținută de nici un donator instituțional sau fundații filantrope. Depindem aproape în totalitate de donații mici din partea membrilor comunității noastre, și muito rar primim sprijin de la organizații partenere, cum ar fi We The Free. Fiecare contribuție contează.",
+    "title": "Sprijină",
+    "description": "Ajută-ne să facem mai mult",
+    "callToActionDescription": "Suntem o comunitate la firul ierbii care nu este susținută de nici un donator instituțional sau fundații filantrope. Depindem aproape în totalitate de donații mici din partea membrilor noastre, așa că, fiecare contribuție chiar contează.",
     "callToActionContact": "Dacă vrei să ne susții, trimite-ne un mesaj în ",
-    "callToActionContactLink": "chatul dedicat din Telegram",
-    "transparencyTitle": "Transparență și Încredere",
+    "callToActionContactLink": "chatul acesta din Telegram",
+    "transparencyTitle": "Transparență și încredere",
     "transparencyDescription": "Suntem dedicați să realizăm cât mai mult cu resursele puține pe care le avem. Vrem să construim încredere în mișcare, de aceea ne angajăm să publicăm toate donațiile primite și cheltuielile noastre. Donatorii individuali pot rămâne anonimi dacă doresc, vom publica doar dacă sunt din interiorul sau din afara comunității noastre.",
     "donationTableHeader": "Donații",
     "expensesTableHeader": "Cheltuieli",

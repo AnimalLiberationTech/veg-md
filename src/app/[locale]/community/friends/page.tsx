@@ -21,12 +21,12 @@ export function generateStaticParams() {
 const FriendsPage = async ({ params }: Props) => {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "partnersAndFriendsPage" });
-  const globalT = await getTranslations({ locale, namespace: "global" });
+  const tGlobal = await getTranslations({ locale, namespace: "global" });
 
    const friends = [
      {
        id: 1,
-       name: globalT("uvm"),
+       name: tGlobal("uvm"),
        image: "/images/friends/UVM_logo.png",
        url: "https://uvem.org",
      },

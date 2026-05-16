@@ -31,6 +31,7 @@ const SupportUsPage = async ({params}: Props) => {
       <Breadcrumb
         pageName={t("title")}
         homeHref={`/${locale}`}
+        description={t("description")}
       />
       <section className="pt-12 pb-16">
         <div className="container">
@@ -38,13 +39,10 @@ const SupportUsPage = async ({params}: Props) => {
           <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
             <div className="min-w-0 space-y-12">
               <div>
-                <h2 className="mb-4 text-3xl font-bold text-black dark:text-white">
-                  {t("callToActionTitle")}
-                </h2>
-                <p className="mb-4 text-base font-medium leading-relaxed text-body-color">
+                <p className="mb-10 max-w-4xl text-base leading-relaxed text-body-color md:text-lg">
                   {t("callToActionDescription")}
                 </p>
-                <p className="text-base font-medium leading-relaxed text-body-color">
+                <p className="mb-10 max-w-4xl text-base leading-relaxed text-body-color md:text-lg">
                   {t("callToActionContact")}
                   <a
                     href={veganMoldovaTgGroupUrl}
@@ -64,7 +62,7 @@ const SupportUsPage = async ({params}: Props) => {
                   <h2 className="mb-4 text-3xl font-bold text-black dark:text-white">
                     {t("transparencyTitle")}
                   </h2>
-                  <p className="mb-6 text-base font-medium leading-relaxed text-body-color">
+                  <p className="mb-10 max-w-4xl text-base leading-relaxed text-body-color md:text-lg">
                     {t("transparencyDescription")}
                   </p>
                 </div>

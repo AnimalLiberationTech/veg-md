@@ -19,8 +19,6 @@ type TableData = {
   rows: CsvRow[];
 };
 
-const DONATION_COLUMNS_TO_HIDE = new Set(["Personă responsabilă"]);
-
 function normalizeCsvPayload(payload: string) {
   const trimmed = payload.trim();
 
@@ -97,8 +95,7 @@ export default function Transparency({
     const loadTables = async () => {
       try {
         const [donationsTable, expensesTable] = await Promise.all([
-          loadCsvTable(donationsUrl, DONATION_COLUMNS_TO_HIDE),
-          loadCsvTable(expensesUrl),
+          loadCsvTable(donationsUrl), loadCsvTable(expensesUrl),
         ]);
 
         if (isCancelled) {
