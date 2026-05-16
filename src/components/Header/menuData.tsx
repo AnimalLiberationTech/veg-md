@@ -44,7 +44,7 @@ const menuData: Menu[] = [
       //   path: "/recipes",
       //   newTab: false,
       // },
-    ]
+    ],
   },
    {
      id: 3,
