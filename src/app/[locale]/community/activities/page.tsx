@@ -55,6 +55,48 @@ function normalizeCalendarText(value: string) {
   return value.replace(/\\,/g, ",");
 }
 
+function normalizeCalendarDescription(value: string) {
+  return normalizeCalendarText(value)
+    .replace(/\\n\\n/g, "<br><br>")
+    .replace(/\\n/g, "<br>");
+}
+
+function linkifyCalendarUrls(value: string) {
+  const tagSplitPattern = /(<[^>]+>)/g;
+  const urlPattern = /(^|[\s(])(https?:\/\/[^\s<>"']+)/g;
+  const maxLabelLength = 56;
+  let isInsideAnchor = false;
+
+  return value
+    .split(tagSplitPattern)
+    .map((part) => {
+      if (part.startsWith("<")) {
+        const lowerPart = part.toLowerCase();
+
+        if (/^<a\b/.test(lowerPart)) {
+          isInsideAnchor = true;
+        } else if (/^<\/a\b/.test(lowerPart)) {
+          isInsideAnchor = false;
+        }
+
+        return part;
+      }
+
+      if (isInsideAnchor) {
+        return part;
+      }
+
+      return part.replace(urlPattern, (_, prefix: string, rawUrl: string) => {
+        const href = rawUrl.replace(/[),.;!?]+$/g, "");
+        const suffix = rawUrl.slice(href.length);
+        const displayText = href.length > maxLabelLength ? `${href.slice(0, maxLabelLength - 1)}…` : href;
+
+        return `${prefix}<a href="${href}" target="_blank" rel="noopener noreferrer">${displayText}</a>${suffix}`;
+      });
+    })
+    .join("");
+}
+
 function stripCalendarSectionMarkers(value: string) {
   sectionSeparatorPattern.lastIndex = 0;
   return value.replace(sectionSeparatorPattern, "");
@@ -305,7 +347,9 @@ const ActivitiesPage = async ({params}: Props) => {
                             className="text-body-color mt-3 space-y-3 text-sm leading-relaxed [&_a]:text-primary [&_a]:underline [&_p]:mb-3 [&_br]:block"
                             dangerouslySetInnerHTML={{
                               __html: sanitizeWpArticleHtml(
-                                localizeCalendarDescription(normalizeCalendarText(event.description), locale),
+                                linkifyCalendarUrls(
+                                  localizeCalendarDescription(normalizeCalendarDescription(event.description), locale),
+                                ),
                               ),
                             }}
                           />
