@@ -39,9 +39,8 @@ type CalendarEvent = {
 type CalendarLocaleCode = "RO" | "RU" | "EN";
 
 const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
-const CALENDAR_CACHE_REVALIDATE_SECONDS = 60 * 60;
 const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
-const sectionSeparatorPattern = /-{5}(?:\\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
 
 function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
   const localeKey = locale.toLowerCase().split("-")[0];
@@ -128,10 +127,6 @@ function parseCalendarEvents(value: unknown): CalendarEvent[] {
   });
 }
 
-function isCalendarEventInPast(event: CalendarEvent, nowTimestamp = Date.now()) {
-  const endTime = new Date(event.end_iso).getTime();
-  return Number.isFinite(endTime) && endTime < nowTimestamp;
-}
 
 function formatCalendarDateRange(locale: string, startIso: string, endIso: string) {
   const start = new Date(startIso);
@@ -162,27 +157,14 @@ function formatCalendarDateRange(locale: string, startIso: string, endIso: strin
 }
 
 async function loadCalendarEvents() {
-  const fetchCalendarEvents = async (init?: RequestInit) => {
-    const response = await fetch(calendarFeedUrl, init);
+  try {
+    const response = await fetch(calendarFeedUrl, {cache: "no-store"});
 
     if (!response.ok) {
       return [];
     }
 
     return parseCalendarEvents(await response.json());
-  };
-
-  try {
-    const cachedEvents = await fetchCalendarEvents({
-      next: {revalidate: CALENDAR_CACHE_REVALIDATE_SECONDS},
-    });
-
-    if (!cachedEvents.some((event) => isCalendarEventInPast(event))) {
-      return cachedEvents;
-    }
-
-    const recachedEvents = await fetchCalendarEvents({cache: "no-store"});
-    return recachedEvents.length > 0 ? recachedEvents : cachedEvents;
   } catch {
     return [];
   }
