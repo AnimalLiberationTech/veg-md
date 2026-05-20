@@ -165,10 +165,33 @@ function parseCalendarEvents(value: unknown): CalendarEvent[] {
   });
 }
 
+function convertToChisinauTime(isoString: string): Date {
+  const date = new Date(isoString);
+  return new Date(
+    date.toLocaleString("en-US", {timeZone: "Europe/Bucharest"}),
+  );
+}
+
+async function loadCalendarEvents() {
+  try {
+    const isDev = process.env.NODE_ENV === "development";
+    const response = await fetch(calendarFeedUrl, {
+      next: {revalidate: isDev ? 300 : 3600},
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    return parseCalendarEvents(await response.json());
+  } catch {
+    return [];
+  }
+}
 
 function formatCalendarDateRange(locale: string, startIso: string, endIso: string) {
-  const start = new Date(startIso);
-  const end = new Date(endIso);
+  const start = convertToChisinauTime(startIso);
+  const end = convertToChisinauTime(endIso);
 
   if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
     return normalizeCalendarText(startIso);
@@ -192,23 +215,6 @@ function formatCalendarDateRange(locale: string, startIso: string, endIso: strin
   }
 
   return `${dateFormatter.format(start)} · ${timeFormatter.format(start)} – ${dateFormatter.format(end)} · ${timeFormatter.format(end)}`;
-}
-
-async function loadCalendarEvents() {
-  try {
-    const isDev = process.env.NODE_ENV === "development";
-    const response = await fetch(calendarFeedUrl, {
-      next: {revalidate: isDev ? 300 : 3600},
-    });
-
-    if (!response.ok) {
-      return [];
-    }
-
-    return parseCalendarEvents(await response.json());
-  } catch {
-    return [];
-  }
 }
 
 const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
@@ -436,3 +442,6 @@ const ActivitiesPage = async ({params}: Props) => {
 };
 
 export default ActivitiesPage;
+
+
+
