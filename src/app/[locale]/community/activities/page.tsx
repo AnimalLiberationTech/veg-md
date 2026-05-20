@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ActivitiesCalendar from "@/components/Community/ActivitiesCalendar";
-import {gCalUrl, supportedLocales, uvmEmail} from "@/constants";
+import CalendarEventDescription from "@/components/Community/CalendarEventDescription";
+import {gCalUrl, locales, supportedLocales, uvmEmail} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import {JSX} from "react";
 import PhotoCredit from "@/components/Common/PhotoCredit";
 import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
+import {ExpandedEventDescriptionProvider} from "@/components/Community/expanded-event-description-context";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -32,32 +34,69 @@ type CalendarEvent = {
   start_iso: string;
   end_iso: string;
   description: string;
-  location: string;
+  location?: string;
   summary: string;
 };
 
-type CalendarLocaleCode = "RO" | "RU" | "EN";
+type CalendarLocaleCode = Uppercase<(typeof locales)[number]["code"]>;
 
 const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
 const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
-const sectionSeparatorPattern = /-{5}(?:\\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+const calendarLocaleCodeByLocale = Object.fromEntries(
+  locales.map(({code}) => [code, code.toUpperCase()]),
+) as Record<(typeof locales)[number]["code"], CalendarLocaleCode>;
+const defaultCalendarLocaleCode = calendarLocaleCodeByLocale.ro;
 
 function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
-  const localeKey = locale.toLowerCase().split("-")[0];
-
-  if (localeKey === "ru") {
-    return "RU";
-  }
-
-  if (localeKey === "en") {
-    return "EN";
-  }
-
-  return "RO";
+  const localeKey = locale.toLowerCase().split("-")[0] as (typeof locales)[number]["code"];
+  return calendarLocaleCodeByLocale[localeKey] ?? defaultCalendarLocaleCode;
 }
 
 function normalizeCalendarText(value: string) {
   return value.replace(/\\,/g, ",");
+}
+
+function normalizeCalendarDescription(value: string) {
+  return normalizeCalendarText(value)
+    .replace(/\\n\\n/g, "<br><br>")
+    .replace(/\\n/g, "<br>");
+}
+
+function linkifyCalendarUrls(value: string) {
+  const tagSplitPattern = /(<[^>]+>)/g;
+  const urlPattern = /(^|[\s(])(https?:\/\/[^\s<>"']+)/g;
+  const maxLabelLength = 56;
+  let isInsideAnchor = false;
+
+  return value
+    .split(tagSplitPattern)
+    .map((part) => {
+      if (part.startsWith("<")) {
+        const lowerPart = part.toLowerCase();
+
+        if (/^<a\b/.test(lowerPart)) {
+          isInsideAnchor = true;
+        } else if (/^<\/a\b/.test(lowerPart)) {
+          isInsideAnchor = false;
+        }
+
+        return part;
+      }
+
+      if (isInsideAnchor) {
+        return part;
+      }
+
+      return part.replace(urlPattern, (_, prefix: string, rawUrl: string) => {
+        const href = rawUrl.replace(/[),.;!?]+$/g, "");
+        const suffix = rawUrl.slice(href.length);
+        const displayText = href.length > maxLabelLength ? `${href.slice(0, maxLabelLength - 1)}…` : href;
+
+        return `${prefix}<a href="${href}" target="_blank" rel="noopener noreferrer">${displayText}</a>${suffix}`;
+      });
+    })
+    .join("");
 }
 
 function stripCalendarSectionMarkers(value: string) {
@@ -112,7 +151,6 @@ function isCalendarEvent(value: unknown): value is CalendarEvent {
       typeof (value as CalendarEvent).start_iso === "string" &&
       typeof (value as CalendarEvent).end_iso === "string" &&
       typeof (value as CalendarEvent).description === "string" &&
-      typeof (value as CalendarEvent).location === "string" &&
       typeof (value as CalendarEvent).summary === "string",
   );
 }
@@ -126,6 +164,7 @@ function parseCalendarEvents(value: unknown): CalendarEvent[] {
     return new Date(left.start_iso).getTime() - new Date(right.start_iso).getTime();
   });
 }
+
 
 function formatCalendarDateRange(locale: string, startIso: string, endIso: string) {
   const start = new Date(startIso);
@@ -157,8 +196,9 @@ function formatCalendarDateRange(locale: string, startIso: string, endIso: strin
 
 async function loadCalendarEvents() {
   try {
+    const isDev = process.env.NODE_ENV === "development";
     const response = await fetch(calendarFeedUrl, {
-      next: {revalidate: 300},
+      next: {revalidate: isDev ? 300 : 3600},
     });
 
     if (!response.ok) {
@@ -277,45 +317,51 @@ const ActivitiesPage = async ({params}: Props) => {
 
                 <div className="space-y-4">
                   {calendarEvents.length > 0 ? (
-                    calendarEvents.map((event) => (
-                      <article
-                        key={`${event.start_iso}-${event.summary}`}
-                        className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
-                      >
-                        <p className="text-sm font-semibold text-primary">
-                          {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
-                        </p>
-                        <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
-                          {normalizeCalendarText(event.summary)}
-                        </h3>
-                        {event.location ? (
-                          <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
-                            <svg
-                              viewBox="0 0 24 24"
-                              className="mt-0.5 h-4 w-4 shrink-0 text-primary"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              aria-hidden="true"
-                            >
-                              <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
-                              <circle cx="12" cy="10" r="2.5" />
-                            </svg>
-                            <span>{normalizeCalendarText(event.location)}</span>
-                          </p>
-                        ) : null}
-                        {event.description ? (
-                          <div
-                            className="text-body-color mt-3 space-y-3 text-sm leading-relaxed [&_a]:text-primary [&_a]:underline [&_p]:mb-3 [&_br]:block"
-                            dangerouslySetInnerHTML={{
-                              __html: sanitizeWpArticleHtml(
-                                localizeCalendarDescription(normalizeCalendarText(event.description), locale),
-                              ),
-                            }}
-                          />
-                        ) : null}
-                      </article>
-                    ))
+                    <ExpandedEventDescriptionProvider>
+                      {calendarEvents.map((event) => {
+                        const eventId = `${event.start_iso}-${event.summary}`;
+
+                        return (
+                          <article
+                            key={eventId}
+                            className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
+                          >
+                            <p className="text-sm font-semibold text-primary">
+                              {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
+                            </p>
+                            <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
+                              {normalizeCalendarText(event.summary)}
+                            </h3>
+                            {event.location ? (
+                              <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
+                                  <circle cx="12" cy="10" r="2.5" />
+                                </svg>
+                                <span>{normalizeCalendarText(event.location)}</span>
+                              </p>
+                            ) : null}
+                            {event.description ? (
+                              <CalendarEventDescription
+                                eventId={eventId}
+                                html={sanitizeWpArticleHtml(
+                                  linkifyCalendarUrls(
+                                    localizeCalendarDescription(normalizeCalendarDescription(event.description), locale),
+                                  ),
+                                )}
+                              />
+                            ) : null}
+                          </article>
+                        );
+                      })}
+                    </ExpandedEventDescriptionProvider>
                   ) : (
                     <div className="rounded-sm border border-dashed border-dark/20 p-4 text-sm text-body-color dark:border-white/10">
                       {t("noUpcomingEvents")}
@@ -390,4 +436,3 @@ const ActivitiesPage = async ({params}: Props) => {
 };
 
 export default ActivitiesPage;
-
