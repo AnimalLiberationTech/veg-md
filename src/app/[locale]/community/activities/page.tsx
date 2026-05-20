@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ActivitiesCalendar from "@/components/Community/ActivitiesCalendar";
+import CalendarEventDescription from "@/components/Community/CalendarEventDescription";
 import {gCalUrl, locales, supportedLocales, uvmEmail} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
@@ -8,6 +9,7 @@ import {getPageMetadata} from "@/utils/metadata";
 import {JSX} from "react";
 import PhotoCredit from "@/components/Common/PhotoCredit";
 import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
+import {ExpandedEventDescriptionProvider} from "@/components/Community/expanded-event-description-context";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -315,47 +317,51 @@ const ActivitiesPage = async ({params}: Props) => {
 
                 <div className="space-y-4">
                   {calendarEvents.length > 0 ? (
-                    calendarEvents.map((event) => (
-                      <article
-                        key={`${event.start_iso}-${event.summary}`}
-                        className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
-                      >
-                        <p className="text-sm font-semibold text-primary">
-                          {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
-                        </p>
-                        <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
-                          {normalizeCalendarText(event.summary)}
-                        </h3>
-                        {event.location ? (
-                          <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
-                            <svg
-                              viewBox="0 0 24 24"
-                              className="mt-0.5 h-4 w-4 shrink-0 text-primary"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              aria-hidden="true"
-                            >
-                              <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
-                              <circle cx="12" cy="10" r="2.5" />
-                            </svg>
-                            <span>{normalizeCalendarText(event.location)}</span>
-                          </p>
-                        ) : null}
-                        {event.description ? (
-                          <div
-                            className="text-body-color mt-3 space-y-3 text-sm leading-relaxed [&_a]:text-primary [&_a]:underline [&_p]:mb-3 [&_br]:block"
-                            dangerouslySetInnerHTML={{
-                              __html: sanitizeWpArticleHtml(
-                                linkifyCalendarUrls(
-                                  localizeCalendarDescription(normalizeCalendarDescription(event.description), locale),
-                                ),
-                              ),
-                            }}
-                          />
-                        ) : null}
-                      </article>
-                    ))
+                    <ExpandedEventDescriptionProvider>
+                      {calendarEvents.map((event) => {
+                        const eventId = `${event.start_iso}-${event.summary}`;
+
+                        return (
+                          <article
+                            key={eventId}
+                            className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
+                          >
+                            <p className="text-sm font-semibold text-primary">
+                              {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
+                            </p>
+                            <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
+                              {normalizeCalendarText(event.summary)}
+                            </h3>
+                            {event.location ? (
+                              <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  aria-hidden="true"
+                                >
+                                  <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
+                                  <circle cx="12" cy="10" r="2.5" />
+                                </svg>
+                                <span>{normalizeCalendarText(event.location)}</span>
+                              </p>
+                            ) : null}
+                            {event.description ? (
+                              <CalendarEventDescription
+                                eventId={eventId}
+                                html={sanitizeWpArticleHtml(
+                                  linkifyCalendarUrls(
+                                    localizeCalendarDescription(normalizeCalendarDescription(event.description), locale),
+                                  ),
+                                )}
+                              />
+                            ) : null}
+                          </article>
+                        );
+                      })}
+                    </ExpandedEventDescriptionProvider>
                   ) : (
                     <div className="rounded-sm border border-dashed border-dark/20 p-4 text-sm text-body-color dark:border-white/10">
                       {t("noUpcomingEvents")}
