@@ -83,18 +83,18 @@ const Header = () => {
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
-            <div className="w-60 max-w-full px-4 xl:mr-12">
+            <div className={`px-4 xl:mr-12 transition-all duration-300 ${sticky ? "w-30" : "w-60 max-w-full"}`}>
               <Link
                 href="/"
-                className={`header-logo block w-full py-2 pb-2`}
+                className={`header-logo block w-full transition-all duration-300 ${sticky ? "py-1 pb-1" : "py-2 pb-2"}`}
               >
                <Image
-                   src="/images/logo.png"
-                   alt="Vegan Moldova logo"
-                   width={120}
-                   height={120}
-                   priority
-                 />
+                    src="/images/logo.png"
+                    alt="Vegan Moldova logo"
+                    width={sticky ? 60 : 120}
+                    height={sticky ? 60 : 120}
+                    priority
+                  />
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
