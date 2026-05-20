@@ -198,7 +198,7 @@ async function loadCalendarEvents() {
   try {
     const isDev = process.env.NODE_ENV === "development";
     const response = await fetch(calendarFeedUrl, {
-      next: {revalidate: isDev ? 300 : 0},
+      next: {revalidate: isDev ? 300 : 3600},
     });
 
     if (!response.ok) {
