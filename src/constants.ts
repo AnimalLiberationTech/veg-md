@@ -14,9 +14,9 @@ export const locales = [
   {code: "ro", name: "Română"},
   {code: "ru", name: "Русский"},
   {code: "en", name: "English"},
-];
+] as const;
 
-export const supportedLocales = locales.map(locale => locale.code);
+export const supportedLocales = locales.map((locale) => locale.code);
 
 export const veganMoldovaTgGroupUrl = "https://t.me/veganmoldova/882";
 export const wtfChisinauInsta = "https://www.instagram.com/activism.wtf.chisinau";

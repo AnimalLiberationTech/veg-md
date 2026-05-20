@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ActivitiesCalendar from "@/components/Community/ActivitiesCalendar";
-import {gCalUrl, supportedLocales, uvmEmail} from "@/constants";
+import {gCalUrl, locales, supportedLocales, uvmEmail} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
@@ -36,24 +36,19 @@ type CalendarEvent = {
   summary: string;
 };
 
-type CalendarLocaleCode = "RO" | "RU" | "EN";
+type CalendarLocaleCode = Uppercase<(typeof locales)[number]["code"]>;
 
 const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
 const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
 const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
+const calendarLocaleCodeByLocale = Object.fromEntries(
+  locales.map(({code}) => [code, code.toUpperCase()]),
+) as Record<(typeof locales)[number]["code"], CalendarLocaleCode>;
+const defaultCalendarLocaleCode = calendarLocaleCodeByLocale.ro;
 
 function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
-  const localeKey = locale.toLowerCase().split("-")[0];
-
-  if (localeKey === "ru") {
-    return "RU";
-  }
-
-  if (localeKey === "en") {
-    return "EN";
-  }
-
-  return "RO";
+  const localeKey = locale.toLowerCase().split("-")[0] as (typeof locales)[number]["code"];
+  return calendarLocaleCodeByLocale[localeKey] ?? defaultCalendarLocaleCode;
 }
 
 function normalizeCalendarText(value: string) {
