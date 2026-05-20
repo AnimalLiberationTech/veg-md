@@ -83,7 +83,7 @@ const Header = () => {
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
-            <div className={`px-4 xl:mr-12 transition-all duration-300 ${sticky ? "w-30" : "w-60 max-w-full"}`}>
+            <div className={`px-4 xl:mr-12 transition-all duration-300 ${sticky ? "w-[7.5rem]" : "w-60 max-w-full"}`}>
               <Link
                 href="/"
                 className={`header-logo block w-full transition-all duration-300 ${sticky ? "py-1 pb-1" : "py-2 pb-2"}`}
