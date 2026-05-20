@@ -32,7 +32,7 @@ type CalendarEvent = {
   start_iso: string;
   end_iso: string;
   description: string;
-  location: string;
+  location?: string;
   summary: string;
 };
 
@@ -112,7 +112,6 @@ function isCalendarEvent(value: unknown): value is CalendarEvent {
       typeof (value as CalendarEvent).start_iso === "string" &&
       typeof (value as CalendarEvent).end_iso === "string" &&
       typeof (value as CalendarEvent).description === "string" &&
-      typeof (value as CalendarEvent).location === "string" &&
       typeof (value as CalendarEvent).summary === "string",
   );
 }
@@ -158,7 +157,10 @@ function formatCalendarDateRange(locale: string, startIso: string, endIso: strin
 
 async function loadCalendarEvents() {
   try {
-    const response = await fetch(calendarFeedUrl, {cache: "no-store"});
+    const isDev = process.env.NODE_ENV === "development";
+    const response = await fetch(calendarFeedUrl, {
+      next: {revalidate: isDev ? 300 : 0},
+    });
 
     if (!response.ok) {
       return [];
