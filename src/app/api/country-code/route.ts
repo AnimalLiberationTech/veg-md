@@ -63,9 +63,18 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(countryCodeUrl, {
+    const upstreamUrl = clientIp
+      ? `${countryCodeUrl}?ip=${encodeURIComponent(clientIp)}`
+      : countryCodeUrl;
+
+    const response = await fetch(upstreamUrl, {
       method: "GET",
       cache: "no-store",
+      headers: clientIp
+        ? {
+            "x-forwarded-for": clientIp,
+          }
+        : undefined,
     });
 
     const rawBody = await response.text();
