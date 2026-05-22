@@ -22,26 +22,33 @@ For user-initiated actions, use the `useTelemetryEvents` hook in your client com
 
 ```typescript
 "use client";
+import { useState } from "react";
 import { useTelemetryEvents } from "@/hooks/use-telemetry-events";
 
 export default function SearchBox() {
   const { trackSearch, trackEmptyResult } = useTelemetryEvents();
+  const [term, setTerm] = useState("");
 
-  const handleSearch = (term: string) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const results = performSearch(term);
-    
+
     trackSearch(term);
-    
+
     if (results.length === 0) {
       trackEmptyResult(term);
     }
   };
 
   return (
-    <input
-      onSubmit={handleSearch}
-      placeholder="Search..."
-    />
+    <form onSubmit={handleSearch}>
+      <input
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+        placeholder="Search..."
+      />
+    </form>
   );
 }
 ```
