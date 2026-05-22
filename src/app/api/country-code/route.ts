@@ -8,6 +8,7 @@ type CachedCountry = {
 
 const COUNTRY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const countryCache = new Map<string, CachedCountry>();
+const shouldLogDebug = process.env.NODE_ENV !== "production";
 
 function getClientIp(request: NextRequest): string | null {
   const headerCandidates = [
@@ -53,13 +54,19 @@ export async function GET(request: NextRequest) {
     const cachedCountry = getCachedCountry(clientIp);
 
     if (cachedCountry !== undefined) {
-      console.debug("[CountryCode API] cache hit:", { clientIp, cachedCountry });
+      if (shouldLogDebug) {
+        console.debug("[CountryCode API] cache hit:", { clientIp, cachedCountry });
+      }
       return NextResponse.json({ country_code: cachedCountry, cached: true });
     }
 
-    console.debug("[CountryCode API] cache miss:", { clientIp });
+    if (shouldLogDebug) {
+      console.debug("[CountryCode API] cache miss:", { clientIp });
+    }
   } else {
-    console.debug("[CountryCode API] no client IP detected; skipping cache");
+    if (shouldLogDebug) {
+      console.debug("[CountryCode API] no client IP detected; skipping cache");
+    }
   }
 
   try {
@@ -117,14 +124,16 @@ export async function GET(request: NextRequest) {
       setCachedCountry(clientIp, normalizedCountry);
     }
 
-    console.debug("[CountryCode API] fetched country code:", {
-      clientIp,
-      rawBody,
-      parsedBody,
-      countryCode,
-      normalizedCountry,
-      cached: Boolean(clientIp && normalizedCountry),
-    });
+    if (shouldLogDebug) {
+      console.debug("[CountryCode API] fetched country code:", {
+        clientIp,
+        rawBody,
+        parsedBody,
+        countryCode,
+        normalizedCountry,
+        cached: Boolean(clientIp && normalizedCountry),
+      });
+    }
 
     return NextResponse.json({
       country_code: normalizedCountry,
