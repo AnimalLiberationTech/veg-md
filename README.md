@@ -20,7 +20,7 @@ This project includes privacy-first telemetry backed by Appwrite.
 - Core event helpers live in `src/utils/telemetry.ts`.
 - Tracked events include page views, scroll depth, time on the page, search/filter activity, outbound clicks, file downloads, social shares, 404s, and JS errors.
 
-See the telemetry docs above if you need the exact payload shape or component integration examples.
+See [TELEMETRY.md](TELEMETRY.md) for the exact payload shape and component integration examples.
 
 ## 🌐 Translations
 
