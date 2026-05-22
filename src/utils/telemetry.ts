@@ -269,10 +269,13 @@ export async function trackError404(
   path: string,
   referrer?: string
 ): Promise<void> {
+  const resolvedReferrer = referrer || "direct";
+
   return track({
     event_name: "error_404",
     path,
-    metadata: `referrer: ${referrer || "direct"}`,
+    referrer: resolvedReferrer,
+    metadata: `referrer: ${resolvedReferrer}`,
   });
 }
 
