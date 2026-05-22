@@ -21,7 +21,9 @@ function initializeClient() {
     tablesDB = new TablesDB(client);
     return true;
   } catch (e) {
-    console.error("[Telemetry] Failed to initialize Appwrite client:", e);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[Telemetry] Failed to initialize Appwrite client:", e);
+    }
     return false;
   }
 }
