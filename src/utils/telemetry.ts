@@ -10,6 +10,9 @@ const TELEMETRY_ENV = process.env.NODE_ENV === "production" ? "prod" : "dev";
 let client: Client | null = null;
 let tablesDB: TablesDB | null = null;
 
+let cachedCountryCode: string | null = null;
+let isFetchingCountry = false;
+
 function initializeClient() {
   if (typeof window === "undefined") return false;
   if (client) return true;
@@ -69,7 +72,7 @@ function getDeviceType(): DeviceType {
 }
 
 /**
- * Extract full referrer URL if present and valid, otherwise null.
+ * Extract the full referrer URL if present and valid, otherwise null.
  * Appwrite expects the `referrer` attribute to be a valid URL when provided.
  */
 function getReferrerUrl(): string | null {
@@ -89,12 +92,32 @@ function getReferrerUrl(): string | null {
 }
 
 /**
- * Get country code from a 3rd-party service or local config
- * For now, returns null — can be extended with IP-based or user-provided data
+ * Get country code from a 3rd-party service
  */
 async function getCountry(): Promise<string | null> {
-  // TODO: Integrate with IP geolocation service if available
-  return null;
+  if (cachedCountryCode) return cachedCountryCode;
+  if (isFetchingCountry) return null;
+
+  try {
+    isFetchingCountry = true;
+    const response = await fetch("/api/country-code");
+    if (!response.ok) {
+      if (process.env.NODE_ENV === "development") {
+        console.error(`[Telemetry] Failed to fetch country code: HTTP error! status: ${response.status}`);
+      }
+      return null;
+    }
+    const data = await response.json();
+    cachedCountryCode = data.country_code || null;
+    return cachedCountryCode;
+  } catch (e) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("[Telemetry] Failed to fetch country code:", e);
+    }
+    return null;
+  } finally {
+    isFetchingCountry = false;
+  }
 }
 
 /**
