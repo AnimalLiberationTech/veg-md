@@ -1,0 +1,101 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import {
+  trackPageView,
+  trackScroll,
+  trackTimeOnPage,
+  trackJsError,
+} from "@/utils/telemetry";
+
+/**
+ * Hook for automatic telemetry tracking
+ * - Tracks page views on route change
+ * - Tracks scroll depth (25%, 50%, 75%, 90%)
+ * - Tracks time spent on page
+ * - Captures global JS errors
+ */
+export function useTelemetry() {
+  const pathname = usePathname();
+  const pageStartTime = useRef<number | null>(null);
+  const scrollThresholdsReached = useRef<Set<number>>(new Set());
+  const hasTrackedInitialPageView = useRef<boolean>(false);
+
+  // Track page view on mount and route change
+  useEffect(() => {
+    if (!hasTrackedInitialPageView.current) {
+      trackPageView(pathname).catch(() => {
+        // Silently fail — don't break the app on telemetry errors
+      });
+      hasTrackedInitialPageView.current = true;
+    }
+
+    // Reset for new page
+    pageStartTime.current = Date.now();
+    scrollThresholdsReached.current.clear();
+
+    return () => {
+      // Track time on page before leaving
+      if (pageStartTime.current !== null) {
+        const timeSpent = (Date.now() - pageStartTime.current) / 1000;
+        if (timeSpent > 1) {
+          // Only track if user spent at least 1 second on page
+          trackTimeOnPage(pathname, timeSpent).catch(() => {
+            // Silently fail
+          });
+        }
+      }
+    };
+  }, [pathname]);
+
+  // Track scroll events
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleScroll = () => {
+      const pageHeight = document.documentElement.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollTop = window.scrollY;
+      const scrollableHeight = pageHeight - viewportHeight;
+
+      if (scrollableHeight <= 0) return; // Can't scroll
+
+      const scrollPercent = (scrollTop / scrollableHeight) * 100;
+
+      // Check thresholds: 25%, 50%, 75%, 90%
+      const thresholds = [25, 50, 75, 90];
+      for (const threshold of thresholds) {
+        if (
+          scrollPercent >= threshold &&
+          !scrollThresholdsReached.current.has(threshold)
+        ) {
+          scrollThresholdsReached.current.add(threshold);
+          trackScroll(pathname, threshold as 25 | 50 | 75 | 90).catch(() => {
+            // Silently fail
+          });
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
+
+  // Track global JS errors
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleError = (event: ErrorEvent) => {
+      trackJsError(pathname, event.message, event.error?.stack).catch(
+        () => {
+          // Silently fail
+        }
+      );
+    };
+
+    window.addEventListener("error", handleError);
+    return () => window.removeEventListener("error", handleError);
+  }, [pathname]);
+}
+

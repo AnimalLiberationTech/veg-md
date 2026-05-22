@@ -25,3 +25,5 @@ export const uvmSite = "https://uvem.org";
 export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-report";
 export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
+export const appwriteEndpoint = "https://fra.cloud.appwrite.io/v1";
+export const appwriteProjectId = "69496060003d273d4a8c";

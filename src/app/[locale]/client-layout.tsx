@@ -5,6 +5,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import {NextIntlClientProvider} from 'next-intl';
 import {ThemeProvider} from "@/components/theme-provider";
 import WpArticlesCacheLoader from "@/components/WpArticlesCacheLoader";
+import TelemetryLoader from "@/components/TelemetryLoader";
 
 export function ClientLayout({
   children,
@@ -18,6 +19,7 @@ export function ClientLayout({
   return (
     <ThemeProvider>
       <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Bucharest">
+        <TelemetryLoader />
         <WpArticlesCacheLoader />
         <Header />
         {children}
