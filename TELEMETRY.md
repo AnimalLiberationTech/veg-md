@@ -204,7 +204,7 @@ Events are stored in Appwrite at `analytics` database, `user-actions` table:
 | `env` | enum | "dev", "prod" |
 | `event_name` | enum | "page_view", "scroll_50", "outbound_click" |
 | `path` | string | "/ro/community/activities/" |
-| `referrer` | string | "google.com", null |
+| `referrer` | string | "https://google.com/search?q=vegan", null |
 | `device_type` | enum | "mobile", "desktop" |
 | `country` | string | "md", null |
 | `metadata` | string | "search_term: tofu", "url: https://..." |

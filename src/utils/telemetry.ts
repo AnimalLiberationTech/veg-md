@@ -69,9 +69,10 @@ function getDeviceType(): DeviceType {
 }
 
 /**
- * Extract domain from referrer
+ * Extract full referrer URL if present and valid, otherwise null.
+ * Appwrite expects the `referrer` attribute to be a valid URL when provided.
  */
-function getReferrerDomain(): string | null {
+function getReferrerUrl(): string | null {
   if (typeof document === "undefined") {
     return null;
   }
@@ -79,7 +80,9 @@ function getReferrerDomain(): string | null {
   try {
     const referrer = document.referrer;
     if (!referrer) return null;
-    return new URL(referrer).hostname || null;
+    // Validate URL – if it's not a valid absolute URL, treat as null
+    const parsed = new URL(referrer);
+    return parsed.href || null;
   } catch {
     return null;
   }
@@ -155,7 +158,7 @@ export async function trackPageView(path: string): Promise<void> {
   return track({
     event_name: "page_view",
     path,
-    referrer: getReferrerDomain(),
+    referrer: getReferrerUrl(),
   });
 }
 
