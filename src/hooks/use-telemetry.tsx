@@ -20,16 +20,12 @@ export function useTelemetry() {
   const pathname = usePathname();
   const pageStartTime = useRef<number | null>(null);
   const scrollThresholdsReached = useRef<Set<number>>(new Set());
-  const hasTrackedInitialPageView = useRef<boolean>(false);
 
   // Track page view on mount and route change
   useEffect(() => {
-    if (!hasTrackedInitialPageView.current) {
-      trackPageView(pathname).catch(() => {
-        // Silently fail — don't break the app on telemetry errors
-      });
-      hasTrackedInitialPageView.current = true;
-    }
+    trackPageView(pathname).catch(() => {
+      // Silently fail — don't break the app on telemetry errors
+    });
 
     // Reset for new page
     pageStartTime.current = Date.now();
