@@ -12,6 +12,7 @@ export const wpArticleIdsMap = {
   },
   'researchLab': {
     'ro': 184,
+    'ru': 184,
     'en': 184,
   }
 }
