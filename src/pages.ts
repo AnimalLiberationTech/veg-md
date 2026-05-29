@@ -9,5 +9,10 @@ export const wpArticleIdsMap = {
     'ro': 177,
     'ru': 181,
     'en': 179,
+  },
+  'researchLab': {
+    'ro': 184,
+    'ru': 184,
+    'en': 184,
   }
 }
