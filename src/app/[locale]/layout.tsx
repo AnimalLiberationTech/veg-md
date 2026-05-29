@@ -6,20 +6,19 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import {defaultMetadata, supportedLocales} from "@/constants";
 import {ClientLayout} from "./client-layout";
-import enMessages from "@/translations/en.json";
-import roMessages from "@/translations/ro.json";
-import ruMessages from "@/translations/ru.json";
 
-type Messages = typeof enMessages;
+type Messages = Record<string, any>;
 
-const MESSAGES: Record<string, Messages> = {
-  en: enMessages,
-  ro: roMessages,
-  ru: ruMessages,
-};
-
-function getMessages(locale: string): Messages {
-  return MESSAGES[locale] ?? enMessages;
+async function getMessages(locale: string): Promise<Messages> {
+  switch (locale) {
+    case "ro":
+      return (await import("@/translations/ro.json")).default;
+    case "ru":
+      return (await import("@/translations/ru.json")).default;
+    case "en":
+    default:
+      return (await import("@/translations/en.json")).default;
+  }
 }
 
 export function generateStaticParams() {
@@ -38,7 +37,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     notFound();
   }
 
-  const {homePage} = getMessages(locale);
+  const {homePage} = await getMessages(locale);
 
   return {
     ...defaultMetadata,
@@ -47,17 +46,16 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({children, params}: Props) {
-  const {locale} = React.use(params);
+export default async function RootLayout({children, params}: Props) {
+  const {locale} = await params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // g.
   setRequestLocale(locale);
 
-  const messages = getMessages(locale);
+  const messages = await getMessages(locale);
 
   return (
     <ClientLayout locale={locale} messages={messages}>
