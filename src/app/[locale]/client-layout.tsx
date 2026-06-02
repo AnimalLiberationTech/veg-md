@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import {NextIntlClientProvider} from 'next-intl';
 import {ThemeProvider} from "@/components/theme-provider";
-import WpArticlesCacheLoader from "@/components/WpArticlesCacheLoader";
+
+import WpArticlesLocalCacheLoader from "@/cache/WpArticlesLocalCacheLoader";
 
 export function ClientLayout({
   children,
@@ -18,7 +19,7 @@ export function ClientLayout({
   return (
     <ThemeProvider>
       <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Bucharest">
-        <WpArticlesCacheLoader />
+        <WpArticlesLocalCacheLoader />
         <Header />
         {children}
         <Footer />

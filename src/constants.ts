@@ -25,3 +25,8 @@ export const uvmSite = "https://uvem.org";
 export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-report";
 export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
+
+export const wpArticlesCacheKey = "wpArticles";
+export const cacheTtlMsMap = {
+  [wpArticlesCacheKey]: 60 * 60 * 1000,  // 1 hour
+}

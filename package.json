@@ -17,15 +17,15 @@
     "eslint-config-next": "16.1.6",
     "html-entities": "^2.6.0",
     "next": "^16.1.7",
-    "next-intl": "^4.8.3",
+    "next-intl": "4.9.2",
     "papaparse": "^5.5.3",
-    "postcss": "^8.5.8",
+    "postcss": "8.5.10",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
     "sanitize-html": "^2.17.3",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@types/node": "^25.4.0",
@@ -35,8 +35,8 @@
     "@types/sanitize-html": "^2.16.1",
     "@types/sqlite3": "^5.1.0",
     "autoprefixer": "^10.4.27",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.7.4",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "typescript": "^5.9.3"

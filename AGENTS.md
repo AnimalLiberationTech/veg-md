@@ -14,7 +14,7 @@
 - Data flows:
   - Translations: CSV <-> per-locale JSON managed by `scripts/translations_csv_sync.py` and stored in `src/translations/*.json` (export CSV at `src/translations/export.csv`).
   - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`).
-  - WordPress articles: client-side cached in localStorage under key `wpArticlesCache` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
+  - WordPress articles: client-side cached in localStorage under key `wpArticles` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
 
 ## Critical developer workflows (commands)
 
@@ -40,7 +40,7 @@
 - Locale prefixing: routes live under `src/app/[locale]/...`. `src/i18n/routing.ts` sets `localePrefix: 'always'` and `localeDetection: false` — the app expects explicit locale segments.
 - Intl middleware proxy: `src/proxy.ts` defers to `src/i18n/proxy.ts`. The proxy decides whether to run middleware using env vars: `NODE_ENV`, `GITHUB_ACTIONS`, `ENABLE_I18N_PROXY`.
 - Translations shape: the CSV script flattens nested keys up to 3 levels. See `scripts/translations_csv_sync.py::_flatten_locale_dict` and `_normalize_header` for exact CSV schema (first 3 columns are keys L1/L2/L3).
-- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesCacheUpdated` and `storage` events to refresh caches.
+- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesUpdated` and `storage` events to refresh caches.
 - Server-data queries: `src/components/Resources/resourcesData.tsx` shows the pattern for server-side DB access (open DB, run queries, close DB, return plain JSON serializable objects).
 
 ## Integration points & external dependencies

@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
-import {getOrFetchLocalStorageCache} from "@/utils/local-storage-cache";
+import {getOrFetchLocalCache} from "@/cache/local-cache";
 
 interface TransparencyProps {
   donationsUrl: string;
@@ -59,7 +59,7 @@ function fixDiacritics(value: string) {
 async function loadCsvTable(url: string, hideColumns: Set<string> = new Set()): Promise<TableData> {
   const cacheKey = `transparency-csv:${url}:${Array.from(hideColumns).sort().join("|")}`;
 
-  return getOrFetchLocalStorageCache(cacheKey, CSV_CACHE_TTL_MS, async () => {
+  return getOrFetchLocalCache(cacheKey, CSV_CACHE_TTL_MS, async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
