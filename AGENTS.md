@@ -8,13 +8,15 @@
 
 - Framework: Next.js 16 (App Router) with React 19 and Tailwind CSS. Entrypoints: `src/app/layout.tsx` and `src/app/[locale]/layout.tsx`.
 - i18n: `next-intl` is used. Routing and middleware proxy are implemented in `src/i18n/routing.ts` and `src/i18n/proxy.ts`. The middleware can be disabled in prod by environment variables (see `shouldUseIntlProxy` in `src/i18n/proxy.ts`).
+- Client shell: `src/app/[locale]/client-layout.tsx` is the shared client boundary for locale pages; it wires `ThemeProvider`, `NextIntlClientProvider`, `Header`, `Footer`, `ScrollToTop`, and the browser cache loaders.
 - Server vs client boundaries:
   - Server-only code (Node APIs like sqlite) runs in server components / API routes. Example: `src/components/Resources/resourcesData.tsx` opens `data/resources.sqlite3` with `sqlite3` and `sqlite` and is invoked from server components and routes.
   - Client code uses the `"use client"` directive (see `src/hooks/use-wp-articles.tsx`). Avoid importing server-only modules into client components.
 - Data flows:
   - Translations: CSV <-> per-locale JSON managed by `scripts/translations_csv_sync.py` and stored in `src/translations/*.json` (export CSV at `src/translations/export.csv`).
-  - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`).
-  - WordPress articles: client-side cached in localStorage under key `wpArticles` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
+  - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`) and served by `src/app/api/resources/[locale]/route.ts` for JSON consumers.
+  - WordPress articles: client-side cached in localStorage under key `wpArticles` with a map driven by `src/pages.ts` and helpers in `src/cache/wp-article-local-cache.ts`, `src/cache/WpArticlesLocalCacheLoader.tsx`, and `src/hooks/use-wp-articles.tsx`.
+  - Google Calendar: cached in localStorage under key `googleCalendar` via `src/cache/local-cache-loader.ts` and `src/cache/GoogleCalLocalCacheLoader.tsx`; it refreshes through the `googleCalendarUpdated` event.
 
 ## Critical developer workflows (commands)
 
@@ -25,6 +27,7 @@
 - Build / export / start (production-ish):
   - npm run build
   - npm run export   # project uses "export" as a build shortcut
+  - npm run deploy
   - npm run start
 - Linting:
   - npm run lint
@@ -40,7 +43,8 @@
 - Locale prefixing: routes live under `src/app/[locale]/...`. `src/i18n/routing.ts` sets `localePrefix: 'always'` and `localeDetection: false` — the app expects explicit locale segments.
 - Intl middleware proxy: `src/proxy.ts` defers to `src/i18n/proxy.ts`. The proxy decides whether to run middleware using env vars: `NODE_ENV`, `GITHUB_ACTIONS`, `ENABLE_I18N_PROXY`.
 - Translations shape: the CSV script flattens nested keys up to 3 levels. See `scripts/translations_csv_sync.py::_flatten_locale_dict` and `_normalize_header` for exact CSV schema (first 3 columns are keys L1/L2/L3).
-- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesUpdated` and `storage` events to refresh caches.
+- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/cache/wp-article-local-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesUpdated` and `storage` events to refresh caches.
+- Shared browser cache loader: `src/cache/local-cache-loader.ts` handles TTL/completeness checks and event dispatch for `src/cache/WpArticlesLocalCacheLoader.tsx` and `src/cache/GoogleCalLocalCacheLoader.tsx`.
 - Server-data queries: `src/components/Resources/resourcesData.tsx` shows the pattern for server-side DB access (open DB, run queries, close DB, return plain JSON serializable objects).
 
 ## Integration points & external dependencies
@@ -60,9 +64,12 @@
 
 - `package.json` — scripts and dependencies.
 - `src/app/[locale]/layout.tsx` — where request locale is established and messages are wired.
+- `src/app/[locale]/client-layout.tsx` — client-side shell that mounts global UI, i18n, theme, and cache loaders.
 - `src/i18n/proxy.ts` and `src/proxy.ts` — how middleware is enabled/disabled.
 - `src/components/Resources/resourcesData.tsx` — canonical example of server-side DB access.
-- `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx` — client-side caching pattern for WP articles.
+- `src/app/api/resources/[locale]/route.ts` — JSON API wrapper around the resources SQLite query.
+- `src/hooks/use-wp-articles.tsx` — client-side hook for the WP article cache.
+- `src/cache/wp-article-local-cache.ts`, `src/cache/WpArticlesLocalCacheLoader.tsx`, and `src/cache/GoogleCalLocalCacheLoader.tsx` — browser cache maps/loaders for remote content.
 - `scripts/translations_csv_sync.py` — CSV ↔ JSON translation format and constraints.
 - `src/pages.ts` — canonical mapping of internal page keys → WP IDs per-locale.
 

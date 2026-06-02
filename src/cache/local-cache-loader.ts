@@ -111,7 +111,7 @@ export async function localCacheLoader<T, IdType extends string | number = strin
     const payload = { timestamp: Date.now(), data };
     const serialized = JSON.stringify(payload);
     localStorage.setItem(cacheKey, serialized);
-    debugLog(`[localCacheLoader] Cache updated with ${data.length} items`);
+    debugLog(`[localCacheLoader] Cache updated with ${Array.isArray(data) ? data.length : 1} items`);
 
     window.dispatchEvent(new Event(eventName));
   } catch (err) {

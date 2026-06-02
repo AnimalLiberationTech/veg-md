@@ -6,6 +6,7 @@ import {NextIntlClientProvider} from 'next-intl';
 import {ThemeProvider} from "@/components/theme-provider";
 
 import WpArticlesLocalCacheLoader from "@/cache/WpArticlesLocalCacheLoader";
+import GoogleCalLocalCacheLoader from "@/cache/GoogleCalLocalCacheLoader";
 
 export function ClientLayout({
   children,
@@ -20,6 +21,7 @@ export function ClientLayout({
     <ThemeProvider>
       <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Bucharest">
         <WpArticlesLocalCacheLoader />
+        <GoogleCalLocalCacheLoader />
         <Header />
         {children}
         <Footer />

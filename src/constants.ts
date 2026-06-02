@@ -23,10 +23,15 @@ export const wtfChisinauInsta = "https://www.instagram.com/activism.wtf.chisinau
 export const uvmEmail = "moldovavegana@gmail.com";
 export const uvmSite = "https://uvem.org";
 export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-report";
-export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
+// Use a same-origin proxy route so client-side fetches don't hit CORS restrictions.
+export const gCalUrl = "/api/google/get-cal";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
 
 export const wpArticlesCacheKey = "wpArticles";
+export const gCalCacheKey = "googleCalendar";
+export const gSheetsCacheKey = "googleSheets";
 export const cacheTtlMsMap = {
   [wpArticlesCacheKey]: 60 * 60 * 1000,  // 1 hour
+  [gCalCacheKey]: 5 * 60 * 1000,  // 5 min
+  [gSheetsCacheKey]: 24 * 60 * 60 * 1000,
 }

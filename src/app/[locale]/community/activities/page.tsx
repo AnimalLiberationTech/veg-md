@@ -1,15 +1,13 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import ActivitiesCalendar from "@/components/Community/ActivitiesCalendar";
-import CalendarEventDescription from "@/components/Community/CalendarEventDescription";
-import {gCalUrl, locales, supportedLocales, uvmEmail} from "@/constants";
+import ActivitiesCalendarContent from "@/components/Community/ActivitiesCalendarContent";
+import {supportedLocales, uvmEmail} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import {JSX} from "react";
 import PhotoCredit from "@/components/Common/PhotoCredit";
-import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
-import {ExpandedEventDescriptionProvider} from "@/components/Community/expanded-event-description-context";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -29,193 +27,6 @@ type ActivityLink = {
   href: string;
   label: string;
 };
-
-type CalendarEvent = {
-  start_iso: string;
-  end_iso: string;
-  description: string;
-  location?: string;
-  summary: string;
-};
-
-type CalendarLocaleCode = Uppercase<(typeof locales)[number]["code"]>;
-
-const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
-const multilingualTagPattern = /\[\s*RO\s*\/\s*RU(?:\s*\/\s*EN)?\s*]/i;
-const sectionSeparatorPattern = /-{5}(?:\s|&nbsp;|<[^>]+>)*(RO|RU|EN)\s*:/gi;
-const calendarLocaleCodeByLocale = Object.fromEntries(
-  locales.map(({code}) => [code, code.toUpperCase()]),
-) as Record<(typeof locales)[number]["code"], CalendarLocaleCode>;
-const defaultCalendarLocaleCode = calendarLocaleCodeByLocale.ro;
-
-function toCalendarLocaleCode(locale: string): CalendarLocaleCode {
-  const localeKey = locale.toLowerCase().split("-")[0] as (typeof locales)[number]["code"];
-  return calendarLocaleCodeByLocale[localeKey] ?? defaultCalendarLocaleCode;
-}
-
-function normalizeCalendarText(value: string) {
-  return value.replace(/\\,/g, ",");
-}
-
-function normalizeCalendarDescription(value: string) {
-  return normalizeCalendarText(value)
-    .replace(/\\n\\n/g, "<br><br>")
-    .replace(/\\n/g, "<br>");
-}
-
-function linkifyCalendarUrls(value: string) {
-  const tagSplitPattern = /(<[^>]+>)/g;
-  const urlPattern = /(^|[\s(])(https?:\/\/[^\s<>"']+)/g;
-  const maxLabelLength = 56;
-  let isInsideAnchor = false;
-
-  return value
-    .split(tagSplitPattern)
-    .map((part) => {
-      if (part.startsWith("<")) {
-        const lowerPart = part.toLowerCase();
-
-        if (/^<a\b/.test(lowerPart)) {
-          isInsideAnchor = true;
-        } else if (/^<\/a\b/.test(lowerPart)) {
-          isInsideAnchor = false;
-        }
-
-        return part;
-      }
-
-      if (isInsideAnchor) {
-        return part;
-      }
-
-      return part.replace(urlPattern, (_, prefix: string, rawUrl: string) => {
-        const href = rawUrl.replace(/[),.;!?]+$/g, "");
-        const suffix = rawUrl.slice(href.length);
-        const displayText = href.length > maxLabelLength ? `${href.slice(0, maxLabelLength - 1)}…` : href;
-
-        return `${prefix}<a href="${href}" target="_blank" rel="noopener noreferrer">${displayText}</a>${suffix}`;
-      });
-    })
-    .join("");
-}
-
-function stripCalendarSectionMarkers(value: string) {
-  sectionSeparatorPattern.lastIndex = 0;
-  return value.replace(sectionSeparatorPattern, "");
-}
-
-function localizeCalendarDescription(description: string, locale: string) {
-  const tagMatch = multilingualTagPattern.exec(description);
-
-  if (!tagMatch || tagMatch.index === undefined) {
-    return description;
-  }
-
-  const beforeTag = description.slice(0, tagMatch.index);
-  const contentAfterTag = description.slice(tagMatch.index + tagMatch[0].length);
-  sectionSeparatorPattern.lastIndex = 0;
-  const separators = Array.from(contentAfterTag.matchAll(sectionSeparatorPattern));
-
-  if (separators.length === 0) {
-    return description;
-  }
-
-  const localeFromTag = (tagMatch[0].toUpperCase().match(/RO|RU|EN/g) || []) as CalendarLocaleCode[];
-  const defaultLocale = localeFromTag[0] || "RO";
-  const sections: Partial<Record<CalendarLocaleCode, string>> = {};
-
-  const firstSeparatorIndex = separators[0].index || 0;
-  sections[defaultLocale] = contentAfterTag.slice(0, firstSeparatorIndex);
-
-  separators.forEach((match, index) => {
-    const sectionLocale = match[1].toUpperCase() as CalendarLocaleCode;
-    const sectionStart = (match.index || 0) + match[0].length;
-    const sectionEnd =
-      index + 1 < separators.length
-        ? separators[index + 1].index || contentAfterTag.length
-        : contentAfterTag.length;
-
-    sections[sectionLocale] = contentAfterTag.slice(sectionStart, sectionEnd);
-  });
-
-  const activeLocale = toCalendarLocaleCode(locale);
-  const localizedSection = sections[activeLocale] || sections[defaultLocale] || "";
-
-  return `${beforeTag}${stripCalendarSectionMarkers(localizedSection)}`;
-}
-
-function isCalendarEvent(value: unknown): value is CalendarEvent {
-  return Boolean(
-    value &&
-      typeof value === "object" &&
-      typeof (value as CalendarEvent).start_iso === "string" &&
-      typeof (value as CalendarEvent).end_iso === "string" &&
-      typeof (value as CalendarEvent).description === "string" &&
-      typeof (value as CalendarEvent).summary === "string",
-  );
-}
-
-function parseCalendarEvents(value: unknown): CalendarEvent[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value.filter(isCalendarEvent).sort((left, right) => {
-    return new Date(left.start_iso).getTime() - new Date(right.start_iso).getTime();
-  });
-}
-
-function convertToChisinauTime(isoString: string): Date {
-  const date = new Date(isoString);
-  return new Date(
-    date.toLocaleString("en-US", {timeZone: "Europe/Bucharest"}),
-  );
-}
-
-async function loadCalendarEvents() {
-  try {
-    const isDev = process.env.NODE_ENV === "development";
-    const response = await fetch(calendarFeedUrl, {
-      next: {revalidate: isDev ? 300 : 3600},
-    });
-
-    if (!response.ok) {
-      return [];
-    }
-
-    return parseCalendarEvents(await response.json());
-  } catch {
-    return [];
-  }
-}
-
-function formatCalendarDateRange(locale: string, startIso: string, endIso: string) {
-  const start = convertToChisinauTime(startIso);
-  const end = convertToChisinauTime(endIso);
-
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
-    return normalizeCalendarText(startIso);
-  }
-
-  const dateFormatter = new Intl.DateTimeFormat(locale, {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-  const timeFormatter = new Intl.DateTimeFormat(locale, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  const sameDay = start.toDateString() === end.toDateString();
-
-  if (sameDay) {
-    return `${dateFormatter.format(start)} · ${timeFormatter.format(start)} – ${timeFormatter.format(end)}`;
-  }
-
-  return `${dateFormatter.format(start)} · ${timeFormatter.format(start)} – ${dateFormatter.format(end)} · ${timeFormatter.format(end)}`;
-}
 
 const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
   website: (
@@ -255,7 +66,6 @@ const linkIconByType: Record<ActivityLink["type"], JSX.Element> = {
 const ActivitiesPage = async ({params}: Props) => {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "activitiesPage"});
-  const calendarEvents = await loadCalendarEvents();
 
   const activities = [
     {
@@ -313,69 +123,7 @@ const ActivitiesPage = async ({params}: Props) => {
       <section className="pt-12 pb-16">
         <div className="container">
           <ActivitiesCalendar
-            calendarContent={
-              <div className="space-y-4">
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-black dark:text-white">
-                    {t("calendar")}
-                  </h2>
-                </div>
-
-                <div className="space-y-4">
-                  {calendarEvents.length > 0 ? (
-                    <ExpandedEventDescriptionProvider>
-                      {calendarEvents.map((event) => {
-                        const eventId = `${event.start_iso}-${event.summary}`;
-
-                        return (
-                          <article
-                            key={eventId}
-                            className="rounded-sm border border-dark/10 p-4 dark:border-white/10"
-                          >
-                            <p className="text-sm font-semibold text-primary">
-                              {formatCalendarDateRange(locale, event.start_iso, event.end_iso)}
-                            </p>
-                            <h3 className="mt-2 text-lg font-bold text-black dark:text-white">
-                              {normalizeCalendarText(event.summary)}
-                            </h3>
-                            {event.location ? (
-                              <p className="mt-2 inline-flex items-start gap-2 text-sm text-body-color">
-                                <svg
-                                  viewBox="0 0 24 24"
-                                  className="mt-0.5 h-4 w-4 shrink-0 text-primary"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  aria-hidden="true"
-                                >
-                                  <path d="M12 21s6-5.686 6-11a6 6 0 0 0-12 0c0 5.314 6 11 6 11Z" />
-                                  <circle cx="12" cy="10" r="2.5" />
-                                </svg>
-                                <span>{normalizeCalendarText(event.location)}</span>
-                              </p>
-                            ) : null}
-                            {event.description ? (
-                              <CalendarEventDescription
-                                eventId={eventId}
-                                html={sanitizeWpArticleHtml(
-                                  linkifyCalendarUrls(
-                                    localizeCalendarDescription(normalizeCalendarDescription(event.description), locale),
-                                  ),
-                                )}
-                              />
-                            ) : null}
-                          </article>
-                        );
-                      })}
-                    </ExpandedEventDescriptionProvider>
-                  ) : (
-                    <div className="rounded-sm border border-dashed border-dark/20 p-4 text-sm text-body-color dark:border-white/10">
-                      {t("noUpcomingEvents")}
-                    </div>
-                  )}
-                </div>
-              </div>
-            }
+            calendarContent={<ActivitiesCalendarContent locale={locale} />}
             openLabel={t("calendarOpen")}
             closeLabel={t("calendarClose")}
             mobileAlwaysVisible
@@ -442,6 +190,3 @@ const ActivitiesPage = async ({params}: Props) => {
 };
 
 export default ActivitiesPage;
-
-
-
