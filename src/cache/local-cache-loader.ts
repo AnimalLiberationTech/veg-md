@@ -101,7 +101,7 @@ export async function localCacheLoader<T>(
     const data = (await res.json()) as T[];
     onSuccess?.(data);
 
-    const payload = { timestamp: Date.now(), data };
+    const payload = {timestamp: Date.now(), data, value: data};
     const serialized = JSON.stringify(payload);
     localStorage.setItem(cacheKey, serialized);
     debugLog(`[localCacheLoader] Cache updated with ${Array.isArray(data) ? data.length : 1} items`);
