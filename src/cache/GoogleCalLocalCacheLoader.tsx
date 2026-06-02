@@ -20,7 +20,7 @@ export default function GoogleCalLocalCacheLoader(): null {
       buildUrl: () => {
         // Defensively resolve the URL against the current origin. This ensures
         // that even if `gCalUrl` is a relative path (like /api/...), it becomes an absolute,
-        // same-origin URL for the fetch call, preventing cross-origin requests from the browse
+        // same-origin URL for the fetch call, preventing cross-origin requests from the browser
         const resolvedUrl = new URL(calendarFeedUrl, window.location.origin).toString();
         debugLog("Resolved calendar fetch URL:", resolvedUrl);
 
