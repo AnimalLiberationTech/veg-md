@@ -21,16 +21,23 @@ export default function useCalendarEvents() {
     setLoading(true);
     try {
       const raw = localStorage.getItem(gCalCacheKey);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed?.data)) {
-          // Sort events by start date
-          const sorted = [...parsed.data].sort((left, right) => {
-            return new Date(left.start_iso).getTime() - new Date(right.start_iso).getTime();
-          });
-          setEvents(sorted);
-        }
-      }
+      const parsed = raw ? JSON.parse(raw) : null;
+      const data = Array.isArray(parsed?.data) ? parsed.data : [];
+      const safeEvents = data.filter((event: any): event is CalendarEvent =>
+        Boolean(
+          event &&
+            typeof event.start_iso === "string" &&
+            typeof event.end_iso === "string" &&
+            typeof event.description === "string" &&
+            typeof event.summary === "string" &&
+            (typeof event.location === "undefined" || typeof event.location === "string"),
+        ),
+      );
+
+      const sorted = [...safeEvents].sort((left, right) => {
+        return new Date(left.start_iso).getTime() - new Date(right.start_iso).getTime();
+      });
+      setEvents(sorted);
     } catch (err) {
       console.error("[useCalendarEvents] Failed to load from cache:", err);
     } finally {
