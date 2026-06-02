@@ -36,7 +36,7 @@ WordPress articles are cached in the browser to reduce repeat fetches and keep p
 
 ### How the cache is used in practice
 
-- On app mount, `WpArticlesCacheLoader` checks the cache age and whether it contains all IDs from `wpArticleIdsMap`.
+- On app mount, `WpArticlesLocalCacheLoader` checks the cache age and whether it contains all IDs from `wpArticleIdsMap`.
 - If the cache is stale or incomplete, it fetches the latest WP posts and writes them to `localStorage`.
 - Any component that needs cached WP content can import `useWpArticles()` and call `getArticle(pageKey, locale)`.
 - When the loader writes fresh cache data, it dispatches `wpArticlesUpdated`, and the hook refreshes its in-memory state.
