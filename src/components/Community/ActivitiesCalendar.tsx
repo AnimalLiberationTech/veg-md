@@ -46,33 +46,32 @@ const ActivitiesCalendar = ({
           isOpen ? "grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]" : "grid-cols-1"
         }`}
       >
-        <div className="min-w-0">{children}</div>
+        {/* Render the calendar aside always to keep server and client DOM consistent */}
+        {calendarContent ? (
+          <aside
+            className={`w-full order-1 lg:order-2 rounded-sm border border-dark bg-white p-6 shadow-three dark:border-white/10 dark:bg-black dark:shadow-none md:p-8 ${
+              (!isVisibleOnAnyViewport ? "hidden" : "") + " " + (mobileAlwaysVisible && !isOpen ? "md:hidden" : "")
+            }`}
+          >
+            {calendarContent}
+          </aside>
+        ) : (
+          <aside
+            className={`w-full order-1 lg:order-2 h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
+              (!isVisibleOnAnyViewport ? "hidden" : "") + " " + (mobileAlwaysVisible && !isOpen ? "md:hidden" : "")
+            }`}
+          >
+            <iframe
+              src={calendarUrl}
+              style={{border: 0}}
+              width="100%"
+              height="100%"
+              title={calendarTitle || "Activities calendar"}
+            />
+          </aside>
+        )}
 
-        {isVisibleOnAnyViewport ? (
-          calendarContent ? (
-            <aside
-              className={`w-full rounded-sm border border-dark bg-white p-6 shadow-three dark:border-white/10 dark:bg-black dark:shadow-none md:p-8 ${
-                mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
-              }`}
-            >
-              {calendarContent}
-            </aside>
-          ) : (
-            <aside
-              className={`w-full h-125 md:h-150 rounded-sm border border-dark overflow-hidden shadow-three dark:shadow-none bg-white dark:bg-black ${
-                mobileAlwaysVisible && !isOpen ? "md:hidden" : ""
-              }`}
-            >
-              <iframe
-                src={calendarUrl}
-                style={{border: 0}}
-                width="100%"
-                height="100%"
-                title={calendarTitle || "Activities calendar"}
-              />
-            </aside>
-          )
-        ) : null}
+        <div className="min-w-0 order-2 lg:order-1">{children}</div>
       </div>
     </div>
   );

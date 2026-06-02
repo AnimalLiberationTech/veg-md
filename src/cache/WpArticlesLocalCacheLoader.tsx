@@ -12,47 +12,54 @@ const debugLog = (...args: any[]) => {
   }
 };
 
-function collectIds(map: Record<string, Record<string, number | string>>): number[] {
-  const ids = new Set<number>();
-  Object.values(map).forEach((entry) => {
-    Object.values(entry).forEach((id) => {
-      const n = typeof id === "number" ? id : Number(id);
-      if (!Number.isNaN(n)) ids.add(n);
+export default function WpArticlesLocalCacheLoader(): null {
+
+  // Extract all required IDs from the WP articles map
+  function collectRequiredIds(): number[] {
+    const ids = new Set<number>();
+    Object.values(wpArticleIdsMap).forEach((entry) => {
+      Object.values(entry).forEach((id) => {
+        const n = typeof id === "number" ? id : Number(id);
+        if (!Number.isNaN(n)) ids.add(n);
+      });
     });
-  });
-  return Array.from(ids);
-}
+    return Array.from(ids);
+  }
 
-function collectCachedIds(data: unknown): Set<number> {
-  const ids = new Set<number>();
+  // Extract IDs from cached data
+  function collectCachedIds(data: unknown): Set<number> {
+    const ids = new Set<number>();
 
-  if (!Array.isArray(data)) {
+    if (!Array.isArray(data)) {
+      return ids;
+    }
+
+    data.forEach((post) => {
+      if (post && typeof post.id === "number") {
+        ids.add(post.id);
+      }
+    });
+
     return ids;
   }
 
-  data.forEach((post) => {
-    if (post && typeof post.id === "number") {
-      ids.add(post.id);
-    }
-  });
-
-  return ids;
-}
-
-export default function WpArticlesLocalCacheLoader(): null {
   useEffect(() => {
+    const requiredIds = collectRequiredIds();
+
     localCacheLoader({
       cacheKey: wpArticlesCacheKey,
       buildUrl: () => {
-        const ids = collectIds(wpArticleIdsMap);
+        const ids = requiredIds;
         if (ids.length === 0) {
           debugLog("No IDs found, skipping fetch");
           throw new Error("No WP article IDs configured");
         }
         return buildWpApiPostsUrl(uvmSite, ids, ["id", "title", "content"]);
       },
-      collectRequiredIds: () => collectIds(wpArticleIdsMap),
-      collectCachedIds,
+      validateContent: (data: unknown) => {
+        const cachedIds = collectCachedIds(data);
+        return requiredIds.every((id) => cachedIds.has(id));
+      },
       debugLog,
       eventName: "wpArticlesUpdated",
       onError: (err) => {

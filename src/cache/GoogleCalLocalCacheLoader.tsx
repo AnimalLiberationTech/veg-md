@@ -12,22 +12,6 @@ const debugLog = (...args: any[]) => {
 
 const calendarFeedUrl = `${gCalUrl}?cal=community&days=30`;
 
-function collectCachedIds(data: unknown): Set<string> {
-  const ids = new Set<string>();
-
-  if (!Array.isArray(data)) {
-    return ids;
-  }
-
-  data.forEach((event) => {
-    if (event && typeof event.start_iso === "string" && typeof event.summary === "string") {
-      // Use the same composite ID logic as in the page
-      ids.add(`${event.start_iso}-${event.summary}`);
-    }
-  });
-
-  return ids;
-}
 
 export default function GoogleCalLocalCacheLoader(): null {
   useEffect(() => {
@@ -35,23 +19,19 @@ export default function GoogleCalLocalCacheLoader(): null {
       cacheKey: gCalCacheKey,
       buildUrl: () => {
         // Defensively resolve the URL against the current origin. This ensures
-        // that even if `gCalUrl` is a relative path (like /api/...), it becomes
-        // an absolute, same-origin URL for the fetch call, preventing any
-        // accidental cross-origin requests from the browser.
+        // that even if `gCalUrl` is a relative path (like /api/...), it becomes an absolute,
+        // same-origin URL for the fetch call, preventing cross-origin requests from the browse
         const resolvedUrl = new URL(calendarFeedUrl, window.location.origin).toString();
         debugLog("Resolved calendar fetch URL:", resolvedUrl);
 
-        // Skip fetch attempts if the browser reports it is offline.
+        // Skip fetch attempts if the browser reports it is offline
         if (typeof navigator !== "undefined" && !navigator.onLine) {
           throw new Error("Browser is offline, skipping calendar fetch.");
         }
 
         return resolvedUrl;
       },
-      // For calendar, we don't have a static list of required IDs before fetch,
-      // so we return empty to bypass completeness check and rely on TTL.
-      collectRequiredIds: () => [],
-      collectCachedIds,
+      validateContent: () => true,  // don't validate content completeness
       debugLog,
       eventName: "googleCalendarUpdated",
       onError: (err) => {

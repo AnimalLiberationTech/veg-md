@@ -5,15 +5,13 @@
 
 import {cacheTtlMsMap} from "@/constants";
 
-export interface LocalCacheLoaderOptions<T, IdType extends string | number = string | number> {
+export interface LocalCacheLoaderOptions<T> {
   /** localStorage key */
   cacheKey: keyof typeof cacheTtlMsMap;
   /** Function that returns the URL to fetch from */
   buildUrl: () => string;
-  /** Function that returns the list of required IDs for completeness check */
-  collectRequiredIds: () => IdType[];
-  /** Function that extracts cached IDs from the fetched data */
-  collectCachedIds: (data: unknown) => Set<IdType>;
+  /** Function to validate if fetched data contains all required content */
+  validateContent: (data: unknown) => boolean;
   /** Optional callback when fetch succeeds (before cache write) */
   onSuccess?: (data: T[]) => void;
   /** Optional callback when fetch fails */
@@ -31,14 +29,13 @@ export interface LocalCacheLoaderOptions<T, IdType extends string | number = str
  * @param options Configuration for the cache loader
  * @returns Promise that resolves when cache check/fetch is complete
  */
-export async function localCacheLoader<T, IdType extends string | number = string | number>(
-  options: LocalCacheLoaderOptions<T, IdType>,
+export async function localCacheLoader<T>(
+  options: LocalCacheLoaderOptions<T>,
 ): Promise<void> {
   const {
     cacheKey,
     buildUrl,
-    collectRequiredIds,
-    collectCachedIds,
+    validateContent,
     onSuccess,
     onError,
     debugLog = () => {},
@@ -58,25 +55,21 @@ export async function localCacheLoader<T, IdType extends string | number = strin
     if (raw) {
       const parsed = JSON.parse(raw);
       const age = Date.now() - (parsed?.timestamp || 0);
-      const requiredIds = collectRequiredIds();
-      const cachedIds = collectCachedIds(parsed?.data);
-      const cacheCoversAllRequiredIds = requiredIds.every((id) =>
-        cachedIds.has(id),
-      );
+      const isContentValid = validateContent(parsed?.data);
 
       if (
         parsed?.timestamp &&
         age < cacheTtlMs &&
-        cacheCoversAllRequiredIds
+        isContentValid
       ) {
         debugLog(
-          `[localCacheLoader] Cache is fresh (age: ${age}ms) and complete, skipping fetch`,
+          `[localCacheLoader] Cache is fresh (age: ${age}ms) and valid, skipping fetch`,
         );
-        return; // Cached, fresh, and complete — nothing to do
+        return; // Cached, fresh, and valid — nothing to do
       }
 
       debugLog(
-        `[localCacheLoader] Cache is stale or incomplete (age: ${age}ms, required: ${requiredIds.length}, cached: ${cachedIds.size})`,
+        `[localCacheLoader] Cache is stale or invalid (age: ${age}ms)`,
       );
     }
   } catch (e) {

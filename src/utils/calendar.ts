@@ -64,10 +64,12 @@ export function formatCalendarDateRange(locale: string, startIso: string, endIso
     year: "numeric",
     month: "short",
     day: "numeric",
+    timeZone: "Europe/Bucharest",
   });
   const timeFormatter = new Intl.DateTimeFormat(locale, {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "Europe/Bucharest",
   });
 
   const sameDay = start.toDateString() === end.toDateString();
