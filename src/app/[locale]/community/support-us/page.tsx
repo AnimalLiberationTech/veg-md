@@ -25,7 +25,6 @@ const SupportUsPage = async ({params}: Props) => {
   const t = await getTranslations({locale, namespace: "supportUsPage"});
   const tGlobal = await getTranslations({locale, namespace: "global"});
 
-
   return (
     <>
       <Breadcrumb
@@ -67,13 +66,11 @@ const SupportUsPage = async ({params}: Props) => {
                   </p>
                 </div>
                 <Transparency
-                  donationsUrl={`${gSheetUrl}?sheet=community-donations`}
-                  expensesUrl={`${gSheetUrl}?sheet=community-expenses`}
                   donationTableHeader={t("donationTableHeader")}
                   expensesTableHeader={t("expensesTableHeader")}
-                  loading={t("loading")}
+                  loading={tGlobal("loading")}
                   noDataLabel={tGlobal("noContentAvailable")}
-                  errorLoadingTables={t("errorLoadingTables")}
+                  errorLoadingTables={tGlobal("errorLoading")}
                 />
               </div>
             </div>

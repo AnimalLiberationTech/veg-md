@@ -3,15 +3,12 @@
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
 import {useExpandedEventDescription} from "@/components/Community/expanded-event-description-context";
+import {stripHtmlTags} from "@/utils/text";
 
 type Props = {
   html: string;
   eventId: string;
 };
-
-function stripHtmlTags(value: string) {
-  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
 
 const CalendarEventDescription = ({html, eventId}: Props) => {
   const t = useTranslations("resources");

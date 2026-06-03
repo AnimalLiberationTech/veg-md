@@ -26,7 +26,13 @@ export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-rep
 export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
 
-export const wpArticlesCacheKey = "wpArticles";
+export const wpArticlesCacheKey = "uvem-articles";
+export const gCalCacheKey = "googleCalendar";
+export const gSheetDonationsCacheKey = "donations-table";
+export const gSheetExpensesCacheKey = "expenses-table";
 export const cacheTtlMsMap = {
   [wpArticlesCacheKey]: 60 * 60 * 1000,  // 1 hour
+  [gCalCacheKey]: 5 * 60 * 1000,  // 5 min
+  [gSheetDonationsCacheKey]: 60 * 60 * 1000,  // 1 hour
+  [gSheetExpensesCacheKey]: 24 * 60 * 60 * 1000,  // 24 hours
 }

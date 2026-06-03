@@ -1,12 +1,11 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import Papa from "papaparse";
 import {getOrFetchLocalCache} from "@/cache/local-cache";
+import {gSheetDonationsCacheKey, gSheetExpensesCacheKey, gSheetUrl} from "@/constants";
+import {CsvRow, fetchCsvData} from "@/utils/table";
 
 interface TransparencyProps {
-  donationsUrl: string;
-  expensesUrl: string;
   donationTableHeader: string;
   expensesTableHeader: string;
   loading: string;
@@ -14,79 +13,17 @@ interface TransparencyProps {
   errorLoadingTables: string;
 }
 
-type CsvRow = Record<string, string | undefined>;
-
 type TableData = {
   headers: string[];
   rows: CsvRow[];
 };
 
-const CSV_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
-function normalizeCsvPayload(payload: string) {
-  const trimmed = payload.trim();
-
-  if (!trimmed) {
-    return "";
-  }
-
-  try {
-    const parsed = JSON.parse(trimmed);
-
-    if (typeof parsed === "string") {
-      return parsed;
-    }
-  } catch {
-    // Keep the original payload when it is already raw CSV.
-  }
-
-  return trimmed;
-}
-
-function fixDiacritics(value: string) {
-  if (!/[ÃÂÄÅ]/.test(value)) {
-    return value;
-  }
-
-  try {
-    const bytes = Uint8Array.from(value, (character) => character.charCodeAt(0) & 0xff);
-    return new TextDecoder("utf-8").decode(bytes);
-  } catch {
-    return value;
-  }
-}
-
-async function loadCsvTable(url: string, hideColumns: Set<string> = new Set()): Promise<TableData> {
-  const cacheKey = `transparency-csv:${url}:${Array.from(hideColumns).sort().join("|")}`;
-
-  return getOrFetchLocalCache(cacheKey, CSV_CACHE_TTL_MS, async () => {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`Failed to load CSV from ${url}`);
-    }
-
-    const csvText = fixDiacritics(normalizeCsvPayload(await response.text()));
-    const results = Papa.parse<CsvRow>(csvText, {
-      header: true,
-      skipEmptyLines: "greedy",
-      transformHeader: (header) => header.trim(),
-    });
-
-    const headers = (results.meta.fields ?? []).filter(
-      (header) => header.trim().length > 0 && !hideColumns.has(header.trim())
-    );
-    const rows = (results.data ?? []).filter((row) =>
-      headers.some((header) => String(row[header] ?? "").trim().length > 0)
-    );
-
-    return {headers, rows};
-  });
+async function loadCsvTable(cacheKey: string, url: string): Promise<TableData> {
+  return getOrFetchLocalCache(cacheKey, fetchCsvData(url));
 }
 
 export default function Transparency({
-  donationsUrl,
-  expensesUrl,
   donationTableHeader,
   expensesTableHeader,
   loading,
@@ -98,13 +35,17 @@ export default function Transparency({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const donationsUrl = `${gSheetUrl}?sheet=community-donations`;
+  const expensesUrl = `${gSheetUrl}?sheet=community-expenses`;
+
   useEffect(() => {
     let isCancelled = false;
 
     const loadTables = async () => {
       try {
         const [donationsTable, expensesTable] = await Promise.all([
-          loadCsvTable(donationsUrl), loadCsvTable(expensesUrl),
+          loadCsvTable(gSheetDonationsCacheKey, donationsUrl),
+          loadCsvTable(gSheetExpensesCacheKey, expensesUrl),
         ]);
 
         if (isCancelled) {
@@ -114,7 +55,9 @@ export default function Transparency({
         setDonations(donationsTable);
         setExpenses(expensesTable);
        } catch (err) {
-         console.error("Error loading transparency CSV data:", err);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("Error loading transparency CSV data:", err);
+        }
 
          if (!isCancelled) {
            setError(errorLoadingTables);
