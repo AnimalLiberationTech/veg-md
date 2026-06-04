@@ -1,6 +1,14 @@
 "use client";
 
 import {ReactNode, useState} from "react";
+import {getOrFetchLocalCache} from "@/cache/local-cache";
+import {CalEvent} from "@/components/Calendar/events";
+import {fetchCalEvents} from "@/utils/fetchers/cal-events";
+import {gCalUrl} from "@/constants";
+
+async function loadCalEvents(cacheKey: string, url: string): Promise<CalEvent> {
+  return getOrFetchLocalCache(cacheKey, fetchCalEvents(url));
+}
 
 type Props = {
   children: ReactNode;
@@ -11,19 +19,19 @@ type Props = {
   closeLabel: string;
   mobileAlwaysVisible?: boolean;
 };
-
-const ActivitiesCalendar = ({
-  children,
-  calendarContent,
-  calendarUrl,
-  calendarTitle,
-  openLabel,
-  closeLabel,
-  mobileAlwaysVisible = false,
-}: Props) => {
+const Calendar = ({
+                              children,
+                              calendarContent,
+                              calendarUrl,
+                              calendarTitle,
+                              openLabel,
+                              closeLabel,
+                              mobileAlwaysVisible = false,
+                            }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const isVisibleOnAnyViewport = isOpen || mobileAlwaysVisible;
   const toggleWrapperClass = mobileAlwaysVisible ? "hidden justify-end md:flex" : "flex justify-end";
+  const calendarEvents = fetchCalEvents(`${gCalUrl}?cal=community&days=30`);
 
   return (
     <div className="space-y-8">
@@ -77,6 +85,4 @@ const ActivitiesCalendar = ({
     </div>
   );
 };
-
-export default ActivitiesCalendar;
-
+export default Calendar;

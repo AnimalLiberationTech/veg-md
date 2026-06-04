@@ -14,3 +14,13 @@ export function fixDiacritics(value: string) {
 export function stripHtmlTags(value: string) {
   return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
+
+export function unescapeCommas(value: string) {
+  return value.replace(/\\,/g, ",");
+}
+
+export function nl2br(value: string) {
+  return value
+    .replace(/\\n\\n/g, "<br><br>")
+    .replace(/\\n/g, "<br>");
+}

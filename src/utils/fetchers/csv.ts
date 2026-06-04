@@ -1,7 +1,6 @@
 import {fixDiacritics} from "@/utils/text";
 import Papa from "papaparse";
-
-export type CsvRow = Record<string, string | undefined>;
+import {CsvRow} from "@/types/table";
 
 function normalizeCsvPayload(payload: string) {
   const trimmed = payload.trim();

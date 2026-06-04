@@ -3,7 +3,8 @@
 import {useEffect, useState} from "react";
 import {getOrFetchLocalCache} from "@/cache/local-cache";
 import {gSheetDonationsCacheKey, gSheetExpensesCacheKey, gSheetUrl} from "@/constants";
-import {CsvRow, fetchCsvData} from "@/utils/table";
+import {CsvRow} from "@/types/table";
+import {fetchCsvData} from "@/utils/fetchers/csv";
 
 interface TransparencyProps {
   donationTableHeader: string;

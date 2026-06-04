@@ -1,18 +1,17 @@
 "use client";
 
 import {useTranslations} from "next-intl";
+import {useEventDescription} from "@/components/Calendar/event-description-context";
 import {useMemo} from "react";
-import {useExpandedEventDescription} from "@/components/Community/expanded-event-description-context";
 import {stripHtmlTags} from "@/utils/text";
 
 type Props = {
   html: string;
   eventId: string;
 };
-
 const CalendarEventDescription = ({html, eventId}: Props) => {
   const t = useTranslations("resources");
-  const {expandedEventId, setExpandedEventId} = useExpandedEventDescription();
+  const {expandedEventId, setExpandedEventId} = useEventDescription();
   const isExpanded = expandedEventId === eventId;
 
   const shouldShowToggle = useMemo(() => {
@@ -40,12 +39,11 @@ const CalendarEventDescription = ({html, eventId}: Props) => {
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
           </svg>
         </button>
       ) : null}
     </div>
   );
 };
-
 export default CalendarEventDescription;
