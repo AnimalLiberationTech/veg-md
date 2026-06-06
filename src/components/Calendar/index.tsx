@@ -1,8 +1,8 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CalEvent, localizeCalDescription, renderUrls} from "@/components/Calendar/events";
-import {uvmEmail} from "@/constants";
+import {gCalCacheKey, gCalUrl, uvmEmail} from "@/constants";
 import {useLocale, useTranslations} from "next-intl";
 import {formatCalendarDateRange} from "@/components/Calendar/datetime";
 import {EventDescriptionProvider} from "@/components/Calendar/event-description-context";
@@ -12,6 +12,8 @@ import {sanitizeWpArticleHtml} from "@/utils/wp-article-sanitize";
 import Image from "next/image";
 import PhotoCredit from "@/components/Common/PhotoCredit";
 import {ActivityLink, linkIconByType} from "@/components/Calendar/linkIcons";
+import {getOrFetchLocalCache, writeLocalCache} from "@/cache/local-cache";
+import {fetchCalEvents} from "@/utils/fetchers/cal-events";
 
 type Props = {
   openLabel: string;
@@ -27,9 +29,38 @@ const Calendar = ({
                     initialEvents = [],
                   }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
-  const [events] = useState<CalEvent[]>(initialEvents);
+  const [events, setEvents] = useState<CalEvent[]>(initialEvents);
   const locale = useLocale();
   const t = useTranslations("activitiesPage");
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadEvents = async () => {
+      try {
+        const url = `${gCalUrl}?cal=community&days=30`;
+        const data = await getOrFetchLocalCache<CalEvent[]>(gCalCacheKey, () =>
+          fetchCalEvents(url),
+        );
+        if (!isCancelled) {
+          setEvents(data);
+        }
+      } catch {
+        // Silently ignore fetch failures, falling back to initialEvents.
+        // To prevent spamming the endpoint when offline/CORS-blocked,
+        // we populate the cache with the server-provided initialEvents.
+        if (initialEvents && initialEvents.length > 0) {
+          writeLocalCache(gCalCacheKey, initialEvents);
+        }
+      }
+    };
+
+    void loadEvents();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [initialEvents]);
 
   const activities = [
     {
