@@ -84,7 +84,10 @@ export function writeLocalCache<T>(key: string, value: T) {
 
 export async function getOrFetchLocalCache<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
   const cached = readLocalCache<T>(key);
-  if (cached !== null) {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[local-cache] ${key} read from cache:`, cached);
+  }
+  if (cached) {
     return cached;
   }
 

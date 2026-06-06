@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Transparency from "@/components/Community/Transparency";
-import {gSheetUrl, supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
+import {supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";

@@ -27,7 +27,7 @@ export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
 
 export const wpArticlesCacheKey = "uvem-articles";
-export const gCalCacheKey = "googleCalendar";
+export const gCalCacheKey = "community-cal";
 export const gSheetDonationsCacheKey = "donations-table";
 export const gSheetExpensesCacheKey = "expenses-table";
 export const cacheTtlMsMap = {
