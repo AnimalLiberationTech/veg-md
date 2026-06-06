@@ -1,7 +1,9 @@
 {
   "global": {
     "uvm": "Uniunea Vegetarienilor din Moldova",
-    "noContentAvailable": "Conținut indisponibil"
+    "noContentAvailable": "Conținut indisponibil",
+    "loading": "Se încarcă...",
+    "errorLoading": "Eroare la încărcarea datelor"
   },
   "aboutPage": {
     "title": "Despre noi",
@@ -120,8 +122,6 @@
     "transparencyTitle": "Transparență și încredere",
     "transparencyDescription": "Suntem dedicați să realizăm cât mai mult cu resursele puține pe care le avem. Vrem să construim încredere în mișcare, de aceea ne angajăm să publicăm toate donațiile primite și cheltuielile noastre. Donatorii individuali pot rămâne anonimi dacă doresc, vom publica doar dacă sunt din interiorul sau din afara comunității noastre.",
     "donationTableHeader": "Donații",
-    "expensesTableHeader": "Cheltuieli",
-    "errorLoadingTables": "Eroare la încărcarea tabelelor",
-    "loading": "Se încarcă datele..."
+    "expensesTableHeader": "Cheltuieli"
   }
 }

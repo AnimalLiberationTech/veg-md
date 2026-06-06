@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Transparency from "@/components/Community/Transparency";
-import {gSheetUrl, supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
+import {supportedLocales, veganMoldovaTgGroupUrl} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
@@ -24,7 +24,6 @@ const SupportUsPage = async ({params}: Props) => {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: "supportUsPage"});
   const tGlobal = await getTranslations({locale, namespace: "global"});
-
 
   return (
     <>
@@ -67,13 +66,11 @@ const SupportUsPage = async ({params}: Props) => {
                   </p>
                 </div>
                 <Transparency
-                  donationsUrl={`${gSheetUrl}?sheet=community-donations`}
-                  expensesUrl={`${gSheetUrl}?sheet=community-expenses`}
                   donationTableHeader={t("donationTableHeader")}
                   expensesTableHeader={t("expensesTableHeader")}
-                  loading={t("loading")}
+                  loading={tGlobal("loading")}
                   noDataLabel={tGlobal("noContentAvailable")}
-                  errorLoadingTables={t("errorLoadingTables")}
+                  errorLoadingTables={tGlobal("errorLoading")}
                 />
               </div>
             </div>

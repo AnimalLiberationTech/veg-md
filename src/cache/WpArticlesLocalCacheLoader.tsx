@@ -56,7 +56,9 @@ export default function WpArticlesLocalCacheLoader(): null {
       debugLog,
       eventName: "wpArticlesUpdated",
       onError: (err) => {
-        console.error("[WpArticlesLocalCacheLoader] Failed to fetch WP articles:", err);
+        if (process.env.NODE_ENV !== "production") {
+          console.error("[WpArticlesLocalCacheLoader] Failed to fetch WP articles:", err);
+        }
       },
     }).catch((err) => {
       debugLog("Unexpected error:", err);

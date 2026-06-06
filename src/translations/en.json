@@ -1,7 +1,9 @@
 {
   "global": {
     "uvm": "Vegetarian Union of Moldova",
-    "noContentAvailable": "No content available"
+    "noContentAvailable": "No content available",
+    "loading": "Loading...",
+    "errorLoading": "Error loading data"
   },
   "aboutPage": {
     "title": "About us",
@@ -120,8 +122,6 @@
     "transparencyTitle": "Transparency and Trust",
     "transparencyDescription": "We are dedicated to achieving the most with the limited resources we have. We want to cultivate trust in the movement, which is why we are committed to publishing all donations we receive and our expenses. Individual donors can still remain anonymous if they wish; we will publish only whether they are from within or outside our community.",
     "donationTableHeader": "Donations",
-    "expensesTableHeader": "Expenses",
-    "errorLoadingTables": "Error loading tables",
-    "loading": "Loading data..."
+    "expensesTableHeader": "Expenses"
   }
 }
