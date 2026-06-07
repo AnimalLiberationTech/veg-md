@@ -44,7 +44,9 @@ export function readLocalCache<T>(key: string): T | null {
       return null;
     }
 
-    console.log(`[local-cache] ${key} hit (age: ${age}ms)`);
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[local-cache] ${key} hit (age: ${age}ms)`);
+    }
     return parsed.value as T;
   } catch (err) {
     if (process.env.NODE_ENV !== "production") {
