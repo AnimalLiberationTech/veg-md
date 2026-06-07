@@ -30,11 +30,13 @@ export const wpArticlesCacheKey = "uvem-articles";
 export const gCalCacheKey = "community-cal";
 export const gSheetDonationsCacheKey = "donations-table";
 export const gSheetExpensesCacheKey = "expenses-table";
+export const countryCodeCacheKey = "country-code";
 export const cacheTtlMsMap = {
   [wpArticlesCacheKey]: 60 * 60 * 1000,  // 1 hour
   [gCalCacheKey]: 5 * 60 * 1000,  // 5 min
   [gSheetDonationsCacheKey]: 60 * 60 * 1000,  // 1 hour
   [gSheetExpensesCacheKey]: 24 * 60 * 60 * 1000,  // 24 hours
+  [countryCodeCacheKey]: 24 * 60 * 60 * 1000, // 24 hours
 }
 export const countryCodeUrl = "https://ecovisio.org/ip/country-code.php";
 export const appwriteEndpoint = "https://fra.cloud.appwrite.io/v1";

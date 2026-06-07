@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import {useEffect, useRef, useState} from "react";
 import { usePathname } from "next/navigation";
 import {
   trackPageView,
@@ -8,6 +8,9 @@ import {
   trackTimeOnPage,
   trackJsError,
 } from "@/utils/telemetry";
+import {getOrFetchLocalCache, writeLocalCache} from "@/cache/local-cache";
+import {countryCodeCacheKey, countryCodeUrl} from "@/constants";
+import {fetchCountryCode} from "@/utils/fetchers/country-code";
 
 /**
  * Hook for automatic telemetry tracking
@@ -17,9 +20,45 @@ import {
  * - Captures global JS errors
  */
 export function useTelemetry() {
+  const [countryCode, setCountryCode] = useState<string | null>(null);
   const pathname = usePathname();
   const pageStartTime = useRef<number | null>(null);
   const scrollThresholdsReached = useRef<Set<number>>(new Set());
+
+  // Fetch country code once on mount
+  useEffect(() => {
+    let isCancelled = false;
+
+    const fetchCountry = async () => {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[Telemetry] useEffect fetchCountry starting");
+      }
+      try {
+        const code: string = await getOrFetchLocalCache(
+          countryCodeCacheKey,
+          () => fetchCountryCode(countryCodeUrl)
+        );
+
+        if (process.env.NODE_ENV !== "production") {
+          console.log("[Telemetry] country code data received:", code);
+        }
+
+        if (!isCancelled) {
+          setCountryCode(code);
+        }
+      } catch (err) {
+        if (countryCode) {
+          writeLocalCache(countryCodeCacheKey, countryCode);
+        }
+      }
+    };
+
+    void fetchCountry();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [countryCode]);
 
   // Track page view on mount and route change
   useEffect(() => {

@@ -91,6 +91,10 @@ export async function getOrFetchLocalCache<T>(key: string, fetcher: () => Promis
     return cached;
   }
 
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[local-cache] ${key} cache miss, fetching...`);
+  }
+
   const next = await fetcher();
   writeLocalCache(key, next);
   return next;

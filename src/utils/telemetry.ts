@@ -146,7 +146,7 @@ function getCompactUserAgent(): string | null {
 /**
  * Core telemetry track function
  */
-async function track(payload: TelemetryPayload): Promise<void> {
+async function track(payload: TelemetryPayload, explicitCountry?: string | null): Promise<void> {
   if (typeof window === "undefined") {
     return;
   }
@@ -156,7 +156,11 @@ async function track(payload: TelemetryPayload): Promise<void> {
   }
 
   try {
-    const country = await getCountry();
+    const country = explicitCountry ?? await getCountry();
+
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[Telemetry] Tracking event: ${payload.event_name} on path: ${payload.path} (country: ${country})`);
+    }
 
     await tablesDB.createRow({
       databaseId: DATABASE_ID,
