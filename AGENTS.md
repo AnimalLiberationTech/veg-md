@@ -16,9 +16,9 @@
   - Translations: CSV <-> per-locale JSON managed by `scripts/translations_csv_sync.py` and stored in `src/translations/*.json` (export CSV at `src/translations/export.csv`).
   - Page metadata: `src/utils/metadata.ts::getPageMetadata` centralizes localized `Metadata` generation with `next-intl`; `src/components/ArticleTemplate.tsx` reuses it for WP-backed content pages.
   - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`).
-  - WordPress articles: client-side cached in localStorage under key `wpArticlesCache` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
   - Browser caches: `src/utils/local-storage-cache.ts` provides the shared TTL localStorage helper used by client loaders such as `src/components/Community/Transparency.tsx`; `src/components/WpArticlesCacheLoader.tsx` refreshes `wpArticlesCache` on mount and emits `wpArticlesCacheUpdated`.
   - Telemetry: `src/utils/telemetry.ts` writes cookieless Appwrite events from client-side hooks/loaders (`src/hooks/use-telemetry.tsx`, `src/hooks/use-telemetry-events.tsx`, `src/components/TelemetryLoader.tsx`); each event includes `site: "veg-md"` and `env: "dev" | "prod"` plus the event payload.
+  - WordPress articles: client-side cached in localStorage under key `wpArticles` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
 
 ## Critical developer workflows (commands)
 
@@ -46,7 +46,7 @@
 - Intl middleware proxy: `src/proxy.ts` defers to `src/i18n/proxy.ts`. The proxy decides whether to run middleware using env vars: `NODE_ENV`, `GITHUB_ACTIONS`, `ENABLE_I18N_PROXY`.
 - Translations shape: the CSV script flattens nested keys up to 3 levels. See `scripts/translations_csv_sync.py::_flatten_locale_dict` and `_normalize_header` for exact CSV schema (first 3 columns are keys L1/L2/L3).
 - WP article rendering: sanitize remote HTML with `sanitizeWpArticleHtml` before `dangerouslySetInnerHTML`; the allowlist lives in `src/utils/wp-article-sanitize.ts` and is used by `src/components/WpArticleContent.tsx` and WP-backed content pages.
-- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesCacheUpdated` and `storage` events to refresh caches.
+- WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesUpdated` and `storage` events to refresh caches.
 - Server-data queries: `src/components/Resources/resourcesData.tsx` shows the pattern for server-side DB access (open DB, run queries, close DB, return plain JSON serializable objects).
 
 ## Integration points & external dependencies

@@ -90,14 +90,16 @@ const ClientBugMailer = ({ locale, pagePath, wpApiArticleUrl }: ClientBugMailerP
               : ` and body ${typeof responseBody === "string" ? responseBody : JSON.stringify(responseBody)}`;
           setStatus("failed");
           recentReportAttempts.delete(reportKey);
-          console.warn(`${LOG_PREFIX} send-failed`, {
-            error: {
-              name: "HttpError",
-              message: `Bug report endpoint failed with status ${response.status}${responseDetails}`,
-            },
-            locale,
-            pagePath,
-          });
+          if (process.env.NODE_ENV !== "production") {
+            console.warn(`${LOG_PREFIX} send-failed`, {
+              error: {
+                name: "HttpError",
+                message: `Bug report endpoint failed with status ${response.status}${responseDetails}`,
+              },
+              locale,
+              pagePath,
+            });
+          }
           return;
         }
 
@@ -121,21 +123,25 @@ const ClientBugMailer = ({ locale, pagePath, wpApiArticleUrl }: ClientBugMailerP
             setStatus("sent");
             return;
           } catch (fallbackError: unknown) {
-            console.warn(`${LOG_PREFIX} send-fallback-failed`, {
-              error: normalizeError(fallbackError),
-              locale,
-              pagePath,
-            });
+            if (process.env.NODE_ENV !== "production") {
+              console.warn(`${LOG_PREFIX} send-fallback-failed`, {
+                error: normalizeError(fallbackError),
+                locale,
+                pagePath,
+              });
+            }
           }
         }
 
         setStatus("failed");
         recentReportAttempts.delete(reportKey);
-        console.warn(`${LOG_PREFIX} send-failed`, {
-          error: normalizedError,
-          locale,
-          pagePath,
-        });
+        if (process.env.NODE_ENV !== "production") {
+          console.warn(`${LOG_PREFIX} send-failed`, {
+            error: normalizedError,
+            locale,
+            pagePath,
+          });
+        }
       }
     };
 

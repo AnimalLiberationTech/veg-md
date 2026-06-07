@@ -1,13 +1,13 @@
+import {wpArticlesCacheKey} from "@/constants";
 import {wpArticleIdsMap} from "@/pages";
 
-export const CACHE_KEY = "wpArticlesCache";
-
-export interface WpPost {
+export interface WpArticle {
   id: number;
   title?: { rendered?: string };
   content?: { rendered?: string };
 }
-export type ArticlesMap = Record<string, Record<string, WpPost | null>>;
+
+export type ArticlesMap = Record<string, Record<string, WpArticle | null>>;
 
 function mapEmpty(): ArticlesMap {
   const result: ArticlesMap = {};
@@ -30,18 +30,18 @@ export function buildArticlesMapFromCache(): ArticlesMap {
   }
 
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(wpArticlesCacheKey);
     if (!raw) {
       return mapEmpty();
     }
 
     const parsed = JSON.parse(raw);
-    const posts: WpPost[] = Array.isArray(parsed?.posts) ? parsed.posts : [];
-    const postsById = new Map<number, WpPost>();
+    const articles: WpArticle[] = Array.isArray(parsed?.data) ? parsed.data : [];
+    const articlesById = new Map<number, WpArticle>();
 
-    posts.forEach((post) => {
+    articles.forEach((post) => {
       if (post && typeof post.id === "number") {
-        postsById.set(post.id, post);
+        articlesById.set(post.id, post);
       }
     });
 
@@ -49,7 +49,7 @@ export function buildArticlesMapFromCache(): ArticlesMap {
       result[pageKey] = {};
       Object.entries(locales).forEach(([locale, idOrStr]) => {
         const id = typeof idOrStr === "number" ? idOrStr : Number(idOrStr);
-        result[pageKey][locale] = postsById.get(id) ?? null;
+        result[pageKey][locale] = articlesById.get(id) ?? null;
       });
     });
   } catch {
@@ -63,7 +63,6 @@ export function resolveArticleFromCache(
   pageKey: string,
   locale: string,
   articles: ArticlesMap = buildArticlesMapFromCache(),
-): WpPost | null {
+): WpArticle | null {
   return articles[pageKey]?.[locale] ?? articles[pageKey]?.ro ?? null;
 }
-

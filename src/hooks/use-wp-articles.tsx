@@ -1,12 +1,7 @@
 "use client";
 import {useCallback, useEffect, useState} from "react";
-import {
-  CACHE_KEY,
-  buildArticlesMapFromCache,
-  resolveArticleFromCache,
-  type ArticlesMap,
-  type WpPost,
-} from "@/utils/wp-article-cache";
+import {wpArticlesCacheKey} from "@/constants";
+import {ArticlesMap, buildArticlesMapFromCache, resolveArticleFromCache, WpArticle} from "@/cache/wp-article-local-cache";
 
 export default function useWpArticles() {
   const [articles, setArticles] = useState<ArticlesMap>({});
@@ -23,7 +18,7 @@ export default function useWpArticles() {
     }
   }, []);
 
-  const getArticle = useCallback((pageKey: string, locale: string): WpPost | null => {
+  const getArticle = useCallback((pageKey: string, locale: string): WpArticle | null => {
     if (!hasMounted) return null;
     return resolveArticleFromCache(pageKey, locale, articles);
   }, [articles, hasMounted]);
@@ -36,17 +31,17 @@ export default function useWpArticles() {
     });
 
     const handleUpdate = (e?: Event) => {
-      if (e instanceof StorageEvent && e.key !== CACHE_KEY) return;
+      if (e instanceof StorageEvent && e.key !== wpArticlesCacheKey) return;
       refresh().catch(() => {
         // Ignore errors during refresh
       });
     };
 
-    window.addEventListener("wpArticlesCacheUpdated", handleUpdate);
+    window.addEventListener("wpArticlesUpdated", handleUpdate);
     window.addEventListener("storage", handleUpdate);
 
     return () => {
-      window.removeEventListener("wpArticlesCacheUpdated", handleUpdate);
+      window.removeEventListener("wpArticlesUpdated", handleUpdate);
       window.removeEventListener("storage", handleUpdate);
     };
   }, [refresh]);

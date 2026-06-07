@@ -40,6 +40,32 @@ python3 scripts/translations_csv_sync.py from-csv
 python3 scripts/translations_csv_sync.py to-csv
 ```
 
+## 💾 Local Caching
+
+WordPress articles are cached in the browser to reduce repeat fetches and keep page loads fast.
+
+### How the cache is used in practice
+
+- On app mount, `WpArticlesCacheLoader` checks the cache age and whether it contains all IDs from `wpArticleIdsMap`.
+- If the cache is stale or incomplete, it fetches the latest WP posts and writes them to `localStorage`.
+- Any component that needs cached WP content can import `useWpArticles()` and call `getArticle(pageKey, locale)`.
+- When the loader writes fresh cache data, it dispatches `wpArticlesUpdated`, and the hook refreshes its in-memory state.
+- If another tab updates `localStorage`, the `storage` event also triggers a refresh.
+
+### Debugging the cache in the browser console
+
+Parse and inspect the cache:
+
+```bash
+JSON.parse(localStorage.getItem("wpArticles") || "{}")
+```
+
+Force a refresh by dispatching the update event:
+
+```bash
+window.dispatchEvent(new Event("wpArticlesUpdated"))
+```
+
 ## 🛠 Getting Started
 
 First, install dependencies:

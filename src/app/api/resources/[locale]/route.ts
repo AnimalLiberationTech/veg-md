@@ -15,7 +15,9 @@ export async function GET(
     const resources = await getResourcesData(locale);
     return NextResponse.json(resources);
   } catch (error) {
-    console.error("Failed to fetch resources:", error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Failed to fetch resources:", error);
+    }
     return NextResponse.json({error: "Failed to fetch resources"}, {status: 500});
   }
 }

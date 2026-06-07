@@ -2,7 +2,7 @@ import SectionTitle from "../Common/SectionTitle";
 import SingleResource from "./SingleResource";
 import {getResourcesData} from "./resourcesData";
 import {getTranslations} from "next-intl/server";
-import { ExpandedResourceProvider } from "./expanded-resource-context";
+import {ExpandedResourceProvider} from "./expanded-resource-context";
 
 const Resources = async ({locale}: {locale: string}) => {
   const t = await getTranslations({locale, namespace: "resources"});

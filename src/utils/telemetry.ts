@@ -13,6 +13,14 @@ let tablesDB: TablesDB | null = null;
 let cachedCountryCode: string | null = null;
 let isFetchingCountry = false;
 
+// Exported for testing purposes
+export function _resetTelemetryCache() {
+  cachedCountryCode = null;
+  isFetchingCountry = false;
+  client = null;
+  tablesDB = null;
+}
+
 function initializeClient() {
   if (typeof window === "undefined") return false;
   if (client) return true;
