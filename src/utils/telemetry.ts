@@ -310,7 +310,7 @@ export async function trackError404(
   return track({
     event_name: "error_404",
     path,
-    referrer: resolvedReferrer,
+    ...(referrer ? { referrer } : {}),
     metadata: `referrer: ${resolvedReferrer}`,
   });
 }
