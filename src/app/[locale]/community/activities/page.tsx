@@ -5,7 +5,8 @@ import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import Calendar from "@/components/Calendar";
 import {fetchCalEvents} from "@/utils/fetchers/cal-events";
-import { CalEvent } from "@/components/Calendar/events";
+
+import {CalEvent} from "@/types/calendar";
 
 type Props = {
   params: Promise<{ locale: string }>;

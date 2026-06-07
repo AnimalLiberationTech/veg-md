@@ -1,4 +1,5 @@
 import {locales} from "@/constants";
+import {CalEvent} from "@/types/calendar";
 
 export function renderUrls(value: string) {
   const tagSplitPattern = /(<[^>]+>)/g;
@@ -35,14 +36,6 @@ export function renderUrls(value: string) {
     })
     .join("");
 }
-
-export type CalEvent = {
-  start_iso: string;
-  end_iso: string;
-  description: string;
-  location?: string;
-  summary: string;
-};
 
 function isCalEvent(value: unknown): value is CalEvent {
   return Boolean(
