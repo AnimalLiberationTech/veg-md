@@ -1,68 +1,28 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
-import { usePathname } from "next/navigation";
-import {
-  trackPageView,
-  trackScroll,
-  trackTimeOnPage,
-  trackJsError,
-} from "@/utils/telemetry";
-import {getOrFetchLocalCache, writeLocalCache} from "@/cache/local-cache";
-import {countryCodeCacheKey, countryCodeUrl} from "@/constants";
-import {fetchCountryCode} from "@/utils/fetchers/country-code";
+import {useEffect, useRef} from "react";
+import {usePathname} from "next/navigation";
+import {trackJsError, trackPageView, trackScroll, trackTimeOnPage} from "@/utils/telemetry";
+import {useCountryCode} from "@/hooks/use-country-code";
 
 /**
  * Hook for automatic telemetry tracking
  * - Tracks page views on route change
  * - Tracks scroll depth (25%, 50%, 75%, 90%)
- * - Tracks time spent on page
+ * - Tracks time spent on a page
  * - Captures global JS errors
  */
 export function useTelemetry() {
-  const [countryCode, setCountryCode] = useState<string | null>(null);
   const pathname = usePathname();
   const pageStartTime = useRef<number | null>(null);
   const scrollThresholdsReached = useRef<Set<number>>(new Set());
 
   // Fetch country code once on mount
-  useEffect(() => {
-    let isCancelled = false;
-
-    const fetchCountry = async () => {
-      if (process.env.NODE_ENV !== "production") {
-        console.log("[Telemetry] useEffect fetchCountry starting");
-      }
-      try {
-        const code: string = await getOrFetchLocalCache(
-          countryCodeCacheKey,
-          () => fetchCountryCode(countryCodeUrl)
-        );
-
-        if (process.env.NODE_ENV !== "production") {
-          console.log("[Telemetry] country code data received:", code);
-        }
-
-        if (!isCancelled) {
-          setCountryCode(code);
-        }
-      } catch (err) {
-        if (countryCode) {
-          writeLocalCache(countryCodeCacheKey, countryCode);
-        }
-      }
-    };
-
-    void fetchCountry();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [countryCode]);
+  const countryCode = useCountryCode();
 
   // Track page view on mount and route change
   useEffect(() => {
-    trackPageView(pathname).catch(() => {
+    trackPageView(pathname, countryCode).catch(() => {
       // Silently fail — don't break the app on telemetry errors
     });
 
@@ -76,13 +36,13 @@ export function useTelemetry() {
         const timeSpent = (Date.now() - pageStartTime.current) / 1000;
         if (timeSpent > 1) {
           // Only track if user spent at least 1 second on page
-          trackTimeOnPage(pathname, timeSpent).catch(() => {
+          trackTimeOnPage(pathname, timeSpent, countryCode).catch(() => {
             // Silently fail
           });
         }
       }
     };
-  }, [pathname]);
+  }, [countryCode, pathname]);
 
   // Track scroll events
   useEffect(() => {
@@ -106,7 +66,11 @@ export function useTelemetry() {
           !scrollThresholdsReached.current.has(threshold)
         ) {
           scrollThresholdsReached.current.add(threshold);
-          trackScroll(pathname, threshold as 25 | 50 | 75 | 90).catch(() => {
+          trackScroll(
+            pathname,
+            threshold as 25 | 50 | 75 | 90,
+            countryCode
+          ).catch(() => {
             // Silently fail
           });
         }
@@ -115,14 +79,14 @@ export function useTelemetry() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
+  }, [countryCode, pathname]);
 
   // Track global JS errors
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const handleError = (event: ErrorEvent) => {
-      trackJsError(pathname, event.message, event.error?.stack).catch(
+      trackJsError(pathname, event.message, countryCode, event.error?.stack).catch(
         () => {
           // Silently fail
         }
@@ -131,6 +95,6 @@ export function useTelemetry() {
 
     window.addEventListener("error", handleError);
     return () => window.removeEventListener("error", handleError);
-  }, [pathname]);
+  }, [countryCode, pathname]);
 }
 

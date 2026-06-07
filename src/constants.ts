@@ -41,3 +41,9 @@ export const cacheTtlMsMap = {
 export const countryCodeUrl = "https://ecovisio.org/ip/country-code.php";
 export const appwriteEndpoint = "https://fra.cloud.appwrite.io/v1";
 export const appwriteProjectId = "69496060003d273d4a8c";
+
+export const telemetryConfig = {
+  databaseId: "analytics",
+  tableId: "user-actions",
+  site: "veg-md",
+};

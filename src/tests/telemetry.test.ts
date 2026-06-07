@@ -30,7 +30,7 @@ describe('Telemetry', () => {
   })
 
   it('tracks page view successfully', async () => {
-    await telemetry.trackPageView('/test-path')
+    await telemetry.trackPageView('/test-path', 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -47,7 +47,7 @@ describe('Telemetry', () => {
     tablesDB.createRow.mockRejectedValueOnce(new Error('Appwrite Down'))
     
     // Should not throw
-    await expect(telemetry.trackPageView('/test-path')).resolves.not.toThrow()
+    await expect(telemetry.trackPageView('/test-path', 'US')).resolves.not.toThrow()
     
     expect(tablesDB.createRow).toHaveBeenCalled()
   })
@@ -56,7 +56,7 @@ describe('Telemetry', () => {
     // @ts-ignore
     global.navigator.userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'
     
-    await telemetry.trackPageView('/mobile-path')
+    await telemetry.trackPageView('/mobile-path', 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -70,7 +70,7 @@ describe('Telemetry', () => {
     // @ts-ignore
     global.navigator.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     
-    await telemetry.trackPageView('/desktop-path')
+    await telemetry.trackPageView('/desktop-path', 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -81,7 +81,7 @@ describe('Telemetry', () => {
   })
 
   it('tracks scroll depth', async () => {
-    await telemetry.trackScroll('/scroll-path', 50)
+    await telemetry.trackScroll('/scroll-path', 50, 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -93,7 +93,7 @@ describe('Telemetry', () => {
   })
 
   it('tracks time on page', async () => {
-    await telemetry.trackTimeOnPage('/time-path', 123.456)
+    await telemetry.trackTimeOnPage('/time-path', 123.456, 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -105,7 +105,7 @@ describe('Telemetry', () => {
   })
 
   it('tracks JS errors with stack trace', async () => {
-    await telemetry.trackJsError('/error-path', 'Test Error', 'Error: Test Error\n    at <anonymous>:1:1')
+    await telemetry.trackJsError('/error-path', 'Test Error', 'US', 'Error: Test Error\n    at <anonymous>:1:1')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({
@@ -121,7 +121,7 @@ describe('Telemetry', () => {
     // @ts-ignore
     delete global.window
     
-    await telemetry.trackPageView('/ssr-path')
+    await telemetry.trackPageView('/ssr-path', 'US')
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).not.toHaveBeenCalled()
@@ -133,7 +133,7 @@ describe('Telemetry', () => {
     // @ts-ignore
     global.fetch.mockImplementationOnce(() => Promise.reject(new Error('Network Error')))
     
-    await telemetry.trackPageView('/test-path-error')
+    await telemetry.trackPageView('/test-path-error', null)
     
     const tablesDB = getMockedTablesDB()
     expect(tablesDB.createRow).toHaveBeenCalledWith(expect.objectContaining({

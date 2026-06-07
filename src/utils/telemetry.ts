@@ -1,22 +1,14 @@
-import { Client, ID, TablesDB } from "appwrite";
-import { appwriteEndpoint, appwriteProjectId } from "@/constants";
-
-const DATABASE_ID = "analytics";
-const TABLE_ID = "user-actions";
-const TELEMETRY_SITE = "veg-md";
-const TELEMETRY_ENV = process.env.NODE_ENV === "production" ? "prod" : "dev";
+import {Client, ID, TablesDB} from "appwrite";
+import {appwriteEndpoint, appwriteProjectId, telemetryConfig} from "@/constants";
+import {DeviceType, TelemetryEventName} from "@/types/telemetry";
+import {fetchCountryCode} from "@/utils/fetchers/country-code";
 
 // Lazy-initialize Appwrite client only in browser
 let client: Client | null = null;
 let tablesDB: TablesDB | null = null;
 
-let cachedCountryCode: string | null = null;
-let isFetchingCountry = false;
-
 // Exported for testing purposes
 export function _resetTelemetryCache() {
-  cachedCountryCode = null;
-  isFetchingCountry = false;
   client = null;
   tablesDB = null;
 }
@@ -39,26 +31,8 @@ function initializeClient() {
   }
 }
 
-export type EventName =
-  | "page_view"
-  | "scroll_25"
-  | "scroll_50"
-  | "scroll_75"
-  | "scroll_90"
-  | "time_on_page"
-  | "site_search"
-  | "filter_apply"
-  | "empty_search_result"
-  | "outbound_click"
-  | "social_share"
-  | "file_download"
-  | "error_404"
-  | "js_error";
-
-export type DeviceType = "mobile" | "desktop" | null;
-
 interface TelemetryPayload {
-  event_name: EventName;
+  event_name: TelemetryEventName;
   path: string;
   referrer?: string | null;
   device_type?: DeviceType;
@@ -68,7 +42,7 @@ interface TelemetryPayload {
 }
 
 /**
- * Derive device type from navigator.userAgent
+ * Derive a device type from navigator.userAgent
  * Returns "mobile" for common mobile patterns, "desktop" otherwise
  */
 function getDeviceType(): DeviceType {
@@ -99,34 +73,6 @@ function getReferrerUrl(): string | null {
   }
 }
 
-/**
- * Get country code from a 3rd-party service
- */
-async function getCountry(): Promise<string | null> {
-  if (cachedCountryCode) return cachedCountryCode;
-  if (isFetchingCountry) return null;
-
-  try {
-    isFetchingCountry = true;
-    const response = await fetch("/api/country-code");
-    if (!response.ok) {
-      if (process.env.NODE_ENV === "development") {
-        console.error(`[Telemetry] Failed to fetch country code: HTTP error! status: ${response.status}`);
-      }
-      return null;
-    }
-    const data = await response.json();
-    cachedCountryCode = data.country_code || null;
-    return cachedCountryCode;
-  } catch (e) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("[Telemetry] Failed to fetch country code:", e);
-    }
-    return null;
-  } finally {
-    isFetchingCountry = false;
-  }
-}
 
 /**
  * Compact user agent representation
@@ -156,19 +102,19 @@ async function track(payload: TelemetryPayload, explicitCountry?: string | null)
   }
 
   try {
-    const country = explicitCountry ?? await getCountry();
+    const country = explicitCountry ?? await fetchCountryCode();
 
     if (process.env.NODE_ENV !== "production") {
       console.log(`[Telemetry] Tracking event: ${payload.event_name} on path: ${payload.path} (country: ${country})`);
     }
 
     await tablesDB.createRow({
-      databaseId: DATABASE_ID,
-      tableId: TABLE_ID,
+      databaseId: telemetryConfig.databaseId,
+      tableId: telemetryConfig.tableId,
       rowId: ID.unique(),
       data: {
-        site: TELEMETRY_SITE,
-        env: TELEMETRY_ENV,
+        site: telemetryConfig.site,
+        env: process.env.NODE_ENV === "production" ? "prod" : "dev",
         event_name: payload.event_name,
         path: payload.path,
         referrer: payload.referrer || null,
@@ -189,12 +135,15 @@ async function track(payload: TelemetryPayload, explicitCountry?: string | null)
 /**
  * Track a page view
  */
-export async function trackPageView(path: string): Promise<void> {
+export async function trackPageView(
+  path: string,
+  countryCode: string
+): Promise<void> {
   return track({
     event_name: "page_view",
     path,
     referrer: getReferrerUrl(),
-  });
+  }, countryCode);
 }
 
 /**
@@ -202,12 +151,13 @@ export async function trackPageView(path: string): Promise<void> {
  */
 export async function trackScroll(
   path: string,
-  percentageThreshold: 25 | 50 | 75 | 90
+  percentageThreshold: 25 | 50 | 75 | 90,
+  countryCode: string
 ): Promise<void> {
   return track({
-    event_name: `scroll_${percentageThreshold}` as EventName,
+    event_name: `scroll_${percentageThreshold}` as TelemetryEventName,
     path,
-  });
+  }, countryCode);
 }
 
 /**
@@ -215,24 +165,29 @@ export async function trackScroll(
  */
 export async function trackTimeOnPage(
   path: string,
-  secondsSpent: number
+  secondsSpent: number,
+  countryCode: string
 ): Promise<void> {
   return track({
     event_name: "time_on_page",
     path,
     metadata: `seconds: ${Math.round(secondsSpent)}`,
-  });
+  }, countryCode);
 }
 
 /**
  * Track site search
  */
-export async function trackSearch(path: string, searchTerm: string): Promise<void> {
+export async function trackSearch(
+  path: string,
+  searchTerm: string,
+  countryCode: string
+): Promise<void> {
   return track({
     event_name: "site_search",
     path,
     metadata: `search_term: ${searchTerm}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -240,13 +195,14 @@ export async function trackSearch(path: string, searchTerm: string): Promise<voi
  */
 export async function trackFilterApply(
   path: string,
-  filterType: string
+  filterType: string,
+  countryCode: string
 ): Promise<void> {
   return track({
     event_name: "filter_apply",
     path,
     metadata: `filter_type: ${filterType}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -254,13 +210,14 @@ export async function trackFilterApply(
  */
 export async function trackEmptySearchResult(
   path: string,
-  searchTerm: string
+  searchTerm: string,
+  countryCode: string
 ): Promise<void> {
   return track({
     event_name: "empty_search_result",
     path,
     metadata: `search_term: ${searchTerm}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -268,24 +225,29 @@ export async function trackEmptySearchResult(
  */
 export async function trackOutboundClick(
   path: string,
-  destinationUrl: string
+  destinationUrl: string,
+  countryCode: string
 ): Promise<void> {
   return track({
     event_name: "outbound_click",
     path,
     metadata: `url: ${destinationUrl}`,
-  });
+  }, countryCode);
 }
 
 /**
  * Track social share
  */
-export async function trackSocialShare(path: string, platform: string): Promise<void> {
+export async function trackSocialShare(
+  path: string,
+  platform: string,
+  countryCode: string
+): Promise<void> {
   return track({
     event_name: "social_share",
     path,
     metadata: `platform: ${platform}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -293,13 +255,14 @@ export async function trackSocialShare(path: string, platform: string): Promise<
  */
 export async function trackFileDownload(
   path: string,
-  fileName: string
+  fileName: string,
+  countryCode: string
 ): Promise<void> {
   return track({
     event_name: "file_download",
     path,
     metadata: `file: ${fileName}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -307,6 +270,7 @@ export async function trackFileDownload(
  */
 export async function trackError404(
   path: string,
+  countryCode: string,
   referrer?: string
 ): Promise<void> {
   const resolvedReferrer = referrer || "direct";
@@ -316,7 +280,7 @@ export async function trackError404(
     path,
     ...(referrer ? { referrer } : {}),
     metadata: `referrer: ${resolvedReferrer}`,
-  });
+  }, countryCode);
 }
 
 /**
@@ -325,11 +289,12 @@ export async function trackError404(
 export async function trackJsError(
   path: string,
   errorMessage: string,
+  countryCode: string,
   stack?: string
 ): Promise<void> {
   return track({
     event_name: "js_error",
     path,
     metadata: `error: ${errorMessage}${stack ? " | " + stack.substring(0, 100) : ""}`,
-  });
+  }, countryCode);
 }
