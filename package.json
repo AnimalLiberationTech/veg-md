@@ -8,11 +8,14 @@
     "export": "next build",
     "start": "next start",
     "deploy": "npm run export",
-    "lint": "eslint ."
+    "test": "vitest run",
+    "lint": "eslint .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@swc/helpers": "^0.5.19",
     "@tailwindcss/postcss": "^4.2.1",
+    "appwrite": "^25.2.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.1.6",
     "html-entities": "^2.6.0",
@@ -28,17 +31,24 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.4.0",
     "@types/papaparse": "^5.5.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/sanitize-html": "^2.16.1",
     "@types/sqlite3": "^5.1.0",
+    "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.4.27",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.7.4",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.8"
   }
 }

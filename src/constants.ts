@@ -36,3 +36,6 @@ export const cacheTtlMsMap = {
   [gSheetDonationsCacheKey]: 60 * 60 * 1000,  // 1 hour
   [gSheetExpensesCacheKey]: 24 * 60 * 60 * 1000,  // 24 hours
 }
+export const countryCodeUrl = "https://ecovisio.org/ip/country-code.php";
+export const appwriteEndpoint = "https://fra.cloud.appwrite.io/v1";
+export const appwriteProjectId = "69496060003d273d4a8c";

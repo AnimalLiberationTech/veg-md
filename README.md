@@ -12,6 +12,16 @@ The official website of the vegan community in Moldova.
 - **Database**: [SQLite](https://www.sqlite.org/) (via `sqlite3` and `sqlite`)
 - **Theme**: [next-themes](https://github.com/pacocoursey/next-themes)
 
+## 📈 Telemetry
+
+This project includes privacy-first telemetry backed by Appwrite.
+
+- Automatic client-side tracking is initialized in `src/app/[locale]/client-layout.tsx` via `src/components/TelemetryLoader.tsx`.
+- Core event helpers live in `src/utils/telemetry.ts`.
+- Tracked events include page views, scroll depth, time on the page, search/filter activity, outbound clicks, file downloads, social shares, 404s, and JS errors.
+
+See [TELEMETRY.md](TELEMETRY.md) for the exact payload shape and component integration examples.
+
 ## 🌐 Translations
 
 Our translations are managed via a Google Sheet to allow collaborative editing:
