@@ -26,7 +26,7 @@ const Calendar = ({
                     openLabel,
                     closeLabel,
                     mobileAlwaysVisible = false,
-                    initialEvents = [],
+                    initialEvents,
                   }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const locale = useLocale();

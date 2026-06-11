@@ -19,15 +19,14 @@ export function useCalendar(initialEvents: CalEvent[]) {
           gCalCacheKey,
           () => fetchCalEvents(url),
         );
+
         if (!isCancelled) {
           setEvents(data);
         }
       } catch {
-        // Silently ignore fetch failures, falling back to initialEvents.
-        // To prevent spamming the endpoint when offline/CORS-blocked,
-        // we populate the cache with the server-provided initialEvents.
-        if (events && events.length > 0) {
-          writeLocalCache(gCalCacheKey, events);
+        // use initialEvents directly instead of the 'events' state variable.
+        if (initialEvents && initialEvents.length > 0) {
+          writeLocalCache(gCalCacheKey, initialEvents);
         }
       }
     };
@@ -37,7 +36,7 @@ export function useCalendar(initialEvents: CalEvent[]) {
     return () => {
       isCancelled = true;
     };
-  }, [events, initialEvents]);
+  }, [initialEvents]); // don't use 'events' in the dependency array
 
   return events;
 }
