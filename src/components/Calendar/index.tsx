@@ -34,7 +34,7 @@ const Calendar = ({
   const locale = useLocale();
   const t = useTranslations("activitiesPage");
 
-  const events = useCalendar(initialEvents, useCalendarCache);
+  const events = useCalendar(initialEvents ?? [], useCalendarCache);
 
   const activities = [
     {
