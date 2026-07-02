@@ -24,6 +24,7 @@ export const uvmEmail = "moldovavegana@gmail.com";
 export const uvmSite = "https://uvem.org";
 export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-report";
 export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
+export const gCalCommunityUrl = gCalUrl + "?cal=community&days=30";
 export const gSheetUrl = "https://veg-md.fra.appwrite.run/google/get-sheet";
 
 export const wpArticlesCacheKey = "uvem-articles";

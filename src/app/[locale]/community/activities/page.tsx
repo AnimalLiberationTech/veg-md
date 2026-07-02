@@ -1,11 +1,10 @@
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import {gCalUrl, supportedLocales} from "@/constants";
+import {gCalCommunityUrl, supportedLocales} from "@/constants";
 import {Metadata} from "next";
 import {getTranslations} from "next-intl/server";
 import {getPageMetadata} from "@/utils/metadata";
 import Calendar from "@/components/Calendar";
 import {fetchCalEvents} from "@/utils/fetchers/cal-events";
-
 import {CalEvent} from "@/types/calendar";
 
 type Props = {
@@ -27,7 +26,7 @@ const ActivitiesPage = async ({params}: Props) => {
 
   let initialEvents: CalEvent[];
   try {
-    initialEvents = await fetchCalEvents(`${gCalUrl}?cal=community&days=30`);
+    initialEvents = await fetchCalEvents(gCalCommunityUrl);
   } catch {
     initialEvents = [];
   }
@@ -46,6 +45,7 @@ const ActivitiesPage = async ({params}: Props) => {
             closeLabel={t("calendarClose")}
             mobileAlwaysVisible
             initialEvents={initialEvents}
+            useCalendarCache={false}
           />
         </div>
       </section>
