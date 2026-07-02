@@ -16,10 +16,10 @@ import {useCalendar} from "@/hooks/use-calendar";
 import {CalEvent} from "@/types/calendar";
 
 type Props = {
-  openLabel: string,
-  closeLabel: string,
-  mobileAlwaysVisible?: boolean,
-  initialEvents?: CalEvent[],
+  openLabel: string;
+  closeLabel: string;
+  mobileAlwaysVisible?: boolean;
+  initialEvents?: CalEvent[];
   useCalendarCache?: boolean
 };
 
