@@ -1,12 +1,12 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {gCalCacheKey, gCalUrl} from "@/constants";
+import {gCalCacheKey, gCalCommunityUrl} from "@/constants";
 import {getOrFetchLocalCache, writeLocalCache} from "@/cache/local-cache";
 import {fetchCalEvents} from "@/utils/fetchers/cal-events";
 import {CalEvent} from "@/types/calendar";
 
-export function useCalendar(initialEvents: CalEvent[]) {
+export function useCalendar(initialEvents: CalEvent[], useCalendarCache = true) {
   const [events, setEvents] = useState<CalEvent[]>(initialEvents);
 
   useEffect(() => {
@@ -14,11 +14,12 @@ export function useCalendar(initialEvents: CalEvent[]) {
 
     const loadEvents = async () => {
       try {
-        const url = `${gCalUrl}?cal=community&days=30`;
-        const data = await getOrFetchLocalCache<CalEvent[]>(
-          gCalCacheKey,
-          () => fetchCalEvents(url),
-        );
+        const data = useCalendarCache
+          ? await getOrFetchLocalCache<CalEvent[]>(
+              gCalCacheKey,
+              () => fetchCalEvents(gCalCommunityUrl),
+            )
+          : await fetchCalEvents(gCalCommunityUrl);
 
         if (!isCancelled) {
           setEvents(data);
@@ -36,7 +37,7 @@ export function useCalendar(initialEvents: CalEvent[]) {
     return () => {
       isCancelled = true;
     };
-  }, [initialEvents]); // don't use 'events' in the dependency array
+  }, [initialEvents, useCalendarCache]); // don't use 'events' in the dependency array
 
   return events;
 }

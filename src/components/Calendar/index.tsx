@@ -16,10 +16,11 @@ import {useCalendar} from "@/hooks/use-calendar";
 import {CalEvent} from "@/types/calendar";
 
 type Props = {
-  openLabel: string;
-  closeLabel: string;
-  mobileAlwaysVisible?: boolean;
-  initialEvents?: CalEvent[];
+  openLabel: string,
+  closeLabel: string,
+  mobileAlwaysVisible?: boolean,
+  initialEvents?: CalEvent[],
+  useCalendarCache?: boolean
 };
 
 const Calendar = ({
@@ -27,12 +28,13 @@ const Calendar = ({
                     closeLabel,
                     mobileAlwaysVisible = false,
                     initialEvents,
+                    useCalendarCache,
                   }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const locale = useLocale();
   const t = useTranslations("activitiesPage");
 
-  const events = useCalendar(initialEvents);
+  const events = useCalendar(initialEvents, useCalendarCache);
 
   const activities = [
     {
