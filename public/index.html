@@ -3,8 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <title>Redirecting…</title>
-  <meta http-equiv="refresh" content="0; url=ro/" />
-  <link rel="canonical" href="ro/" />
+  <script>
+    var supportedLocales = ['ro', 'en', 'ru'];
+    var defaultLocale = 'ro';
+
+    try {
+      var cookieValue = document.cookie.match(/(^|;)\s*NEXT_LOCALE\s*=\s*([^;]+)/);
+      var saved = cookieValue ? cookieValue.pop() : null;
+      if (!saved) {
+        saved = localStorage.getItem('NEXT_LOCALE');
+      }
+      if (saved && supportedLocales.indexOf(saved) !== -1) {
+        defaultLocale = saved;
+      } else {
+        var lang = navigator.language || navigator.userLanguage;
+        if (lang) {
+          lang = lang.split('-')[0].toLowerCase();
+          if (supportedLocales.indexOf(lang) !== -1) {
+            defaultLocale = lang;
+          }
+        }
+      }
+    } catch (e) {}
+    var targetPath = defaultLocale + '/';
+    window.location.replace(targetPath);
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=ro/" />
+    <link rel="canonical" href="ro/" />
+  </noscript>
   <meta name="robots" content="noindex" />
   <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}a{color:#2563eb;text-decoration:none}</style>
 </head>
