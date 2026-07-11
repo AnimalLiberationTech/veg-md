@@ -1,29 +1,31 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Redirecting…</title>
   <script>
-    var locale = 'ro';
+    var supportedLocales = ['ro', 'en', 'ru'];
+    var defaultLocale = 'ro';
+
     try {
       var cookieValue = document.cookie.match(/(^|;)\s*NEXT_LOCALE\s*=\s*([^;]+)/);
       var saved = cookieValue ? cookieValue.pop() : null;
       if (!saved) {
         saved = localStorage.getItem('NEXT_LOCALE');
       }
-      if (saved && ['ro', 'en', 'ru'].indexOf(saved) !== -1) {
-        locale = saved;
+      if (saved && supportedLocales.indexOf(saved) !== -1) {
+        defaultLocale = saved;
       } else {
         var lang = navigator.language || navigator.userLanguage;
         if (lang) {
           lang = lang.split('-')[0].toLowerCase();
-          if (['ro', 'en', 'ru'].indexOf(lang) !== -1) {
-            locale = lang;
+          if (supportedLocales.indexOf(lang) !== -1) {
+            defaultLocale = lang;
           }
         }
       }
     } catch (e) {}
-    window.location.replace(locale + '/');
+    window.location.replace(defaultLocale + '/');
   </script>
   <meta http-equiv="refresh" content="0; url=ro/" />
   <link rel="canonical" href="ro/" />
