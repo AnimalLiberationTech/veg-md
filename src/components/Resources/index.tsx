@@ -1,12 +1,12 @@
 import SectionTitle from "../Common/SectionTitle";
 import SingleResource from "./SingleResource";
-import {getResourcesData} from "./resourcesData";
+import {getResourcesAppwriteDb} from "./resources-appwrite-db";
 import {getTranslations} from "next-intl/server";
 import {ExpandedResourceProvider} from "./expanded-resource-context";
 
 const Resources = async ({locale}: {locale: string}) => {
   const t = await getTranslations({locale, namespace: "resources"});
-  const resourcesData = await getResourcesData(locale);
+  const resourcesData = await getResourcesAppwriteDb(locale);
 
   const getTranslatedType = (type: string | undefined): string | undefined => {
     if (!type) return undefined;
