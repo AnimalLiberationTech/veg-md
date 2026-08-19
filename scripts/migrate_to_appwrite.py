@@ -7,10 +7,10 @@ from appwrite.services.databases import Databases
 from appwrite.id import ID
 from appwrite.exception import AppwriteException
 
-# Appwrite config from issue
-APPWRITE_ENDPOINT = "https://fra.cloud.appwrite.io/v1"
-APPWRITE_PROJECT_ID = "69496060003d273d4a8c"
-DATABASE_ID = "resources"
+# Appwrite config
+APPWRITE_ENDPOINT = os.environ.get("APPWRITE_ENDPOINT", "https://fra.cloud.appwrite.io/v1")
+APPWRITE_PROJECT_ID = os.environ.get("APPWRITE_PROJECT_ID", "69496060003d273d4a8c")
+DATABASE_ID = os.environ.get("APPWRITE_DATABASE_ID", "resources")
 
 # Collections
 COLLECTIONS = [
