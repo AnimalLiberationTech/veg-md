@@ -1,6 +1,35 @@
-import {Client, Databases, Query} from "appwrite";
+import {Client, Databases, Query, Models} from "appwrite";
 import {appwriteEndpoint, appwriteProjectId} from "@/constants";
 import {Feature, ResourceLink} from "@/types/feature";
+
+interface AppwriteResource extends Models.Document {
+  id: number;
+  slug: string;
+  image_url: string;
+  type: string;
+}
+
+interface AppwriteLocalizedResource extends Models.Document {
+  id: number;
+  resource_id: number;
+  locale: string;
+  title: string;
+  description: string;
+  image_url?: string;
+  method: string;
+  updated_at: string;
+}
+
+interface AppwriteResourceLink extends Models.Document {
+  localized_resource_id: number;
+  type: string;
+  url: string;
+}
+
+interface AppwriteResourceRating extends Models.Document {
+  localized_resource_id: number;
+  rating: number;
+}
 
 const client = new Client()
   .setEndpoint(appwriteEndpoint)
@@ -14,19 +43,52 @@ const LOCALIZED_RESOURCES_COLLECTION_ID = "localized_resources";
 const LOCALIZED_RESOURCE_LINKS_COLLECTION_ID = "localized_resource_links";
 const RATINGS_COLLECTION_ID = "localized_resource_ratings";
 
+async function listAllDocuments<T extends Models.Document>(
+  databaseId: string,
+  collectionId: string,
+  queries: string[] = []
+): Promise<T[]> {
+  let allDocuments: T[] = [];
+  let lastId: string | undefined = undefined;
+  const limit = 100;
+
+  while (true) {
+    const currentQueries = [...queries, Query.limit(limit)];
+    if (lastId) {
+      currentQueries.push(Query.cursorAfter(lastId));
+    }
+
+    const response = await databases.listDocuments<T>({
+      databaseId,
+      collectionId,
+      queries: currentQueries,
+    });
+
+    allDocuments = allDocuments.concat(response.documents);
+
+    if (response.documents.length < limit) {
+      break;
+    }
+
+    lastId = response.documents[response.documents.length - 1].$id;
+  }
+
+  return allDocuments;
+}
+
 export async function getResourcesAppwriteDb(locale: string): Promise<Feature[]> {
   try {
     // 1. Get localized resources for the given locale
-    const localizedDocs = await databases.listDocuments({
-      databaseId: DATABASE_ID,
-      collectionId: LOCALIZED_RESOURCES_COLLECTION_ID,
-      queries: [
+    const localizedDocuments = await listAllDocuments<AppwriteLocalizedResource>(
+      DATABASE_ID,
+      LOCALIZED_RESOURCES_COLLECTION_ID,
+      [
         Query.equal("locale", [locale]),
         Query.isNull("deleted_at"),
       ]
-    });
+    );
 
-    if (localizedDocs.total === 0) {
+    if (localizedDocuments.length === 0) {
       return [];
     }
 
@@ -34,8 +96,8 @@ export async function getResourcesAppwriteDb(locale: string): Promise<Feature[]>
     // Appwrite doesn't support ROW_NUMBER() OVER PARTITION BY.
     // We'll have to do some manual filtering/ranking if there are multiple localized resources per resource.
     
-    const resourceMap = new Map<number, any>();
-    for (const doc of localizedDocs.documents) {
+    const resourceMap = new Map<number, AppwriteLocalizedResource>();
+    for (const doc of localizedDocuments) {
       const resourceId = doc.resource_id;
       const existing = resourceMap.get(resourceId);
       
@@ -71,31 +133,31 @@ export async function getResourcesAppwriteDb(locale: string): Promise<Feature[]>
 
     // 2. Get the actual resource data for these localized docs
     // Appwrite Query.equal can take an array for "IN" behavior
-    const resourceDocs = await databases.listDocuments({
-      databaseId: DATABASE_ID,
-      collectionId: RESOURCES_COLLECTION_ID,
-      queries: [
+    const resourceDocs = await listAllDocuments<AppwriteResource>(
+      DATABASE_ID,
+      RESOURCES_COLLECTION_ID,
+      [
         Query.equal("id", resourceIds),
         Query.isNull("deleted_at"),
       ]
-    });
+    );
 
-    const resourcesById = new Map<number, any>();
-    resourceDocs.documents.forEach(doc => resourcesById.set(doc.id, doc));
+    const resourcesById = new Map<number, AppwriteResource>();
+    resourceDocs.forEach(doc => resourcesById.set(doc.id, doc));
 
     // 3. Get links for these localized resources
     const localizedIds = selectedLocalizedDocs.map(doc => doc.id);
-    const linkDocs = await databases.listDocuments({
-      databaseId: DATABASE_ID,
-      collectionId: LOCALIZED_RESOURCE_LINKS_COLLECTION_ID,
-      queries: [
+    const linkDocs = await listAllDocuments<AppwriteResourceLink>(
+      DATABASE_ID,
+      LOCALIZED_RESOURCE_LINKS_COLLECTION_ID,
+      [
         Query.equal("localized_resource_id", localizedIds),
         Query.isNull("deleted_at"),
       ]
-    });
+    );
 
     const linksByLocalizedId = new Map<number, ResourceLink[]>();
-    linkDocs.documents.forEach(doc => {
+    linkDocs.forEach(doc => {
       const current = linksByLocalizedId.get(doc.localized_resource_id) ?? [];
       current.push({ type: doc.type, url: doc.url });
       linksByLocalizedId.set(doc.localized_resource_id, current);
@@ -104,23 +166,23 @@ export async function getResourcesAppwriteDb(locale: string): Promise<Feature[]>
     // 4. Get ratings to calculate average
     // Note: In a real app, you might want to pre-calculate average_rating or use a specialized function
     // But here we'll follow the SQLite logic which calculates it on the fly
-    const ratingDocs = await databases.listDocuments({
-      databaseId: DATABASE_ID,
-      collectionId: RATINGS_COLLECTION_ID,
-      queries: [
+    const ratingDocs = await listAllDocuments<AppwriteResourceRating>(
+      DATABASE_ID,
+      RATINGS_COLLECTION_ID,
+      [
         Query.equal("localized_resource_id", localizedIds),
       ]
-    });
+    );
 
     const ratingsByLocalizedId = new Map<number, number[]>();
-    ratingDocs.documents.forEach(doc => {
+    ratingDocs.forEach(doc => {
       const current = ratingsByLocalizedId.get(doc.localized_resource_id) ?? [];
       current.push(doc.rating);
       ratingsByLocalizedId.set(doc.localized_resource_id, current);
     });
 
     // 5. Assemble the Feature objects
-    const results: Feature[] = selectedLocalizedDocs.map(rlr => {
+    const results: Feature[] = selectedLocalizedDocs.map((rlr): Feature | null => {
       const r = resourcesById.get(rlr.resource_id);
       if (!r) return null;
 
@@ -138,7 +200,7 @@ export async function getResourcesAppwriteDb(locale: string): Promise<Feature[]>
         slug: r.slug,
         average_rating,
         links: linksByLocalizedId.get(rlr.id) ?? [],
-      } satisfies Feature;
+      };
     }).filter((f): f is Feature => f !== null);
 
     // 6. Sort and Limit
