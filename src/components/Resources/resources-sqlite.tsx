@@ -3,7 +3,7 @@ import sqlite3 from "sqlite3";
 import {open} from "sqlite";
 import {Feature, ResourceLink} from "@/types/feature";
 
-export async function getResourcesData(locale: string): Promise<Feature[]> {
+export async function getResourcesSqlite(locale: string): Promise<Feature[]> {
   const db = await open({
     filename: path.join(process.cwd(), "data", "resources.sqlite3"),
     driver: sqlite3.Database,
