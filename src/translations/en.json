@@ -86,6 +86,10 @@
     "description": "Please come back later",
     "title": "Sorry, this page is in development"
   },
+  "resourcesPage": {
+    "title": "Resources",
+    "description": "Discover books, documentaries, and apps that will help you on your vegan journey."
+  },
   "resources": {
     "learnMore": "Learn More",
     "types": {

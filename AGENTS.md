@@ -15,7 +15,7 @@
 - Data flows:
   - Translations: CSV <-> per-locale JSON managed by `scripts/translations_csv_sync.py` and stored in `src/translations/*.json` (export CSV at `src/translations/export.csv`).
   - Page metadata: `src/utils/metadata.ts::getPageMetadata` centralizes localized `Metadata` generation with `next-intl`; `src/components/ArticleTemplate.tsx` reuses it for WP-backed content pages.
-  - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`).
+  - Resources data: read from local SQLite at `data/resources.sqlite3` (migrations in `data/migrations/`). The resources are served via `src/components/Resources/resourcesData.tsx`.
   - Browser caches: `src/utils/local-storage-cache.ts` provides the shared TTL localStorage helper used by client loaders such as `src/components/Community/Transparency.tsx`; `src/components/WpArticlesCacheLoader.tsx` refreshes `wpArticlesCache` on mount and emits `wpArticlesCacheUpdated`.
   - Telemetry: `src/utils/telemetry.ts` writes cookieless Appwrite events from client-side hooks/loaders (`src/hooks/use-telemetry.tsx`, `src/hooks/use-telemetry-events.tsx`, `src/components/TelemetryLoader.tsx`); each event includes `site: "veg-md"` and `env: "dev" | "prod"` plus the event payload.
   - WordPress articles: client-side cached in localStorage under key `wpArticles` with a map driven by `src/pages.ts` and helpers in `src/utils/wp-article-cache.ts` and `src/hooks/use-wp-articles.tsx`.
@@ -70,6 +70,7 @@
 - `src/app/[locale]/client-layout.tsx` — client-only shell for locale pages and browser providers.
 - `src/i18n/proxy.ts` and `src/proxy.ts` — how middleware is enabled/disabled.
 - `src/components/Resources/resourcesData.tsx` — canonical example of server-side DB access.
+- `src/components/Resources/index.tsx` — entry point for the resources section.
 - `src/utils/metadata.ts` — shared localized page metadata helper.
 - `src/utils/local-storage-cache.ts` — shared browser TTL cache helper.
 - `src/utils/wp-article-sanitize.ts` — sanitization rules for WP article HTML.
@@ -80,4 +81,3 @@
 - `src/pages.ts` — canonical mapping of internal page keys → WP IDs per-locale.
 
 If anything in this file is unclear, open the files listed above and run the dev server with `npm run dev` to exercise server+client boundaries while you iterate.
-
