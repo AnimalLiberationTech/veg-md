@@ -10,6 +10,7 @@ export async function getResourcesData(locale: string, limit?: number): Promise<
   });
 
   try {
+    const safeLimit = Number.isInteger(limit) && limit > 0 ? limit : undefined;
     const query = `
       WITH ranked_localized_resources AS (
         SELECT
@@ -50,7 +51,7 @@ export async function getResourcesData(locale: string, limit?: number): Promise<
         AND rlr.row_rank = 1
       GROUP BY rlr.id, rlr.title, rlr.description, rlr.image_url, r.image_url, r.type, r.slug
       ORDER BY average_rating DESC, rlr.id DESC
-      ${limit ? `LIMIT ${limit}` : ""}
+      ${safeLimit ? "LIMIT ?" : ""}
       `;
     const resources = await db.all<
       Array<{
@@ -62,7 +63,7 @@ export async function getResourcesData(locale: string, limit?: number): Promise<
         slug: string;
         average_rating: number | null;
       }>
-    >(query, [locale]);
+    >(query, safeLimit ? [locale, safeLimit] : [locale]);
 
     if (resources.length === 0) {
       return [];
@@ -196,4 +197,3 @@ export async function getAllResourceSlugs(): Promise<string[]> {
     await db.close();
   }
 }
-
