@@ -34,6 +34,12 @@ const menuData: Menu[] = [
     submenu: [
       {
         id: 21,
+        titleKey: "resources",
+        path: "/resources",
+        newTab: false,
+      },
+      {
+        id: 22,
         titleKey: "products",
         newTab: true,
         newTabUrl: "https://postul.vegan.md",
@@ -46,9 +52,9 @@ const menuData: Menu[] = [
       // },
     ],
   },
-   {
-     id: 3,
-     titleKey: "community",
+  {
+    id: 3,
+    titleKey: "community",
      newTab: false,
      submenu: [
        {
