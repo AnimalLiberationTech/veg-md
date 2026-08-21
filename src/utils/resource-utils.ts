@@ -11,6 +11,7 @@ export const getExternalUrl = (type: string, url: string): string | null => {
   switch (lowerType) {
     case "youtube":
       if (rawUrl.startsWith("@")) return `https://www.youtube.com/${rawUrl}`;
+      if (rawUrl.startsWith("watch?")) return `https://www.youtube.com/${rawUrl}`;
       if (rawUrl.includes("/")) return `https://www.youtube.com/${rawUrl}`;
       return `https://www.youtube.com/watch?v=${rawUrl.replace(/^=/, "")}`;
     case "netflix":
