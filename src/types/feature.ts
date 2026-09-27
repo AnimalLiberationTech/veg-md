@@ -8,8 +8,8 @@ export type Feature = {
   title: string;
   description: string;
   image_url: string;
-  type?: string;
+  type: string;
   slug?: string;
-  average_rating?: number;
-  links?: ResourceLink[];
+  average_rating: number;
+  links: ResourceLink[];
 };

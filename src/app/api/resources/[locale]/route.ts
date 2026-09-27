@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {getResourcesData} from "@/components/Resources/resourcesData";
+import {getResourcesAppwriteDb} from "@/components/Resources/resources-appwrite-db";
 import {supportedLocales} from "@/constants";
 
 export function generateStaticParams() {
@@ -12,7 +12,7 @@ export async function GET(
 ) {
   const {locale} = await params;
   try {
-    const resources = await getResourcesData(locale);
+    const resources = await getResourcesAppwriteDb(locale);
     return NextResponse.json(resources);
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {

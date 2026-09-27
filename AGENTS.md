@@ -10,7 +10,7 @@
 - i18n: `next-intl` is used. Routing and middleware proxy are implemented in `src/i18n/routing.ts` and `src/i18n/proxy.ts`. The middleware can be disabled in prod by environment variables (see `shouldUseIntlProxy` in `src/i18n/proxy.ts`).
 - Locale shell: `src/app/[locale]/layout.tsx` resolves the locale and messages, then hands off to `src/app/[locale]/client-layout.tsx` for browser-only providers and chrome (`ThemeProvider`, `NextIntlClientProvider`, `WpArticlesCacheLoader`, `Header`, `Footer`, `ScrollToTop`).
 - Server vs client boundaries:
-  - Server-only code (Node APIs like sqlite) runs in server components / API routes. Example: `src/components/Resources/resourcesData.tsx` opens `data/resources.sqlite3` with `sqlite3` and `sqlite` and is invoked from server components and routes.
+  - Server-only code (Node APIs like sqlite) runs in server components / API routes. Example: `src/components/Resources/resources-sqlite.tsx` opens `data/resources.sqlite3` with `sqlite3` and `sqlite` and is invoked from server components and routes.
   - Client code uses the `"use client"` directive (see `src/hooks/use-wp-articles.tsx`). Avoid importing server-only modules into client components.
 - Data flows:
   - Translations: CSV <-> per-locale JSON managed by `scripts/translations_csv_sync.py` and stored in `src/translations/*.json` (export CSV at `src/translations/export.csv`).
@@ -36,9 +36,12 @@
 - Translations sync (spreadsheet CSV ↔ JSON):
   - python3 scripts/translations_csv_sync.py to-csv
   - python3 scripts/translations_csv_sync.py from-csv
+- Appwrite migration (SQLite → Appwrite):
+  - python3 scripts/migrate_to_appwrite.py
+  - Note: requires `APPWRITE_API_KEY` env var and dependencies from `scripts/pyproject.toml`.
 - Inspect or query the local SQLite DB (quick debug):
   - sqlite3 data/resources.sqlite3
-  - OR a Node REPL that imports `sqlite` / `sqlite3` as used in `resourcesData.tsx`.
+  - OR a Node REPL that imports `sqlite` / `sqlite3` as used in `resources-sqlite.tsx`.
 
 ## Project-specific conventions & patterns (concrete examples)
 
@@ -47,7 +50,7 @@
 - Translations shape: the CSV script flattens nested keys up to 3 levels. See `scripts/translations_csv_sync.py::_flatten_locale_dict` and `_normalize_header` for exact CSV schema (first 3 columns are keys L1/L2/L3).
 - WP article rendering: sanitize remote HTML with `sanitizeWpArticleHtml` before `dangerouslySetInnerHTML`; the allowlist lives in `src/utils/wp-article-sanitize.ts` and is used by `src/components/WpArticleContent.tsx` and WP-backed content pages.
 - WP articles: `src/pages.ts` maps human page keys to WP post IDs per-locale; helpers `src/utils/wp-api-url.ts` and `src/utils/wp-article-cache.ts` build URLs and map cache entries. The client listens for `wpArticlesUpdated` and `storage` events to refresh caches.
-- Server-data queries: `src/components/Resources/resourcesData.tsx` shows the pattern for server-side DB access (open DB, run queries, close DB, return plain JSON serializable objects).
+- Server-data queries: `src/components/Resources/resources-sqlite.tsx` shows the pattern for server-side DB access (open DB, run queries, close DB, return plain JSON serializable objects).
 
 ## Integration points & external dependencies
 
@@ -69,7 +72,7 @@
 - `src/app/[locale]/layout.tsx` — where request locale is established and messages are wired.
 - `src/app/[locale]/client-layout.tsx` — client-only shell for locale pages and browser providers.
 - `src/i18n/proxy.ts` and `src/proxy.ts` — how middleware is enabled/disabled.
-- `src/components/Resources/resourcesData.tsx` — canonical example of server-side DB access.
+- `src/components/Resources/resources-sqlite.tsx` — canonical example of server-side DB access.
 - `src/utils/metadata.ts` — shared localized page metadata helper.
 - `src/utils/local-storage-cache.ts` — shared browser TTL cache helper.
 - `src/utils/wp-article-sanitize.ts` — sanitization rules for WP article HTML.
@@ -77,6 +80,7 @@
 - `src/components/WpArticlesCacheLoader.tsx` — browser-side WP cache bootstrapper.
 - `src/utils/telemetry.ts`, `src/hooks/use-telemetry.tsx`, `src/hooks/use-telemetry-events.tsx`, and `src/components/TelemetryLoader.tsx` — telemetry tracking and event helpers.
 - `scripts/translations_csv_sync.py` — CSV ↔ JSON translation format and constraints.
+- `scripts/migrate_to_appwrite.py` — SQLite to Appwrite migration script.
 - `src/pages.ts` — canonical mapping of internal page keys → WP IDs per-locale.
 
 If anything in this file is unclear, open the files listed above and run the dev server with `npm run dev` to exercise server+client boundaries while you iterate.
