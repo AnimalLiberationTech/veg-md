@@ -82,6 +82,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## 🚢 Deployment Options
+
+- **GitHub Pages**: uses `.github/workflows/deploy.yml`.
+- **VPS via GitHub Actions**: uses `.github/workflows/deploy-vps.yml` and deploys with `appleboy/ssh-action`.
+
+### VPS workflow secrets
+
+Set these repository secrets before running the VPS workflow:
+
+- `VPS_HOST`
+- `VPS_USERNAME`
+- `VPS_SSH_KEY`
+- `VPS_APP_DIR` (absolute path to the cloned repository on the VPS)
+- `VPS_PORT` (optional, defaults to `22`)
+
 ## 📄 License & Attribution
 
 This project is based on the [Startup Next.js Template](https://github.com/NextJSTemplates/startup-nextjs).
@@ -101,4 +116,3 @@ We welcome contributions from the community! To contribute:
 - Write descriptive commit messages.
 - Update documentation if you add new features or change existing ones.
 - Respect the community guidelines and be inclusive.
-

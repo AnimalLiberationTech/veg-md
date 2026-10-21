@@ -1,0 +1,9 @@
+services:
+  veg-md:
+    container_name: veg-md
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${VEG_MD_PORT:-3000}:80"
+    restart: unless-stopped
