@@ -86,6 +86,10 @@
     "description": "Te rugam sa revii mai tarziu",
     "title": "Ne pare rau, aceasta pagina este in dezvoltare"
   },
+  "resourcesPage": {
+    "title": "Resurse",
+    "description": "Descoperă cărți, documentare și aplicații care te vor ajuta în călătoria ta vegană."
+  },
   "resources": {
     "learnMore": "Află mai mult",
     "types": {
