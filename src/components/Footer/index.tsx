@@ -3,7 +3,7 @@ import Image from "next/image";
 import {Link} from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import menuData from "../Header/menuData";
-import {uvmEmail, veganMoldovaTgGroupUrl, wtfChisinauInsta} from "@/constants";
+import {legalInfo, veganMoldovaTgGroupUrl, wtfChisinauInsta} from "@/constants";
 
 const footerMenuData = menuData
   .map((item) => ({
@@ -21,10 +21,10 @@ const Footer = () => {
     <>
       <footer className="relative z-10 bg-white pt-10 dark:bg-gray-dark md:pt-20 lg:pt-24">
         <div className="container">
-          <div className="-mx-4 hidden flex-wrap md:flex">
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-12 max-w-90 lg:mb-16">
-                <Link href="/" className="mb-8 inline-block">
+          <div className="-mx-4 flex flex-wrap">
+            <div className="w-full px-4 md:w-1/2 lg:w-[22%]">
+              <div className="mb-10 max-w-90 lg:mb-16">
+                <Link href="/" className="mb-6 inline-block md:mb-8">
                   <Image
                     src="/images/logo.png"
                     alt="logo"
@@ -40,7 +40,7 @@ const Footer = () => {
                     height={30}
                   />
                 </Link>
-                <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark">
+                <p className="mb-6 text-base leading-relaxed text-body-color dark:text-body-color-dark md:mb-9">
                   {t("description")}
                 </p>
                 <div className="flex items-center">
@@ -51,16 +51,16 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-current">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" className="fill-current">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.96-.75 3.78-1.65 6.31-2.74 7.58-3.27 3.61-1.51 4.35-1.77 4.84-1.78.11 0 .35.03.5.16.13.1.17.24.18.33.01.06.02.19.01.29z" />
                     </svg>
                   </a>
                   <a
-                    href={`mailto:${uvmEmail}`}
+                    href={`mailto:${legalInfo.email}`}
                     aria-label="Email"
                     className="mr-6 text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -76,7 +76,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="text-body-color duration-300 hover:text-primary dark:text-body-color-dark dark:hover:text-primary"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" className="fill-current">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" className="fill-current">
                       <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.75A4 4 0 0 0 3.75 7.75v8.5a4 4 0 0 0 4 4h8.5a4 4 0 0 0 4-4v-8.5a4 4 0 0 0-4-4h-8.5Zm8.94 1.31a1.06 1.06 0 1 1 0 2.12 1.06 1.06 0 0 1 0-2.12ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Z" />
                     </svg>
                   </a>
@@ -85,7 +85,7 @@ const Footer = () => {
             </div>
 
             {footerMenuData.map((item) => (
-              <div key={item.id} className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
+              <div key={item.id} className="hidden w-full px-4 md:block md:w-1/2 lg:w-[13%]">
                 <div className="mb-12 lg:mb-16">
                   <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
                     {tMenu(item.titleKey)}
@@ -116,12 +116,93 @@ const Footer = () => {
                 </div>
               </div>
             ))}
+
+            <div className="w-full px-4 md:w-full lg:w-[26%]">
+              <div className="mb-10 lg:mb-16">
+                <h2 className="mb-5 text-xl font-bold text-black dark:text-white md:mb-6 lg:mb-10">
+                  {t("legalSectionTitle")}
+                </h2>
+                <address className="not-italic space-y-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                  <p className="font-semibold text-black dark:text-white">
+                    {legalInfo.legalName}
+                  </p>
+                  <p>
+                    <span className="font-medium text-black dark:text-white">
+                      {t("idnoLabel")}:
+                    </span>{" "}
+                    <span className="font-mono">{legalInfo.idno}</span>
+                  </p>
+                  <p>
+                    <span className="font-medium text-black dark:text-white">
+                      {t("addressLabel")}:
+                    </span>{" "}
+                    {legalInfo.address}
+                  </p>
+                  <p>
+                    <span className="font-medium text-black dark:text-white">
+                      {t("phoneLabel")}:
+                    </span>{" "}
+                    <a
+                      href={`tel:${legalInfo.phone}`}
+                      className="font-medium text-primary hover:underline dark:text-secondary-green"
+                    >
+                      {legalInfo.phone}
+                    </a>
+                  </p>
+                  <p>
+                    <span className="font-medium text-black dark:text-white">
+                      {t("emailLabel")}:
+                    </span>{" "}
+                    <a
+                      href={`mailto:${legalInfo.email}`}
+                      className="font-medium text-primary hover:underline dark:text-secondary-green"
+                    >
+                      {legalInfo.email}
+                    </a>
+                  </p>
+                </address>
+
+                <h3 className="mt-6 mb-3 text-xs font-bold uppercase tracking-wider text-black dark:text-white">
+                  {t("documentsTitle")}
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <a
+                      href={legalInfo.statuteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block font-medium text-primary hover:underline dark:text-secondary-green"
+                    >
+                      {t("statuteLink")}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={legalInfo.certificateUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block font-medium text-primary hover:underline dark:text-secondary-green"
+                    >
+                      {t("certificateLink")}
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      href="/community/transparency"
+                      className="inline-block font-medium text-primary hover:underline dark:text-secondary-green"
+                    >
+                      {t("transparencyLink")}
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div className="hidden h-px w-full bg-linear-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183] md:block"></div>
+          <div className="h-px w-full bg-linear-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
           <div className="py-8">
-            <p className="text-center text-base text-body-color dark:text-body-color-dark">
-              &copy; {new Date().getFullYear()} {tGlobal("uvm")}
+            <p className="text-center text-sm text-gray-700 dark:text-gray-300 sm:text-base">
+              &copy; {new Date().getFullYear()} {legalInfo.legalName} ({tGlobal("uvm")}) · IDNO {legalInfo.idno}
             </p>
           </div>
         </div>

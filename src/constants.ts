@@ -22,6 +22,25 @@ export const veganMoldovaTgGroupUrl = "https://t.me/veganmoldova/882";
 export const wtfChisinauInsta = "https://www.instagram.com/activism.wtf.chisinau";
 export const uvmEmail = "moldovavegana@gmail.com";
 export const uvmSite = "https://uvem.org";
+
+export const legalInfo = {
+  legalName: "A.O. Uniunea Vegetarienilor din Moldova",
+  fullLegalName: "Asociația obștească Uniunea Vegetarienilor din Moldova",
+  idno: "1025023062786",
+  registrationDate: "10.01.2001",
+  statuteApprovalDate: "26.02.2026",
+  extractNumber: "232534",
+  extractDate: "05.11.2026",
+  administrator: "Anton Matușenco",
+  address: "MD-2005, strada Ion Pruncul 24, ap. 1, mun. Chișinău, Republica Moldova",
+  phone: "+37369401723",
+  email: "salut@vegan.md",
+  website: "https://vegan.md",
+  statuteUrl: "/docs/Statut_UVM_aprobat.pdf",
+  certificateUrl: "/docs/Extras_RSUD_UVM.jpg",
+  certificateWidth: 2166,
+  certificateHeight: 3121,
+} as const;
 export const bugReportUrl = "https://smtp-notifier.fra.appwrite.run/send-bug-report";
 export const gCalUrl = "https://veg-md.fra.appwrite.run/google/get-cal";
 export const gCalCommunityUrl = gCalUrl + "?cal=community&days=30";

@@ -129,7 +129,7 @@ const Header = () => {
                       : "invisible top-[120%] opacity-0"
                   }`}
                 >
-                  <ul className="block lg:flex lg:space-x-12">
+                  <ul className="block lg:flex lg:space-x-8 xl:space-x-12">
                     {menuData.map((menuItem, index) => (
                       <li key={index} className="group relative">
                         {menuItem.path ? (
@@ -161,7 +161,7 @@ const Header = () => {
                           <>
                             <p
                             onClick={() => handleSubmenu(index)}
-                            className="text-dark group-hover:text-primary flex cursor-pointer items-center justify-between py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 dark:text-white dark:group-hover:text-white"
+                            className="text-dark group-hover:text-primary flex cursor-pointer items-center justify-between py-2 text-base whitespace-nowrap lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 dark:text-white dark:group-hover:text-white"
                           >
                               {tMenu(menuItem.titleKey)}
                               <span className="pl-3">

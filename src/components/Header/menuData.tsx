@@ -1,5 +1,5 @@
 import { Menu } from "@/types/menu";
-import {veganMoldovaTgGroupUrl} from "@/constants";
+import {legalInfo, veganMoldovaTgGroupUrl} from "@/constants";
 
 const menuData: Menu[] = [
   {
@@ -75,12 +75,12 @@ const menuData: Menu[] = [
          path: "/community/support-us",
          newTab: false,
        },
-       {
-         id: 34,
-         titleKey: "partnersAndFriends",
-         path: "/community/friends",
-         newTab: false,
-       },
+       // {
+       //   id: 34,
+       //   titleKey: "partnersAndFriends",
+       //   path: "/community/friends",
+       //   newTab: false,
+       // },
        {
          id: 35,
          titleKey: "weInTelegram",
@@ -89,5 +89,24 @@ const menuData: Menu[] = [
        },
      ]
    },
+  {
+    id: 4,
+    titleKey: "aboutUvm",
+    newTab: false,
+    submenu: [
+      {
+        id: 41,
+        titleKey: "legalTransparency",
+        path: "/community/transparency",
+        newTab: false,
+      },
+      {
+        id: 42,
+        titleKey: "statute",
+        newTab: true,
+        newTabUrl: legalInfo.statuteUrl,
+      },
+    ],
+  },
 ];
 export default menuData;
