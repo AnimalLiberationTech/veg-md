@@ -8,7 +8,9 @@ import {legalInfo, veganMoldovaTgGroupUrl, wtfChisinauInsta} from "@/constants";
 const footerMenuData = menuData
   .map((item) => ({
     ...item,
-    submenu: item.submenu?.filter((subitem) => Boolean(subitem.path)),
+    submenu: item.submenu?.filter(
+      (subitem) => Boolean(subitem.path) && !subitem.path.endsWith("transparency")
+    ),
   }))
   .filter((item) => Boolean(item.path) || (item.submenu?.length ?? 0) > 0);
 
@@ -22,7 +24,7 @@ const Footer = () => {
       <footer className="relative z-10 bg-white pt-10 dark:bg-gray-dark md:pt-20 lg:pt-24">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 md:w-1/2 lg:w-[22%]">
+            <div className="w-full px-4 md:w-1/2 lg:w-3/12">
               <div className="mb-10 max-w-90 lg:mb-16">
                 <Link href="/" className="mb-6 inline-block md:mb-8">
                   <Image
@@ -85,7 +87,7 @@ const Footer = () => {
             </div>
 
             {footerMenuData.map((item) => (
-              <div key={item.id} className="hidden w-full px-4 md:block md:w-1/2 lg:w-[13%]">
+              <div key={item.id} className="hidden w-full px-4 md:block md:w-1/2 lg:w-2/12">
                 <div className="mb-12 lg:mb-16">
                   <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
                     {tMenu(item.titleKey)}
@@ -117,7 +119,7 @@ const Footer = () => {
               </div>
             ))}
 
-            <div className="w-full px-4 md:w-full lg:w-[26%]">
+            <div className="w-full px-4 md:w-full lg:w-3/12">
               <div className="mb-10 lg:mb-16">
                 <h2 className="mb-5 text-xl font-bold text-black dark:text-white md:mb-6 lg:mb-10">
                   {t("legalSectionTitle")}
